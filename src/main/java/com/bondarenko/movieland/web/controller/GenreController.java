@@ -1,11 +1,9 @@
 package com.bondarenko.movieland.web.controller;
 
 import com.bondarenko.movieland.entity.Genre;
-import com.bondarenko.movieland.entity.Movie;
 import com.bondarenko.movieland.service.GenreService;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,7 +19,7 @@ public class GenreController {
     }
 
     @GetMapping("/genre")
-    protected List<Genre> getAllGenres() {
-        return genreService.getAllGenres();
+    protected List<Genre> findAll() {
+        return genreService.findAll();
     }
 }

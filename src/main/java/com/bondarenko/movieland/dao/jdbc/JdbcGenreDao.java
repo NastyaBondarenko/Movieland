@@ -18,8 +18,7 @@ public class JdbcGenreDao implements GenreDao {
     private final JdbcTemplate jdbcTemplate;
 
     @Override
-    public List<Genre> findAllGenres() {
+    public List<Genre> findAll() {
         return jdbcTemplate.query(FIND_ALL_GENRES_SQL, genreRowMapper);
     }
-
 }
