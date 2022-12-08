@@ -20,7 +20,7 @@ public class GenreCache {
     private final GenreDao genreDao;
 
     @PostConstruct
-    @Scheduled(fixedRate = 4, initialDelay = 4, timeUnit = TimeUnit.SECONDS)
+    @Scheduled(fixedRate = 4, initialDelay = 4, timeUnit = TimeUnit.HOURS)
     public void enrichCache() {
         List<Genre> genres = genreDao.findAll();
         genresList.addAll(genres);
