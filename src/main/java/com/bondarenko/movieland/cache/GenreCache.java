@@ -16,14 +16,13 @@ import java.util.concurrent.TimeUnit;
 @Component
 @RequiredArgsConstructor
 public class GenreCache {
-    private final CopyOnWriteArrayList<Genre> genresList = new CopyOnWriteArrayList<>();
+    private CopyOnWriteArrayList<Genre> genresList;
     private final GenreDao genreDao;
 
     @PostConstruct
     @Scheduled(fixedRate = 4, initialDelay = 4, timeUnit = TimeUnit.HOURS)
     public void enrichCache() {
-        List<Genre> genres = genreDao.findAll();
-        genresList.addAll(genres);
+        genresList = (CopyOnWriteArrayList<Genre>) genreDao.findAll();
         log.info("Enrich genre cache, total genres in cache {} ", genresList.size());
     }
 
