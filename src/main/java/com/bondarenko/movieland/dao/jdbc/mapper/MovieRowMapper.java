@@ -15,8 +15,8 @@ public class MovieRowMapper implements RowMapper<Movie> {
         String nameNative = resultSet.getString("name_native");
         Timestamp yearOfReleaseTimesTemp = resultSet.getTimestamp("year_of_release");
         String description = resultSet.getString("description");
-        Double rating = resultSet.getDouble("rating");
-        Double price = resultSet.getDouble("price");
+        double rating = resultSet.getDouble("rating");
+        double price = resultSet.getDouble("price");
         String picturePath = resultSet.getString("picture_path");
         int votes = resultSet.getInt("votes");
 
