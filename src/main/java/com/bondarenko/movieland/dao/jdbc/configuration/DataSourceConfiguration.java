@@ -12,15 +12,11 @@ import javax.sql.DataSource;
 
 @Configuration
 public class DataSourceConfiguration {
-    @Value("${db.password}")
-    private String password;
-    @Value("${db.username}")
-    private String user;
-    @Value("${db.url}")
-    private String url;
 
     @Bean
-    public DataSource dataSource() {
+    public DataSource dataSource(@Value("${db.password}") String password,
+                                 @Value("${db.username}") String user,
+                                 @Value("${db.url}") String url) {
         PGSimpleDataSource dataSource = new PGSimpleDataSource();
         dataSource.setURL(url);
         dataSource.setUser(user);
@@ -29,7 +25,7 @@ public class DataSourceConfiguration {
     }
 
     @Bean
-    public JdbcTemplate jdbcTemplate() {
-        return new JdbcTemplate(dataSource());
+    public JdbcTemplate jdbcTemplate(DataSource dataSource) {
+        return new JdbcTemplate(dataSource);
     }
 }
