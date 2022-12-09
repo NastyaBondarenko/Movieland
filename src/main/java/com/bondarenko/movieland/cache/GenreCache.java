@@ -8,26 +8,26 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Component
 @RequiredArgsConstructor
 public class GenreCache {
-    private CopyOnWriteArrayList<Genre> genresList;
+    private volatile List<Genre> genresList;
     private final GenreDao genreDao;
 
     @PostConstruct
     @Scheduled(fixedRate = 4, initialDelay = 4, timeUnit = TimeUnit.HOURS)
     public void enrichCache() {
-        genresList = (CopyOnWriteArrayList<Genre>) genreDao.findAll();
+        genresList = genreDao.findAll();
         log.info("Enrich genre cache, total genres in cache {} ", genresList.size());
     }
 
     public List<Genre> getCachedGenre() {
         log.info("Load {} genres from cache", genresList.size());
-        return genresList;
+        return new ArrayList<>(genresList);
     }
 }
