@@ -28,6 +28,6 @@ public class GenreCache {
 
     public List<Genre> getCachedGenre() {
         log.info("Load {} genres from cache", genresList.size());
-        return new ArrayList<>(genresList);
+        return genresList;
     }
 }
