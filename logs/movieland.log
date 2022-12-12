@@ -1,8 +1,0 @@
-2022-12-08 12:41:22,264 INFO org.springframework.web.context.ContextLoader [main] Root WebApplicationContext: initialization started
-2022-12-08 12:41:22,885 INFO org.springframework.web.context.ContextLoader [main] Root WebApplicationContext initialized in 618 ms
-2022-12-08 12:41:22,925 INFO org.springframework.web.servlet.FrameworkServlet [main] Initializing Servlet 'dispatcher'
-2022-12-08 12:41:23,355 INFO org.springframework.web.servlet.FrameworkServlet [main] Completed initialization in 430 ms
-2022-12-08 12:41:58,923 INFO org.springframework.web.context.ContextLoader [main] Root WebApplicationContext: initialization started
-2022-12-08 12:41:59,504 INFO org.springframework.web.context.ContextLoader [main] Root WebApplicationContext initialized in 578 ms
-2022-12-08 12:41:59,546 INFO org.springframework.web.servlet.FrameworkServlet [main] Initializing Servlet 'dispatcher'
-2022-12-08 12:41:59,979 INFO org.springframework.web.servlet.FrameworkServlet [main] Completed initialization in 433 ms
