@@ -1,8 +1,8 @@
 package com.bondarenko.movieland.service.impl;
 
-import com.bondarenko.movieland.dao.MovieDao;
 import com.bondarenko.movieland.entity.Movie;
 import com.bondarenko.movieland.exceptions.MovieNotFoundException;
+import com.bondarenko.movieland.repository.MovieRepository;
 import com.bondarenko.movieland.service.MovieService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,11 +22,11 @@ public class DefaultMovieService implements MovieService {
     private final String ASC_PARAMETER = "asc";
     private final String DESC_PARAMETER = "desc";
 
-    private final MovieDao movieDao;
+    private final MovieRepository movieRepository;
 
     @Override
     public List<Movie> findAll(Map<String, String> requestParameters) {
-        List<Movie> movies = movieDao.findAll();
+        List<Movie> movies = movieRepository.findAll();
         if (!requestParameters.isEmpty()) {
             return getSortedMovies(requestParameters, movies);
         }
@@ -35,14 +35,16 @@ public class DefaultMovieService implements MovieService {
 
     @Override
     public List<Movie> getRandomMovies() {
-        List<Movie> movies = movieDao.findAll();
+        List<Movie> movies = movieRepository.findAll();
         Collections.shuffle(movies);
         return movies.subList(0, RANDOM_MOVIES_LENGTH);
     }
 
     @Override
     public List<Movie> getByGenre(int genreId, Map<String, String> requestParameters) {
-        List<Movie> moviesByGenre = movieDao.findByGenreId(genreId);
+        List<Movie> moviesByGenre = movieRepository.findMovieByGenreId(genreId);
+
+
         if (!requestParameters.isEmpty()) {
             return getSortedMovies(requestParameters, moviesByGenre);
         }

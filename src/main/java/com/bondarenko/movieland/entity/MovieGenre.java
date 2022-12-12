@@ -11,14 +11,14 @@ import javax.persistence.Table;
 @Setter
 @Builder
 @Entity
-@AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "genre")
-public class Genre {
+@AllArgsConstructor
+@Table(name = "movie_genre")
+public class MovieGenre {
     @Id
-    @Column(name = "id")
-    private int genreId;
+    @Column(name = "movie_id")
+    private int movieId;
 
-    @Column(name = "name")
-    private String name;
+    @Column(name = "genre_id")
+    private int genreId;
 }

@@ -1,5 +1,4 @@
-package com.bondarenko.movieland.dao.jdbc.configuration;
-
+package com.bondarenko.movieland.configuration;
 
 import org.postgresql.ds.PGSimpleDataSource;
 import org.springframework.beans.factory.annotation.Value;

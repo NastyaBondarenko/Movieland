@@ -1,7 +1,7 @@
 package com.bondarenko.movieland.cache;
 
-import com.bondarenko.movieland.dao.GenreDao;
 import com.bondarenko.movieland.entity.Genre;
+import com.bondarenko.movieland.repository.GenreRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -16,12 +16,12 @@ import java.util.concurrent.TimeUnit;
 @RequiredArgsConstructor
 public class GenreCache {
     private volatile List<Genre> genresList;
-    private final GenreDao genreDao;
+    private final GenreRepository genreRepository;
 
     @PostConstruct
     @Scheduled(fixedRate = 4, initialDelay = 4, timeUnit = TimeUnit.HOURS)
     public void enrichCache() {
-        genresList = genreDao.findAll();
+        genresList = genreRepository.findAll();
         log.info("Enrich genre cache, total genres in cache {} ", genresList.size());
     }
 

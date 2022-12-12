@@ -1,5 +1,6 @@
 package com.bondarenko.movieland.web.controller;
 
+import com.bondarenko.movieland.dto.GenreDto;
 import com.bondarenko.movieland.entity.Genre;
 import com.bondarenko.movieland.service.GenreService;
 import lombok.RequiredArgsConstructor;
