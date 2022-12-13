@@ -2,13 +2,23 @@ package com.bondarenko.movieland.mapper;
 
 import com.bondarenko.movieland.dto.GenreDto;
 import com.bondarenko.movieland.entity.Genre;
-import org.mapstruct.Mapper;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring")
-public interface GenreMapper {
-    GenreDto genreToGenreDto(Genre genre);
+@Component
+public class GenreMapper {
 
-    List<GenreDto> genresToGenreDtos(List<Genre> genres);
+    public List<GenreDto> genresToGenreDtos(List<Genre> genres) {
+        return genres.stream()
+                .map(this::genreToGenreDto)
+                .toList();
+    }
+
+    public GenreDto genreToGenreDto(Genre genre) {
+        GenreDto genreDto = new GenreDto();
+        genreDto.setGenreId(genre.getGenreId());
+        genreDto.setName(genre.getName());
+        return genreDto;
+    }
 }
