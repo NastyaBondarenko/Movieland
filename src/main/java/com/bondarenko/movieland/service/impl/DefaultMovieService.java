@@ -8,6 +8,7 @@ import com.bondarenko.movieland.repository.MovieRepository;
 import com.bondarenko.movieland.service.MovieService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -28,6 +29,7 @@ public class DefaultMovieService implements MovieService {
     private final MovieMapper movieMapper;
 
     @Override
+    @Transactional(readOnly = true)
     public List<MovieDto> findAll(Map<String, String> requestParameters) {
         List<Movie> movies = movieRepository.findAll();
         if (!requestParameters.isEmpty()) {

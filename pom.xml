@@ -98,6 +98,11 @@
             <artifactId>mapstruct</artifactId>
             <version>1.5.3.Final</version>
         </dependency>
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct-processor</artifactId>
+            <version>1.5.3.Final</version>
+        </dependency>
 
         <!-- lombok -->
         <dependency>
@@ -124,9 +129,10 @@
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
-            <version>4.8.1</version>
+            <version>4.9.0</version>
             <scope>test</scope>
         </dependency>
+
     </dependencies>
     <build>
         <plugins>
@@ -159,11 +165,6 @@
                 <version>3.8.0</version>
                 <configuration>
                     <annotationProcessorPaths>
-                        <dependency>
-                            <groupId>org.mapstruct</groupId>
-                            <artifactId>mapstruct-processor</artifactId>
-                            <version>1.5.3.Final</version>
-                        </dependency>
                     </annotationProcessorPaths>
                     <compilerArgs>
                         <compilerArg>-mapstruct.defaultComponentModel=spring</compilerArg>
@@ -172,7 +173,6 @@
                     <target>17</target>
                 </configuration>
             </plugin>
-
         </plugins>
     </build>
 </project>
