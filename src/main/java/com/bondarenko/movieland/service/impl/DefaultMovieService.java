@@ -19,11 +19,11 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class DefaultMovieService implements MovieService {
 
-    private final int RANDOM_MOVIES_LENGTH = 3;
-    private final String RATING_PARAMETER = "rating";
-    private final String PRICE_PARAMETER = "price";
-    private final String ASC_PARAMETER = "asc";
-    private final String DESC_PARAMETER = "desc";
+    private static final int RANDOM_MOVIES_LENGTH = 3;
+    private static final String RATING_PARAMETER = "rating";
+    private static final String PRICE_PARAMETER = "price";
+    private static final String ASC_PARAMETER = "asc";
+    private static final String DESC_PARAMETER = "desc";
 
     private final MovieRepository movieRepository;
     private final MovieMapper movieMapper;
