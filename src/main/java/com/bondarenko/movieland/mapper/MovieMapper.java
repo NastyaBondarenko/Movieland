@@ -3,6 +3,7 @@ package com.bondarenko.movieland.mapper;
 import com.bondarenko.movieland.dto.MovieDto;
 import com.bondarenko.movieland.entity.Movie;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 import java.util.List;
 
@@ -11,5 +12,6 @@ public interface MovieMapper {
 
     List<MovieDto> moviesToMovieDtos(List<Movie> movies);
 
+    @Mapping(target = "yearOfRelease", expression = "java(movie.getYearOfRelease().getYear())")
     MovieDto movieToMovieDto(Movie movie);
 }

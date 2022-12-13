@@ -3,8 +3,6 @@ package com.bondarenko.movieland.dto;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDate;
-
 @Getter
 @Setter
 public class MovieDto {
@@ -15,7 +13,7 @@ public class MovieDto {
 
     private String nameNative;
 
-    private LocalDate yearOfRelease;
+    private int yearOfRelease;
 
     private String description;
 

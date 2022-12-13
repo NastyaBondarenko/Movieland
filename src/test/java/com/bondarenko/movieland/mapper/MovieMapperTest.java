@@ -6,6 +6,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -25,6 +26,7 @@ public class MovieMapperTest {
                 .nameRussian("russianName")
                 .picturePath("path")
                 .rating(200.00)
+                .yearOfRelease(LocalDate.of(2012, 8, 15))
                 .build();
         MovieDto movieDto = movieMapper.movieToMovieDto(movie);
 
@@ -36,6 +38,7 @@ public class MovieMapperTest {
         assertEquals("russianName", movieDto.getNameRussian());
         assertEquals("path", movieDto.getPicturePath());
         assertEquals(2, movieDto.getVotes());
+        assertEquals(2012, movieDto.getYearOfRelease());
     }
 
     @Test
@@ -50,6 +53,7 @@ public class MovieMapperTest {
                 .nameRussian("russianName")
                 .picturePath("path")
                 .rating(200.00)
+                .yearOfRelease(LocalDate.of(2012, 8, 15))
                 .build();
         List<MovieDto> movieDtos = movieMapper.moviesToMovieDtos(List.of(movie, movie, movie));
         assertEquals(3, movieDtos.size());

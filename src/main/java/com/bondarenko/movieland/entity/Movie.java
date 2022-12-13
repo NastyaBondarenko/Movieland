@@ -1,6 +1,5 @@
 package com.bondarenko.movieland.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -31,7 +30,6 @@ public class Movie {
     @Column(name = "name_native")
     private String nameNative;
 
-    @JsonFormat(pattern = "yyyy")
     @Column(name = "year_of_release")
     private LocalDate yearOfRelease;
 
