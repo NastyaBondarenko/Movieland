@@ -25,6 +25,7 @@ public class MovieMapper {
         movieDto.setRating(movie.getRating());
         movieDto.setYearOfRelease(movie.getYearOfRelease());
         movieDto.setPicturePath(movie.getPicturePath());
+        movieDto.setVotes(movie.getVotes());
 
         return movieDto;
     }
