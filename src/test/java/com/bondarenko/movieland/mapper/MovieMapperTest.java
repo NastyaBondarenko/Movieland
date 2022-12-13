@@ -4,60 +4,54 @@ import com.bondarenko.movieland.dto.MovieDto;
 import com.bondarenko.movieland.entity.Movie;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
 
 public class MovieMapperTest {
-    private MovieMapper movieMapper = new MovieMapper();
+    private final MovieMapper movieMapper = Mappers.getMapper(MovieMapper.class);
 
     @Test
     @DisplayName("Mapping Movie to MovieDto")
     void test_givenMovie_whenMapMovieToMovieDto_thenReturnMovieDto() {
-        Movie mockMovie = mock(Movie.class);
-
-        when(mockMovie.getId()).thenReturn(1);
-        when(mockMovie.getPrice()).thenReturn(30.00);
-        when(mockMovie.getVotes()).thenReturn(2);
-        when(mockMovie.getDescription()).thenReturn("description");
-        when(mockMovie.getNameNative()).thenReturn("nativeName");
-        when(mockMovie.getNameRussian()).thenReturn("getRussianName");
-        when(mockMovie.getPicturePath()).thenReturn("path");
-        when(mockMovie.getRating()).thenReturn(200.00);
-
-        MovieDto movieDto = movieMapper.movieToMovieDto(mockMovie);
+        Movie movie = Movie.builder()
+                .id(1)
+                .price(30.00)
+                .votes(2)
+                .description("description")
+                .nameNative("nativeName")
+                .nameRussian("russianName")
+                .picturePath("path")
+                .rating(200.00)
+                .build();
+        MovieDto movieDto = movieMapper.movieToMovieDto(movie);
 
         assertEquals(1, movieDto.getId());
         assertEquals(200.00, movieDto.getRating());
         assertEquals(30.00, movieDto.getPrice());
         assertEquals("description", movieDto.getDescription());
         assertEquals("nativeName", movieDto.getNameNative());
-        assertEquals("getRussianName", movieDto.getNameRussian());
+        assertEquals("russianName", movieDto.getNameRussian());
         assertEquals("path", movieDto.getPicturePath());
         assertEquals(2, movieDto.getVotes());
-
     }
 
     @Test
     @DisplayName("Mapping Movies List  to MovieDtos list")
     void test_givenMovies_whenMapMoviesToMovieDtos_thenReturnMovieDtos() {
-        Movie mockMovie = mock(Movie.class);
-
-        when(mockMovie.getId()).thenReturn(1);
-        when(mockMovie.getPrice()).thenReturn(30.00);
-        when(mockMovie.getVotes()).thenReturn(2);
-        when(mockMovie.getDescription()).thenReturn("description");
-        when(mockMovie.getNameNative()).thenReturn("nativeName");
-        when(mockMovie.getNameRussian()).thenReturn("getRussianName");
-        when(mockMovie.getPicturePath()).thenReturn("path");
-        when(mockMovie.getRating()).thenReturn(200.00);
-
-        MovieMapper spyMovieMapper = spy(movieMapper);
-        List<MovieDto> moviesToListMovieDto = spyMovieMapper
-                .moviesToMovieDtos(List.of(mockMovie, mockMovie, mockMovie));
-        assertEquals(3, moviesToListMovieDto.size());
-        verify(spyMovieMapper).moviesToMovieDtos(anyList());
+        Movie movie = Movie.builder()
+                .id(1)
+                .price(30.00)
+                .votes(2)
+                .description("description")
+                .nameNative("nativeName")
+                .nameRussian("russianName")
+                .picturePath("path")
+                .rating(200.00)
+                .build();
+        List<MovieDto> movieDtos = movieMapper.moviesToMovieDtos(List.of(movie, movie, movie));
+        assertEquals(3, movieDtos.size());
     }
 }

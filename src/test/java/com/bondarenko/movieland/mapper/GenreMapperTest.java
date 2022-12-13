@@ -4,38 +4,36 @@ import com.bondarenko.movieland.dto.GenreDto;
 import com.bondarenko.movieland.entity.Genre;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
 
 public class GenreMapperTest {
-    private GenreMapper genreMapper = new GenreMapper();
+    private final GenreMapper genreMapper = Mappers.getMapper(GenreMapper.class);
 
     @Test
     @DisplayName("Mapping Genre to GenreDto")
     void test_givenGenre_whenMapGenreToGenreDto_thenReturnGenreDto() {
-        Genre mockGenre = mock(Genre.class);
-        when(mockGenre.getName()).thenReturn("drama");
-        when(mockGenre.getGenreId()).thenReturn(5);
-        GenreDto genreDto = genreMapper.genreToGenreDto(mockGenre);
-
+        Genre genre = Genre.builder()
+                .genreId(1)
+                .name("drama")
+                .build();
+        GenreDto genreDto = genreMapper.genreToGenreDto(genre);
+        assertEquals(1, genreDto.getGenreId());
         assertEquals("drama", genreDto.getName());
-        assertEquals(5, genreDto.getGenreId());
     }
 
     @Test
     @DisplayName("Mapping Genre list to GenreDto list")
     void test_givenGenres_whenMapGenresToGenreDtos_thenReturnGenreDtos() {
-        Genre mockGenre = mock(Genre.class);
-        when(mockGenre.getName()).thenReturn("drama");
-        when(mockGenre.getGenreId()).thenReturn(5);
+        Genre genre = Genre.builder()
+                .genreId(1)
+                .name("drama")
+                .build();
 
-        GenreMapper spyClientMapper = spy(genreMapper);
-        List<GenreDto> addressOrderDtoList = spyClientMapper
-                .genresToGenreDtos(List.of(mockGenre, mockGenre, mockGenre));
-        assertEquals(3, addressOrderDtoList.size());
-        verify(spyClientMapper).genresToGenreDtos(anyList());
+        List<GenreDto> genreDtos = genreMapper.genresToGenreDtos(List.of(genre, genre, genre));
+        assertEquals(3, genreDtos.size());
     }
 }
