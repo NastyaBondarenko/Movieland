@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.*;
 
 public class GenreMapperTest {
@@ -18,7 +17,6 @@ public class GenreMapperTest {
     @DisplayName("Mapping Genre to GenreDto")
     void test_givenGenre_whenMapGenreToGenreDto_thenReturnGenreDto() {
         Genre mockGenre = mock(Genre.class);
-
         when(mockGenre.getName()).thenReturn("drama");
         when(mockGenre.getGenreId()).thenReturn(5);
         GenreDto genreDto = genreMapper.genreToGenreDto(mockGenre);
@@ -30,14 +28,13 @@ public class GenreMapperTest {
     @Test
     @DisplayName("Mapping Genre list to GenreDto list")
     void test_givenGenres_whenMapGenresToGenreDtos_thenReturnGenreDtos() {
-        Genre mockProduct = mock(Genre.class);
-
-        when(mockProduct.getName()).thenReturn("drama");
-        when(mockProduct.getGenreId()).thenReturn(5);
+        Genre mockGenre = mock(Genre.class);
+        when(mockGenre.getName()).thenReturn("drama");
+        when(mockGenre.getGenreId()).thenReturn(5);
 
         GenreMapper spyClientMapper = spy(genreMapper);
         List<GenreDto> addressOrderDtoList = spyClientMapper
-                .genresToGenreDtos(List.of(mockProduct, mockProduct, mockProduct));
+                .genresToGenreDtos(List.of(mockGenre, mockGenre, mockGenre));
         assertEquals(3, addressOrderDtoList.size());
         verify(spyClientMapper).genresToGenreDtos(anyList());
     }
