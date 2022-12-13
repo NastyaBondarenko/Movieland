@@ -1,6 +1,9 @@
 package com.bondarenko.movieland.entity;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,10 +12,9 @@ import javax.persistence.Table;
 
 @Getter
 @Setter
-@Builder
-@Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity
 @Table(name = "movie_genre")
 public class MovieGenre {
     @Id

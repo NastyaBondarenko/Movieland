@@ -1,12 +1,13 @@
 package com.bondarenko.movieland.service.impl;
 
+import com.bondarenko.movieland.dto.MovieDto;
 import com.bondarenko.movieland.entity.Movie;
 import com.bondarenko.movieland.exceptions.MovieNotFoundException;
+import com.bondarenko.movieland.mapper.MovieMapper;
 import com.bondarenko.movieland.repository.MovieRepository;
 import com.bondarenko.movieland.service.MovieService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -24,33 +25,31 @@ public class DefaultMovieService implements MovieService {
     private final String DESC_PARAMETER = "desc";
 
     private final MovieRepository movieRepository;
+    private final MovieMapper movieMapper;
 
     @Override
-    @Transactional(readOnly = true)
-    public List<Movie> findAll(Map<String, String> requestParameters) {
+    public List<MovieDto> findAll(Map<String, String> requestParameters) {
         List<Movie> movies = movieRepository.findAll();
         if (!requestParameters.isEmpty()) {
-            return getSortedMovies(requestParameters, movies);
+            return movieMapper.moviesToMovieDtos(getSortedMovies(requestParameters, movies));
         }
-        return movies;
+        return movieMapper.moviesToMovieDtos(movies);
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public List<Movie> getRandomMovies() {
+    public List<MovieDto> getRandomMovies() {
         List<Movie> movies = movieRepository.findAll();
         Collections.shuffle(movies);
-        return movies.subList(0, RANDOM_MOVIES_LENGTH);
+        return movieMapper.moviesToMovieDtos(movies.subList(0, RANDOM_MOVIES_LENGTH));
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public List<Movie> getByGenre(int genreId, Map<String, String> requestParameters) {
+    public List<MovieDto> getByGenre(int genreId, Map<String, String> requestParameters) {
         List<Movie> moviesByGenre = movieRepository.findMovieByGenreId(genreId);
         if (!requestParameters.isEmpty()) {
-            return getSortedMovies(requestParameters, moviesByGenre);
+            return movieMapper.moviesToMovieDtos(getSortedMovies(requestParameters, moviesByGenre));
         }
-        return moviesByGenre;
+        return movieMapper.moviesToMovieDtos(moviesByGenre);
     }
 
     private List<Movie> getSortedMovies(Map<String, String> queryParameters, List<Movie> movies) {

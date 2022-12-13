@@ -1,13 +1,10 @@
 package com.bondarenko.movieland.dto;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@EqualsAndHashCode
-@Builder
 public class GenreDto {
     private int genreId;
     private String name;

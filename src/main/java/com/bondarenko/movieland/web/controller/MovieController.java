@@ -1,6 +1,6 @@
 package com.bondarenko.movieland.web.controller;
 
-import com.bondarenko.movieland.entity.Movie;
+import com.bondarenko.movieland.dto.MovieDto;
 import com.bondarenko.movieland.service.MovieService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
@@ -17,17 +17,17 @@ public class MovieController {
     private final MovieService movieService;
 
     @GetMapping
-    protected List<Movie> getAll(@RequestParam Map<String, String> requestParameters) {
+    protected List<MovieDto> getAll(@RequestParam Map<String, String> requestParameters) {
         return movieService.findAll(requestParameters);
     }
 
     @GetMapping("/random")
-    protected List<Movie> getRandomMovie() {
+    protected List<MovieDto> getRandomMovie() {
         return movieService.getRandomMovies();
     }
 
     @GetMapping("/genre/{genreId}")
-    protected List<Movie> getByGenre(@PathVariable("genreId") int genreId, @RequestParam Map<String, String> requestParameters) {
+    protected List<MovieDto> getByGenre(@PathVariable("genreId") int genreId, @RequestParam Map<String, String> requestParameters) {
         return movieService.getByGenre(genreId, requestParameters);
     }
 }
