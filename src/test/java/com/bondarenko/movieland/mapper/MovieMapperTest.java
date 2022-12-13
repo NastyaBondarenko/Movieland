@@ -5,9 +5,10 @@ import com.bondarenko.movieland.entity.Movie;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class MovieMapperTest {
     private MovieMapper movieMapper = new MovieMapper();
@@ -39,18 +40,24 @@ public class MovieMapperTest {
 
     }
 
-//    @Test
-//    @DisplayName("Mapping Movie list to MovieDto list")
-//    void test_givenMovies_whenMapGenresToMovieDtos_thenReturnMovieDtos() {
-//        Genre mockProduct = mock(Genre.class);
-//
-//        when(mockProduct.getName()).thenReturn("drama");
-//        when(mockProduct.getGenreId()).thenReturn(5);
-//
-//        GenreMapper spyClientMapper = spy(movieMapper);
-//        List<GenreDto> addressOrderDtoList = spyClientMapper
-//                .genresToGenreDtos(List.of(mockProduct, mockProduct, mockProduct));
-//        assertEquals(3, addressOrderDtoList.size());
-//        verify(spyClientMapper).genresToGenreDtos(anyList());
-//    }
+    @Test
+    @DisplayName("Mapping Movies List  to MovieDtos list")
+    void test_givenMovies_whenMapMoviesToMovieDtos_thenReturnMovieDtos() {
+        Movie mockMovie = mock(Movie.class);
+
+        when(mockMovie.getId()).thenReturn(1);
+        when(mockMovie.getPrice()).thenReturn(30.00);
+        when(mockMovie.getVotes()).thenReturn(2);
+        when(mockMovie.getDescription()).thenReturn("description");
+        when(mockMovie.getNameNative()).thenReturn("nativeName");
+        when(mockMovie.getNameRussian()).thenReturn("getRussianName");
+        when(mockMovie.getPicturePath()).thenReturn("path");
+        when(mockMovie.getRating()).thenReturn(200.00);
+
+        MovieMapper spyMovieMapper = spy(movieMapper);
+        List<MovieDto> moviesToListMovieDto = spyMovieMapper
+                .moviesToMovieDtos(List.of(mockMovie, mockMovie, mockMovie));
+        assertEquals(3, moviesToListMovieDto.size());
+        verify(spyMovieMapper).moviesToMovieDtos(anyList());
+    }
 }
