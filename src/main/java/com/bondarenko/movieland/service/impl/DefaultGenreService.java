@@ -6,6 +6,7 @@ import com.bondarenko.movieland.exceptions.GenreNotFoundException;
 import com.bondarenko.movieland.service.GenreService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -16,6 +17,7 @@ public class DefaultGenreService implements GenreService {
     private final GenreCache genreCache;
 
     @Override
+    @Transactional(readOnly = true)
     public List<Genre> findAll() {
         List<Genre> genres = genreCache.getCachedGenre();
         genres.stream().findAny().orElseThrow(GenreNotFoundException::new);

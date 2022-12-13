@@ -17,7 +17,6 @@ public class JpaConfiguration {
     public LocalEntityManagerFactoryBean entityManagerFactory() {
         LocalEntityManagerFactoryBean entityManagerFactoryBean = new LocalEntityManagerFactoryBean();
         entityManagerFactoryBean.setPersistenceUnitName("movieland");
-
         return entityManagerFactoryBean;
     }
 
@@ -25,7 +24,6 @@ public class JpaConfiguration {
     public JpaTransactionManager transactionManager(EntityManagerFactory entityManagerFactory) {
         JpaTransactionManager transactionManager = new JpaTransactionManager();
         transactionManager.setEntityManagerFactory(entityManagerFactory);
-
         return transactionManager;
     }
 }

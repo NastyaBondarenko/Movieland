@@ -6,6 +6,7 @@ import com.bondarenko.movieland.repository.MovieRepository;
 import com.bondarenko.movieland.service.MovieService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -25,6 +26,7 @@ public class DefaultMovieService implements MovieService {
     private final MovieRepository movieRepository;
 
     @Override
+    @Transactional(readOnly = true)
     public List<Movie> findAll(Map<String, String> requestParameters) {
         List<Movie> movies = movieRepository.findAll();
         if (!requestParameters.isEmpty()) {
@@ -34,6 +36,7 @@ public class DefaultMovieService implements MovieService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Movie> getRandomMovies() {
         List<Movie> movies = movieRepository.findAll();
         Collections.shuffle(movies);
@@ -41,10 +44,9 @@ public class DefaultMovieService implements MovieService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Movie> getByGenre(int genreId, Map<String, String> requestParameters) {
         List<Movie> moviesByGenre = movieRepository.findMovieByGenreId(genreId);
-
-
         if (!requestParameters.isEmpty()) {
             return getSortedMovies(requestParameters, moviesByGenre);
         }
@@ -52,14 +54,12 @@ public class DefaultMovieService implements MovieService {
     }
 
     private List<Movie> getSortedMovies(Map<String, String> queryParameters, List<Movie> movies) {
-
         String firstParameter = queryParameters.keySet().stream().findFirst().get();
         String secondParameter = queryParameters.values().stream().findFirst().get();
 
         if (firstParameter.equals(RATING_PARAMETER)) {
             return getByRating(movies, secondParameter);
         }
-
         if (firstParameter.equals(PRICE_PARAMETER)) {
             return getByPrice(movies, secondParameter);
         }
