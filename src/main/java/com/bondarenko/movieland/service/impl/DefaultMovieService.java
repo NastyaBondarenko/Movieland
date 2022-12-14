@@ -39,6 +39,7 @@ public class DefaultMovieService implements MovieService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<MovieDto> getRandomMovies() {
         List<Movie> movies = movieRepository.findAll();
         Collections.shuffle(movies);
@@ -46,6 +47,7 @@ public class DefaultMovieService implements MovieService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<MovieDto> getByGenre(int genreId, Map<String, String> requestParameters) {
         List<Movie> moviesByGenre = movieRepository.findMovieByGenreId(genreId);
         if (!requestParameters.isEmpty()) {
