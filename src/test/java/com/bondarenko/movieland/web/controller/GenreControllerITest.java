@@ -38,7 +38,11 @@ public class GenreControllerITest extends AbstractWebITest {
                 .name("криминал")
                 .build();
 
-        when(cache.getCachedGenre()).thenReturn(List.of(genreFirst, genreSecond));
+        Genre genreThird = Genre.builder()
+                .genreId(3)
+                .name("комедия")
+                .build();
+        when(cache.getCachedGenre()).thenReturn(List.of(genreFirst, genreSecond, genreThird));
 
         mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/genre")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -53,6 +57,10 @@ public class GenreControllerITest extends AbstractWebITest {
                                    {
                                       "genreId":2,
                                       "name":"криминал"
+                                   },
+                                   {
+                                      "genreId":3,
+                                      "name":"комедия"
                                    }
                                 ]"""))
                 .andExpect(status().isOk());

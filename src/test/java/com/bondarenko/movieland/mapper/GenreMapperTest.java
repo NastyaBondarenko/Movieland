@@ -14,26 +14,37 @@ public class GenreMapperTest {
     private final GenreMapper genreMapper = Mappers.getMapper(GenreMapper.class);
 
     @Test
-    @DisplayName("Mapping Genre to GenreDto")
-    void test_givenGenre_whenMapGenreToGenreDto_thenReturnGenreDto() {
-        Genre genre = Genre.builder()
+    @DisplayName("Mapping Genre list to GenreDto list")
+    void test_givenGenres_whenMapGenresToGenreDtos_thenReturnGenreDtos() {
+        Genre genreFirst = Genre.builder()
                 .genreId(1)
-                .name("drama")
+                .name("драма")
                 .build();
-        GenreDto genreDto = genreMapper.genreToGenreDto(genre);
-        assertEquals(1, genreDto.getGenreId());
-        assertEquals("drama", genreDto.getName());
+
+        Genre genreSecond = Genre.builder()
+                .genreId(2)
+                .name("комедия")
+                .build();
+
+        Genre genreThird = Genre.builder()
+                .genreId(3)
+                .name("криминал")
+                .build();
+
+        List<GenreDto> genreDtos = genreMapper.genresToGenreDtos(List.of(genreFirst, genreSecond, genreThird));
+
+        assertEquals(3, genreDtos.size());
+        assertEquals("драма", genreDtos.get(0).getName());
+        assertEquals("комедия", genreDtos.get(1).getName());
+        assertEquals("криминал", genreDtos.get(2).getName());
     }
 
     @Test
-    @DisplayName("Mapping Genre list to GenreDto list")
-    void test_givenGenres_whenMapGenresToGenreDtos_thenReturnGenreDtos() {
-        Genre genre = Genre.builder()
-                .genreId(1)
-                .name("drama")
-                .build();
+    @DisplayName("Mapping Genre to GenreDto")
+    void givenGenre_whenMapGenreToGenreDto_thenReturnGenreDto() {
+        GenreDto genreDto = genreMapper.genreToGenreDto(new Genre(1, "драма"));
 
-        List<GenreDto> genreDtos = genreMapper.genresToGenreDtos(List.of(genre, genre, genre));
-        assertEquals(3, genreDtos.size());
+        assertEquals(1, genreDto.getGenreId());
+        assertEquals("драма", genreDto.getName());
     }
 }
