@@ -8,7 +8,6 @@ import com.bondarenko.movieland.mapper.GenreMapper;
 import com.bondarenko.movieland.service.GenreService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -20,7 +19,6 @@ public class DefaultGenreService implements GenreService {
     private final GenreMapper genreMapper;
 
     @Override
-    @Transactional(readOnly = true)
     public List<GenreDto> findAll() {
         List<Genre> genres = genreCache.getCachedGenre();
         genres.stream().findAny().orElseThrow(GenreNotFoundException::new);
