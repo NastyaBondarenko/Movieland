@@ -25,8 +25,8 @@ public class GenreCache implements GenreRepository {
     @Scheduled(fixedRate = 4, initialDelay = 4, timeUnit = TimeUnit.HOURS)
     @Transactional(readOnly = true)
     public void enrichCache() {
-        genres = defaultGenreRepository.findAll();
         log.info("Enrich genre cache, genres in cache {} ", genres.size());
+        genres = defaultGenreRepository.findAll();
     }
 
     @Override
