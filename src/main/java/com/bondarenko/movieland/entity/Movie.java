@@ -2,7 +2,10 @@ package com.bondarenko.movieland.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,6 +24,8 @@ import java.time.LocalDate;
 @Table(name = "movie")
 public class Movie {
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "movies_id_sequence")
+    @SequenceGenerator(name = "movies_id_sequence", sequenceName = "movies_id_sequence")
     @Column(name = "id")
     private int id;
 

@@ -9,3 +9,7 @@ CREATE TABLE "movie"(
     "picture_path" VARCHAR(255) NOT NULL,
     "votes" INTEGER NOT NULL
 );
+
+CREATE SEQUENCE movies_id_sequence OWNED BY movie.id;
+ALTER TABLE movie ALTER COLUMN id SET DEFAULT nextval('movies_id_sequence');
+ALTER SEQUENCE movies_id_sequence INCREMENT BY 50;
