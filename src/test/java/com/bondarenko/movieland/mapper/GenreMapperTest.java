@@ -34,6 +34,10 @@ public class GenreMapperTest {
         List<GenreDto> genreDtos = genreMapper.genresToGenreDtos(List.of(genreFirst, genreSecond, genreThird));
 
         assertEquals(3, genreDtos.size());
+
+        assertEquals(1, genreDtos.get(0).getGenreId());
+        assertEquals(2, genreDtos.get(1).getGenreId());
+        assertEquals(3, genreDtos.get(2).getGenreId());
         assertEquals("драма", genreDtos.get(0).getName());
         assertEquals("комедия", genreDtos.get(1).getName());
         assertEquals("криминал", genreDtos.get(2).getName());
