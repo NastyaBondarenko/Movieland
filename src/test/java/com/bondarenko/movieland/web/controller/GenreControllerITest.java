@@ -1,8 +1,8 @@
 package com.bondarenko.movieland.web.controller;
 
 import com.bondarenko.movieland.AbstractWebITest;
-import com.bondarenko.movieland.cache.GenreCache;
 import com.bondarenko.movieland.entity.Genre;
+import com.bondarenko.movieland.repository.GenreRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,7 @@ public class GenreControllerITest extends AbstractWebITest {
     MockMvc mockMvc;
 
     @MockBean
-    GenreCache cache;
+    GenreRepository genreRepository;
 
     @Test
     @DisplayName("when Get All Genres with Correct Url then Ok Status Returned")
@@ -42,7 +42,7 @@ public class GenreControllerITest extends AbstractWebITest {
                 .genreId(3)
                 .name("комедия")
                 .build();
-        when(cache.getCachedGenre()).thenReturn(List.of(genreFirst, genreSecond, genreThird));
+        when(genreRepository.findAll()).thenReturn(List.of(genreFirst, genreSecond, genreThird));
 
         mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/genre")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -69,7 +69,7 @@ public class GenreControllerITest extends AbstractWebITest {
     @Test
     @DisplayName("when Get Genres with Incorrect Url then Not Found Returned")
     void whenGetGenres_withIncorrectUrl_thenNotFoundReturned() throws Exception {
-        when(cache.getCachedGenre()).thenReturn(List.of(new Genre(1, "криминал")));
+        when(genreRepository.findAll()).thenReturn(List.of(new Genre(1, "криминал")));
         mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/genres")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());

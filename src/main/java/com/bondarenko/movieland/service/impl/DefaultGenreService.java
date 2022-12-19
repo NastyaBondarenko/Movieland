@@ -1,10 +1,10 @@
 package com.bondarenko.movieland.service.impl;
 
-import com.bondarenko.movieland.cache.GenreCache;
 import com.bondarenko.movieland.dto.GenreDto;
 import com.bondarenko.movieland.entity.Genre;
 import com.bondarenko.movieland.exceptions.GenreNotFoundException;
 import com.bondarenko.movieland.mapper.GenreMapper;
+import com.bondarenko.movieland.repository.GenreRepository;
 import com.bondarenko.movieland.service.GenreService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,12 +15,12 @@ import java.util.List;
 @RequiredArgsConstructor
 public class DefaultGenreService implements GenreService {
 
-    private final GenreCache genreCache;
+    private final GenreRepository genreRepository;
     private final GenreMapper genreMapper;
 
     @Override
     public List<GenreDto> findAll() {
-        List<Genre> genres = genreCache.getCachedGenre();
+        List<Genre> genres = genreRepository.findAll();
         genres.stream().findAny().orElseThrow(GenreNotFoundException::new);
         return genreMapper.genresToGenreDtos(genres);
     }
