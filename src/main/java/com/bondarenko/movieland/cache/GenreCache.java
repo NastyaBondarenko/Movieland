@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,16 +21,17 @@ public class GenreCache implements GenreRepository {
     private volatile List<Genre> genres;
     private final DefaultGenreRepository defaultGenreRepository;
 
+    @PostConstruct
+    @Scheduled(fixedRate = 4, initialDelay = 4, timeUnit = TimeUnit.HOURS)
+    @Transactional(readOnly = true)
+    public void enrichCache() {
+        genres = defaultGenreRepository.findAll();
+        log.info("Enrich genre cache, genres in cache {} ", genres.size());
+    }
+
     @Override
     public List<Genre> findAll() {
         log.info("Get {} genres from cache", genres.size());
         return new ArrayList<>(genres);
-    }
-
-    @PostConstruct
-    @Scheduled(fixedRate = 4, initialDelay = 4, timeUnit = TimeUnit.HOURS)
-    private void enrichCache() {
-        genres = defaultGenreRepository.findAll();
-        log.info("Enrich genre cache, genres in cache {} ", genres.size());
     }
 }
