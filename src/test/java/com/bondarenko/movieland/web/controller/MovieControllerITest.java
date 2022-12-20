@@ -77,51 +77,15 @@ public class MovieControllerITest extends AbstractWebITest {
                                       "price":123.45,
                                       "picturePath":"https://images.jpg",
                                       "votes":100
-                                   }
-                                ]"""))
-                .andExpect(status().isOk());
-    }
-
-    @Test
-    @DataSet("datasets/movie/dataset_get_random_movies.yml")
-    @DisplayName("when Get Random Movies with Correct Url then Ok Status Returned")
-    void whenGetRandomMovies_withCorrectUrl_thenOkStatusReturned() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/movie/random")
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(content()
-                        .json("""
-                                [
-                                   {
-                                      "id":1,
-                                      "nameRussian":"Побег из Шоушенка",
-                                      "nameNative":"The Shawshank Redemption",
-                                      "yearOfRelease":1994,
-                                      "description":"Успешный банкир Энди Дюфрейн обвинен в убийстве",
-                                      "rating":8.9,
-                                      "price":123.45,
-                                      "picturePath":"https://images.jpg",
-                                      "votes":100
                                    },
                                    {
                                       "id":3,
-                                      "nameRussian":"Миля",
-                                      "nameNative":"Mile",
-                                      "yearOfRelease":1999,
-                                      "description":"Обвиненный в страшном преступлении",
-                                      "rating":9.9,
-                                      "price":100.23,
-                                      "picturePath":"https://images.jpg",
-                                      "votes":100
-                                   },
-                                   {
-                                      "id":2,
-                                      "nameRussian":"Зеленая миля",
-                                      "nameNative":"The Green Mile",
-                                      "yearOfRelease":1999,
-                                      "description":"Обвиненный в страшном преступлении",
+                                      "nameRussian":"Побег",
+                                      "nameNative":"TheRedemption",
+                                      "yearOfRelease":1994,
+                                      "description":"Банкир",
                                       "rating":8.9,
-                                      "price":134.67,
+                                      "price":123.45,
                                       "picturePath":"https://images.jpg",
                                       "votes":100
                                    }
