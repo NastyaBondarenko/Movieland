@@ -12,11 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -45,9 +41,10 @@ public class DefaultMovieService implements MovieService {
     @Transactional(readOnly = true)
     public List<MovieDto> getRandomMovies() {
         Pageable pageable = PageRequest.of(3, 6);
-        List<Movie> movies = new ArrayList<>(movieRepository.findAll(pageable).getContent());
-        Collections.shuffle(movies);
-        return movieMapper.moviesToMovieDtos(movies.subList(0, RANDOM_MOVIES_LENGTH));
+        List<Movie> randomMovies = new ArrayList<>(movieRepository.findAll(pageable).toList());
+        Collections.shuffle(randomMovies);
+
+        return movieMapper.moviesToMovieDtos(randomMovies.subList(0, RANDOM_MOVIES_LENGTH));
     }
 
     @Override
