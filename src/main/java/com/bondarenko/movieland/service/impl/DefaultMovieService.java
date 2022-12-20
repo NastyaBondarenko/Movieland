@@ -43,7 +43,6 @@ public class DefaultMovieService implements MovieService {
         Pageable pageable = PageRequest.of(3, 6);
         List<Movie> randomMovies = new ArrayList<>(movieRepository.findAll(pageable).toList());
         Collections.shuffle(randomMovies);
-
         return movieMapper.moviesToMovieDtos(randomMovies.subList(0, RANDOM_MOVIES_LENGTH));
     }
 
