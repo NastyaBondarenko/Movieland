@@ -7,9 +7,12 @@ import com.bondarenko.movieland.mapper.MovieMapper;
 import com.bondarenko.movieland.repository.MovieRepository;
 import com.bondarenko.movieland.service.MovieService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -41,7 +44,8 @@ public class DefaultMovieService implements MovieService {
     @Override
     @Transactional(readOnly = true)
     public List<MovieDto> getRandomMovies() {
-        List<Movie> movies = movieRepository.findAll();
+        Pageable pageable = PageRequest.of(3, 6);
+        List<Movie> movies = new ArrayList<>(movieRepository.findAll(pageable).getContent());
         Collections.shuffle(movies);
         return movieMapper.moviesToMovieDtos(movies.subList(0, RANDOM_MOVIES_LENGTH));
     }
