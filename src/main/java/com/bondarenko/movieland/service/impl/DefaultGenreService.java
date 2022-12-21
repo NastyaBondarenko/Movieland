@@ -22,6 +22,6 @@ public class DefaultGenreService implements GenreService {
     public List<GenreDto> findAll() {
         List<Genre> genres = genreRepository.findAll();
         genres.stream().findAny().orElseThrow(GenreNotFoundException::new);
-        return genreMapper.genresToGenreDtos(genres);
+        return genreMapper.toGenreDtos(genres);
     }
 }

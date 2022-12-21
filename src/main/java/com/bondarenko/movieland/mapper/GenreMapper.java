@@ -9,7 +9,7 @@ import java.util.List;
 @Mapper
 public interface GenreMapper {
 
-    List<GenreDto> genresToGenreDtos(List<Genre> genres);
+    List<GenreDto> toGenreDtos(List<Genre> genres);
 
-    GenreDto genreToGenreDto(Genre genre);
+    GenreDto toGenreDto(Genre genre);
 }
