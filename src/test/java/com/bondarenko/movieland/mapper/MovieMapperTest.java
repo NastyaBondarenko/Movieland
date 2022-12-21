@@ -28,7 +28,7 @@ public class MovieMapperTest {
                 .rating(200.00)
                 .yearOfRelease(LocalDate.of(2012, 8, 15))
                 .build();
-        MovieDto movieDto = movieMapper.movieToMovieDto(movie);
+        MovieDto movieDto = movieMapper.toMovieDto(movie);
 
         assertEquals(1, movieDto.getId());
         assertEquals(200.00, movieDto.getRating());
@@ -55,7 +55,7 @@ public class MovieMapperTest {
                 .rating(200.00)
                 .yearOfRelease(LocalDate.of(2012, 8, 15))
                 .build();
-        List<MovieDto> movieDtos = movieMapper.moviesToMovieDtos(List.of(movie, movie, movie));
+        List<MovieDto> movieDtos = movieMapper.toMovieDtos(List.of(movie, movie, movie));
         assertEquals(3, movieDtos.size());
     }
 }

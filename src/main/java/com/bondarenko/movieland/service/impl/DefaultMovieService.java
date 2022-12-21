@@ -36,9 +36,9 @@ public class DefaultMovieService implements MovieService {
     public List<MovieDto> findAll(Map<String, String> requestParameters) {
         List<Movie> movies = movieRepository.findAll();
         if (!requestParameters.isEmpty()) {
-            return movieMapper.moviesToMovieDtos(getSortedMovies(requestParameters, movies));
+            return movieMapper.toMovieDtos(getSortedMovies(requestParameters, movies));
         }
-        return movieMapper.moviesToMovieDtos(movies);
+        return movieMapper.toMovieDtos(movies);
     }
 
     @Override
@@ -47,7 +47,7 @@ public class DefaultMovieService implements MovieService {
         Pageable pageable = PageRequest.of(3, 6);
         List<Movie> randomMovies = new ArrayList<>(movieRepository.findAll(pageable).toList());
         Collections.shuffle(randomMovies);
-        return movieMapper.moviesToMovieDtos(randomMovies.subList(0, intRandomNumber));
+        return movieMapper.toMovieDtos(randomMovies.subList(0, intRandomNumber));
     }
 
     @Override
@@ -55,9 +55,9 @@ public class DefaultMovieService implements MovieService {
     public List<MovieDto> getByGenre(int genreId, Map<String, String> requestParameters) {
         List<Movie> moviesByGenre = movieRepository.findMovieByGenreId(genreId);
         if (!requestParameters.isEmpty()) {
-            return movieMapper.moviesToMovieDtos(getSortedMovies(requestParameters, moviesByGenre));
+            return movieMapper.toMovieDtos(getSortedMovies(requestParameters, moviesByGenre));
         }
-        return movieMapper.moviesToMovieDtos(moviesByGenre);
+        return movieMapper.toMovieDtos(moviesByGenre);
     }
 
     private List<Movie> getSortedMovies(Map<String, String> queryParameters, List<Movie> movies) {

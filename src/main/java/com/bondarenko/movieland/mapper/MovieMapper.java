@@ -10,8 +10,8 @@ import java.util.List;
 @Mapper
 public interface MovieMapper {
 
-    List<MovieDto> moviesToMovieDtos(List<Movie> movies);
+    List<MovieDto> toMovieDtos(List<Movie> movies);
 
     @Mapping(target = "yearOfRelease", expression = "java(movie.getYearOfRelease().getYear())")
-    MovieDto movieToMovieDto(Movie movie);
+    MovieDto toMovieDto(Movie movie);
 }
