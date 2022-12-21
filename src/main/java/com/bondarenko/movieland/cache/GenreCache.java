@@ -22,7 +22,8 @@ public class GenreCache implements GenreRepository {
     private final DefaultGenreRepository defaultGenreRepository;
 
     @PostConstruct
-    @Scheduled(fixedRate = 4, initialDelay = 4, timeUnit = TimeUnit.HOURS)
+    @Scheduled(fixedRateString = "${scheduled.fixedRate}", initialDelayString = "${scheduled.initialDelay}",
+            timeUnit = TimeUnit.HOURS)
     @Transactional(readOnly = true)
     public void enrichCache() {
         genres = defaultGenreRepository.findAll();
