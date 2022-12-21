@@ -22,8 +22,8 @@ public class MovieController {
     }
 
     @GetMapping("/random")
-    protected List<MovieDto> getRandomMovie() {
-        return movieService.getRandomMovies();
+    protected List<MovieDto> getRandom() {
+        return movieService.getRandom();
     }
 
     @GetMapping("/genre/{genreId}")

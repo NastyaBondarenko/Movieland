@@ -9,7 +9,7 @@ public interface MovieService {
 
     List<MovieDto> findAll(Map<String, String> requestParameters);
 
-    List<MovieDto> getRandomMovies();
+    List<MovieDto> getRandom();
 
     List<MovieDto> getByGenre(int genreId, Map<String, String> requestParameters);
 }
