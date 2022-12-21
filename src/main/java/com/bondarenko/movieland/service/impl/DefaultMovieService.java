@@ -1,10 +1,13 @@
 package com.bondarenko.movieland.service.impl;
 
 import com.bondarenko.movieland.dto.MovieDto;
+import com.bondarenko.movieland.entity.Genre;
 import com.bondarenko.movieland.entity.Movie;
 import com.bondarenko.movieland.entity.SortDirection;
+import com.bondarenko.movieland.exceptions.GenreNotFoundException;
 import com.bondarenko.movieland.exceptions.MovieNotFoundException;
 import com.bondarenko.movieland.mapper.MovieMapper;
+import com.bondarenko.movieland.repository.GenreRepository;
 import com.bondarenko.movieland.repository.MovieRepository;
 import com.bondarenko.movieland.service.MovieService;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +22,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -29,6 +33,7 @@ public class DefaultMovieService implements MovieService {
     private static final String RATING_PARAMETER = "rating";
     private static final String PRICE_PARAMETER = "price";
     private final MovieRepository movieRepository;
+    private final GenreRepository genreRepository;
     private final MovieMapper movieMapper;
 
     @Override
@@ -53,11 +58,9 @@ public class DefaultMovieService implements MovieService {
     @Override
     @Transactional(readOnly = true)
     public List<MovieDto> getByGenre(int genreId, Map<String, String> requestParameters) {
-        List<Movie> moviesByGenre = movieRepository.findMovieByGenreId(genreId);
-        if (!requestParameters.isEmpty()) {
-            return movieMapper.toMovieDtos(getSortedMovies(requestParameters, moviesByGenre));
-        }
-        return movieMapper.toMovieDtos(moviesByGenre);
+        Genre genre = genreRepository.findGenreById(genreId)
+                .orElseThrow(() -> new GenreNotFoundException(genreId));
+        return movieMapper.toMovieDtos(movieRepository.findMoviesByGenreIn(Set.of(genre)));
     }
 
     private List<Movie> getSortedMovies(Map<String, String> queryParameters, List<Movie> movies) {

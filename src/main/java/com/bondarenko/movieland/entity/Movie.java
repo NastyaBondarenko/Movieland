@@ -57,5 +57,5 @@ public class Movie {
     private int votes;
 
     @ManyToMany
-    private Set<Genre> genres = new HashSet<>();
+    private Set<Genre> genre = new HashSet<>();
 }
