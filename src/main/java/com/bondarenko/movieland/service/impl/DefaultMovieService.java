@@ -2,6 +2,7 @@ package com.bondarenko.movieland.service.impl;
 
 import com.bondarenko.movieland.dto.MovieDto;
 import com.bondarenko.movieland.entity.Movie;
+import com.bondarenko.movieland.entity.SortDirection;
 import com.bondarenko.movieland.exceptions.MovieNotFoundException;
 import com.bondarenko.movieland.mapper.MovieMapper;
 import com.bondarenko.movieland.repository.MovieRepository;
@@ -13,7 +14,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -23,9 +28,6 @@ public class DefaultMovieService implements MovieService {
     private int intRandomNumber;
     private static final String RATING_PARAMETER = "rating";
     private static final String PRICE_PARAMETER = "price";
-    private static final String ASC_PARAMETER = "asc";
-    private static final String DESC_PARAMETER = "desc";
-
     private final MovieRepository movieRepository;
     private final MovieMapper movieMapper;
 
@@ -72,7 +74,7 @@ public class DefaultMovieService implements MovieService {
     }
 
     private List<Movie> getByRating(List<Movie> movies, String requestParameter) {
-        if (requestParameter.equals(DESC_PARAMETER)) {
+        if (requestParameter.equals(SortDirection.DESC.toString())) {
             return movies.stream()
                     .sorted(Comparator.comparing(Movie::getRating).reversed())
                     .toList();
@@ -81,12 +83,12 @@ public class DefaultMovieService implements MovieService {
     }
 
     private List<Movie> getByPrice(List<Movie> movies, String requestParameter) {
-        if (requestParameter.equals(DESC_PARAMETER)) {
+        if (requestParameter.equals(SortDirection.DESC.toString())) {
             return movies.stream()
                     .sorted(Comparator.comparing(Movie::getPrice).reversed())
                     .toList();
         }
-        if (requestParameter.equals(ASC_PARAMETER)) {
+        if (requestParameter.equals(SortDirection.ASC.toString())) {
             return movies.stream()
                     .sorted(Comparator.comparing(Movie::getPrice).reversed().reversed()).toList();
         }
