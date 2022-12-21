@@ -29,17 +29,17 @@ public class GenreControllerITest extends AbstractWebITest {
     @DisplayName("when Get All Genres with Correct Url then Ok Status Returned")
     void whenGetGenres_withCorrectUrl_thenOkStatusReturned() throws Exception {
         Genre genreFirst = Genre.builder()
-                .genreId(1)
+                .id(1)
                 .name("драма")
                 .build();
 
         Genre genreSecond = Genre.builder()
-                .genreId(2)
+                .id(2)
                 .name("криминал")
                 .build();
 
         Genre genreThird = Genre.builder()
-                .genreId(3)
+                .id(3)
                 .name("комедия")
                 .build();
         when(genreRepository.findAll()).thenReturn(List.of(genreFirst, genreSecond, genreThird));
@@ -51,15 +51,15 @@ public class GenreControllerITest extends AbstractWebITest {
                         .json("""
                                 [
                                    {
-                                      "genreId":1,
+                                      "id":1,
                                       "name":"драма"
                                    },
                                    {
-                                      "genreId":2,
+                                      "id":2,
                                       "name":"криминал"
                                    },
                                    {
-                                      "genreId":3,
+                                      "id":3,
                                       "name":"комедия"
                                    }
                                 ]"""))

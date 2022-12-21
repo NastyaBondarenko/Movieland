@@ -17,17 +17,17 @@ public class GenreMapperTest {
     @DisplayName("Mapping Genre list to GenreDto list")
     void test_givenGenres_whenMapGenresToGenreDtos_thenReturnGenreDtos() {
         Genre genreFirst = Genre.builder()
-                .genreId(1)
+                .id(1)
                 .name("драма")
                 .build();
 
         Genre genreSecond = Genre.builder()
-                .genreId(2)
+                .id(2)
                 .name("комедия")
                 .build();
 
         Genre genreThird = Genre.builder()
-                .genreId(3)
+                .id(3)
                 .name("криминал")
                 .build();
 
@@ -35,9 +35,9 @@ public class GenreMapperTest {
 
         assertEquals(3, genreDtos.size());
 
-        assertEquals(1, genreDtos.get(0).getGenreId());
-        assertEquals(2, genreDtos.get(1).getGenreId());
-        assertEquals(3, genreDtos.get(2).getGenreId());
+        assertEquals(1, genreDtos.get(0).getId());
+        assertEquals(2, genreDtos.get(1).getId());
+        assertEquals(3, genreDtos.get(2).getId());
         assertEquals("драма", genreDtos.get(0).getName());
         assertEquals("комедия", genreDtos.get(1).getName());
         assertEquals("криминал", genreDtos.get(2).getName());
@@ -48,7 +48,7 @@ public class GenreMapperTest {
     void givenGenre_whenMapGenreToGenreDto_thenReturnGenreDto() {
         GenreDto genreDto = genreMapper.genreToGenreDto(new Genre(1, "драма"));
 
-        assertEquals(1, genreDto.getGenreId());
+        assertEquals(1, genreDto.getId());
         assertEquals("драма", genreDto.getName());
     }
 }

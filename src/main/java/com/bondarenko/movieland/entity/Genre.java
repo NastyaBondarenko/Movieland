@@ -25,7 +25,7 @@ public class Genre {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "genres_id_sequence")
     @SequenceGenerator(name = "genres_id_sequence", sequenceName = "genres_id_sequence")
     @Column(name = "id")
-    private int genreId;
+    private int id;
 
     @Column(name = "name")
     private String name;
