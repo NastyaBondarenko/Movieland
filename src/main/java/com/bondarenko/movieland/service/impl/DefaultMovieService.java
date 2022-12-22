@@ -59,15 +59,14 @@ public class DefaultMovieService implements MovieService {
     @Override
     @Transactional(readOnly = true)
     public List<MovieDto> getByGenre(int genreId, Map<String, String> requestParameters) {
-        Genre genre = genreRepository.findGenreById(genreId)
-                .orElseThrow(() -> new GenreNotFoundException(genreId));
-        List<Movie> moviesByGenre = movieRepository.findMoviesByGenreIn(Set.of(genre));
+        List<Movie> moviesByGenre = getMoviesByGenre(genreId);
 
         if (!requestParameters.isEmpty()) {
             return movieMapper.toMovieDtos(getSortedMoviesByGenre(requestParameters, genreId));
         }
         return movieMapper.toMovieDtos(moviesByGenre);
     }
+
 
     private List<Movie> getSortedMovies(Map<String, String> queryParameters) {
         String sortColumn = queryParameters.keySet().stream().findFirst().get();
@@ -88,7 +87,6 @@ public class DefaultMovieService implements MovieService {
         String sortColumn = queryParameters.keySet().stream().findFirst().get();
         String sortDirection = queryParameters.values().stream().findFirst().get();
 
-
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Movie> query = builder.createQuery(Movie.class);
         Root<Movie> root = query.from(Movie.class);
@@ -101,5 +99,11 @@ public class DefaultMovieService implements MovieService {
         query.orderBy(order);
 
         return entityManager.createQuery(query).getResultList();
+    }
+
+    private List<Movie> getMoviesByGenre(int genreId) {
+        Genre genre = genreRepository.findGenreById(genreId)
+                .orElseThrow(() -> new GenreNotFoundException(genreId));
+        return movieRepository.findMoviesByGenreIn(Set.of(genre));
     }
 }
