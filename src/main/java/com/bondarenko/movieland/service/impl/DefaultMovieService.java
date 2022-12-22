@@ -3,6 +3,7 @@ package com.bondarenko.movieland.service.impl;
 import com.bondarenko.movieland.dto.MovieDto;
 import com.bondarenko.movieland.entity.Genre;
 import com.bondarenko.movieland.entity.Movie;
+import com.bondarenko.movieland.entity.MovieRequest;
 import com.bondarenko.movieland.exceptions.GenreNotFoundException;
 import com.bondarenko.movieland.mapper.MovieMapper;
 import com.bondarenko.movieland.repository.GenreRepository;
@@ -21,7 +22,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 @Service
@@ -34,44 +34,34 @@ public class DefaultMovieService implements MovieService {
     private final GenreRepository genreRepository;
     private final MovieMapper movieMapper;
 
+
     @PersistenceContext
     private EntityManager entityManager;
 
     @Override
     @Transactional(readOnly = true)
-    public List<MovieDto> findAll(Map<String, String> requestParameters) {
+    public List<MovieDto> findAll(MovieRequest movieRequest) {
         List<Movie> movies = movieRepository.findAll();
-        if (!requestParameters.isEmpty()) {
-            return movieMapper.toMovieDtos(getSortedMovies(requestParameters));
+        if (movieRequest != null) {
+            return movieMapper.toMovieDtos(getSortedMovies(movieRequest));
         }
         return movieMapper.toMovieDtos(movies);
     }
 
-    @Override
-    @Transactional(readOnly = true)
-    public List<MovieDto> getRandom() {
-        Pageable pageable = PageRequest.of(3, 6);
-        List<Movie> randomMovies = new ArrayList<>(movieRepository.findAll(pageable).toList());
-        Collections.shuffle(randomMovies);
-        return movieMapper.toMovieDtos(randomMovies.subList(0, randomMovieCount));
-    }
+    private List<Movie> getSortedMovies(MovieRequest movieRequest) {
+        String sortDirection = null;
+        String sortColumn = null;
 
-    @Override
-    @Transactional(readOnly = true)
-    public List<MovieDto> getByGenre(int genreId, Map<String, String> requestParameters) {
-        List<Movie> moviesByGenre = getMoviesByGenre(genreId);
+        String price = movieRequest.getPrice();
+        String rating = movieRequest.getRating();
+        if (movieRequest.getPrice() != null) {
+            sortDirection = price;
+            sortColumn = "price";
 
-        if (!requestParameters.isEmpty()) {
-            return movieMapper.toMovieDtos(getSortedMoviesByGenre(requestParameters, genreId));
+        } else {
+            sortDirection = "rating";
+            sortColumn = rating;
         }
-        return movieMapper.toMovieDtos(moviesByGenre);
-    }
-
-
-    private List<Movie> getSortedMovies(Map<String, String> queryParameters) {
-        String sortColumn = queryParameters.keySet().stream().findFirst().get();
-        String sortDirection = queryParameters.values().stream().findFirst().get();
-
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Movie> query = builder.createQuery(Movie.class);
         Root<Movie> root = query.from(Movie.class);
@@ -83,10 +73,45 @@ public class DefaultMovieService implements MovieService {
         return entityManager.createQuery(query).getResultList();
     }
 
-    private List<Movie> getSortedMoviesByGenre(Map<String, String> queryParameters, int genreId) {
-        String sortColumn = queryParameters.keySet().stream().findFirst().get();
-        String sortDirection = queryParameters.values().stream().findFirst().get();
+    @Override
+    public List<MovieDto> findAll(String first, String second) {
+        return null;
+    }
 
+    @Override
+    @Transactional(readOnly = true)
+    public List<MovieDto> getRandom() {
+        Pageable pageable = PageRequest.of(3, 6);
+        List<Movie> randomMovies = new ArrayList<>(movieRepository.findAll(pageable).toList());
+        Collections.shuffle(randomMovies);
+        return movieMapper.toMovieDtos(randomMovies.subList(0, randomMovieCount));
+    }
+
+//    @Override
+//    @Transactional(readOnly = true)
+//    public List<MovieDto> getByGenre(int genreId, String sortColumn, String sortDirection) {
+//        List<Movie> moviesByGenre = getMoviesByGenre(genreId);
+//
+//        if (!sortColumn.isEmpty()) {
+//            return movieMapper.toMovieDtos(getSortedMoviesByGenre(sortColumn, sortDirection, genreId));
+//        }
+//        return movieMapper.toMovieDtos(moviesByGenre);
+//    }
+
+
+    private List<Movie> getSortedMovies(String sortColumn, String sortDirection) {
+        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Movie> query = builder.createQuery(Movie.class);
+        Root<Movie> root = query.from(Movie.class);
+
+        Path<Object> sortPath = root.get(sortColumn);
+        Order order = sortDirection.equals("asc") ? builder.asc(sortPath) : builder.desc(sortPath);
+        query.orderBy(order);
+
+        return entityManager.createQuery(query).getResultList();
+    }
+
+    private List<Movie> getSortedMoviesByGenre(String sortColumn, String sortDirection, int genreId) {
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Movie> query = builder.createQuery(Movie.class);
         Root<Movie> root = query.from(Movie.class);
