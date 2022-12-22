@@ -11,9 +11,4 @@ public enum SortDirection {
 
     @Getter
     private final String direction;
-
-    @Override
-    public String toString() {
-        return name().toLowerCase();
-    }
 }
