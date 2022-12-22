@@ -61,11 +61,10 @@ public class DefaultMovieService implements MovieService {
     public List<MovieDto> getByGenre(int genreId, Map<String, String> requestParameters) {
         Genre genre = genreRepository.findGenreById(genreId)
                 .orElseThrow(() -> new GenreNotFoundException(genreId));
-
         List<Movie> moviesByGenre = movieRepository.findMoviesByGenreIn(Set.of(genre));
 
         if (!requestParameters.isEmpty()) {
-            return movieMapper.toMovieDtos(getSortedMoviesByGenre(requestParameters));
+            return movieMapper.toMovieDtos(getSortedMoviesByGenre(requestParameters, genreId));
         }
         return movieMapper.toMovieDtos(moviesByGenre);
     }
@@ -77,22 +76,27 @@ public class DefaultMovieService implements MovieService {
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Movie> query = builder.createQuery(Movie.class);
         Root<Movie> root = query.from(Movie.class);
-        Path<Object> sortPath = root.get(sortColumn);
 
+        Path<Object> sortPath = root.get(sortColumn);
         Order order = sortDirection.equals("asc") ? builder.asc(sortPath) : builder.desc(sortPath);
         query.orderBy(order);
 
         return entityManager.createQuery(query).getResultList();
     }
 
-    private List<Movie> getSortedMoviesByGenre(Map<String, String> queryParameters) {
+    private List<Movie> getSortedMoviesByGenre(Map<String, String> queryParameters, int genreId) {
         String sortColumn = queryParameters.keySet().stream().findFirst().get();
         String sortDirection = queryParameters.values().stream().findFirst().get();
+
+
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Movie> query = builder.createQuery(Movie.class);
         Root<Movie> root = query.from(Movie.class);
-        Path<Object> sortPath = root.get(sortColumn);
 
+        Join<Movie, Genre> genre = root.join("genre");
+        query.where(builder.equal(genre.get("id"), genreId));
+
+        Path<Object> sortPath = root.get(sortColumn);
         Order order = sortDirection.equals("asc") ? builder.asc(sortPath) : builder.desc(sortPath);
         query.orderBy(order);
 
