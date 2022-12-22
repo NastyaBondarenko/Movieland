@@ -1,12 +1,15 @@
 package com.bondarenko.movieland.entity;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
-
+import lombok.Setter;
+@Builder
+@Setter
 @Getter
 @AllArgsConstructor
 public class MovieRequest {
-    private String price;
-    private String rating;
+    private SortDirection price;
+    private SortDirection rating;
     private Integer genreId;
 }

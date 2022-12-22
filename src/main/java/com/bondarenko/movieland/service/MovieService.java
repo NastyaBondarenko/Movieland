@@ -7,12 +7,9 @@ import java.util.List;
 
 public interface MovieService {
 
-    List<MovieDto> findAll(String first, String second);
-//    List<MovieDto> findAll(MovieRequest movieRequest);
+    List<MovieDto> findAll(MovieRequest movieRequest);
 
     List<MovieDto> getRandom();
 
-//    List<MovieDto> getByGenre(int genreId, String first, String second);
-
-    List<MovieDto> findAll(MovieRequest movieRequest);
+    List<MovieDto> getByGenre(MovieRequest movieRequest);
 }
