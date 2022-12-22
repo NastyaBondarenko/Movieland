@@ -68,6 +68,7 @@ public class DefaultMovieService implements MovieService {
     @Transactional(readOnly = true)
     public List<MovieDto> getByGenre(MovieRequest movieRequest) {
         Integer genreId = movieRequest.getGenreId();
+
         if (movieRequest.getPrice() != null || movieRequest.getRating() != null) {
             CriteriaBuilder builder = entityManager.getCriteriaBuilder();
             CriteriaQuery<Movie> query = builder.createQuery(Movie.class);
