@@ -44,7 +44,7 @@ public class DefaultMovieService implements MovieService {
     @Transactional(readOnly = true)
     public List<MovieDto> findAll(MovieRequest movieRequest) {
         List<Movie> movies = movieRepository.findAll();
-        if (movieRequest != null) {
+        if (movieRequest.getPrice() != null || movieRequest.getRating() != null) {
             CriteriaBuilder builder = entityManager.getCriteriaBuilder();
             CriteriaQuery<Movie> query = builder.createQuery(Movie.class);
             Root<Movie> root = query.from(Movie.class);
