@@ -27,7 +27,8 @@ public class MovieController {
     }
 
     @GetMapping("/genre/{genreId}")
-    protected List<MovieDto> getByGenre(@PathVariable("genreId") int genreId, @RequestParam Map<String, String> requestParameters) {
+    protected List<MovieDto> getByGenre(@PathVariable("genreId") int genreId,
+                                        @RequestParam Map<String, String> requestParameters) {
         return movieService.getByGenre(genreId, requestParameters);
     }
 }

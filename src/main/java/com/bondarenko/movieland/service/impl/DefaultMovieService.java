@@ -3,13 +3,14 @@ package com.bondarenko.movieland.service.impl;
 import com.bondarenko.movieland.dto.MovieDto;
 import com.bondarenko.movieland.entity.Genre;
 import com.bondarenko.movieland.entity.Movie;
-import com.bondarenko.movieland.entity.SortDirection;
 import com.bondarenko.movieland.exceptions.GenreNotFoundException;
-import com.bondarenko.movieland.exceptions.MovieNotFoundException;
 import com.bondarenko.movieland.mapper.MovieMapper;
 import com.bondarenko.movieland.repository.GenreRepository;
 import com.bondarenko.movieland.repository.MovieRepository;
 import com.bondarenko.movieland.service.MovieService;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.criteria.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
@@ -19,7 +20,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -29,19 +29,20 @@ import java.util.Set;
 public class DefaultMovieService implements MovieService {
 
     @Value("${movies.random.count:3}")
-    private int intRandomNumber;
-    private static final String RATING_PARAMETER = "rating";
-    private static final String PRICE_PARAMETER = "price";
+    private int randomMovieCount;
     private final MovieRepository movieRepository;
     private final GenreRepository genreRepository;
     private final MovieMapper movieMapper;
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @Override
     @Transactional(readOnly = true)
     public List<MovieDto> findAll(Map<String, String> requestParameters) {
         List<Movie> movies = movieRepository.findAll();
         if (!requestParameters.isEmpty()) {
-            return movieMapper.toMovieDtos(getSortedMovies(requestParameters, movies));
+            return movieMapper.toMovieDtos(getSortedMovies(requestParameters));
         }
         return movieMapper.toMovieDtos(movies);
     }
@@ -52,7 +53,7 @@ public class DefaultMovieService implements MovieService {
         Pageable pageable = PageRequest.of(3, 6);
         List<Movie> randomMovies = new ArrayList<>(movieRepository.findAll(pageable).toList());
         Collections.shuffle(randomMovies);
-        return movieMapper.toMovieDtos(randomMovies.subList(0, intRandomNumber));
+        return movieMapper.toMovieDtos(randomMovies.subList(0, randomMovieCount));
     }
 
     @Override
@@ -60,41 +61,41 @@ public class DefaultMovieService implements MovieService {
     public List<MovieDto> getByGenre(int genreId, Map<String, String> requestParameters) {
         Genre genre = genreRepository.findGenreById(genreId)
                 .orElseThrow(() -> new GenreNotFoundException(genreId));
-        return movieMapper.toMovieDtos(movieRepository.findMoviesByGenreIn(Set.of(genre)));
+
+        List<Movie> moviesByGenre = movieRepository.findMoviesByGenreIn(Set.of(genre));
+
+        if (!requestParameters.isEmpty()) {
+            return movieMapper.toMovieDtos(getSortedMoviesByGenre(requestParameters));
+        }
+        return movieMapper.toMovieDtos(moviesByGenre);
     }
 
-    private List<Movie> getSortedMovies(Map<String, String> queryParameters, List<Movie> movies) {
-        String firstParameter = queryParameters.keySet().stream().findFirst().get();
-        String secondParameter = queryParameters.values().stream().findFirst().get();
+    private List<Movie> getSortedMovies(Map<String, String> queryParameters) {
+        String sortColumn = queryParameters.keySet().stream().findFirst().get();
+        String sortDirection = queryParameters.values().stream().findFirst().get();
 
-        if (firstParameter.equals(RATING_PARAMETER)) {
-            return getByRating(movies, secondParameter);
-        }
-        if (firstParameter.equals(PRICE_PARAMETER)) {
-            return getByPrice(movies, secondParameter);
-        }
-        throw new MovieNotFoundException(firstParameter);
+        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Movie> query = builder.createQuery(Movie.class);
+        Root<Movie> root = query.from(Movie.class);
+        Path<Object> sortPath = root.get(sortColumn);
+
+        Order order = sortDirection.equals("asc") ? builder.asc(sortPath) : builder.desc(sortPath);
+        query.orderBy(order);
+
+        return entityManager.createQuery(query).getResultList();
     }
 
-    private List<Movie> getByRating(List<Movie> movies, String requestParameter) {
-        if (requestParameter.equals(SortDirection.DESC.toString())) {
-            return movies.stream()
-                    .sorted(Comparator.comparing(Movie::getRating).reversed())
-                    .toList();
-        }
-        throw new MovieNotFoundException(requestParameter);
-    }
+    private List<Movie> getSortedMoviesByGenre(Map<String, String> queryParameters) {
+        String sortColumn = queryParameters.keySet().stream().findFirst().get();
+        String sortDirection = queryParameters.values().stream().findFirst().get();
+        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Movie> query = builder.createQuery(Movie.class);
+        Root<Movie> root = query.from(Movie.class);
+        Path<Object> sortPath = root.get(sortColumn);
 
-    private List<Movie> getByPrice(List<Movie> movies, String requestParameter) {
-        if (requestParameter.equals(SortDirection.DESC.toString())) {
-            return movies.stream()
-                    .sorted(Comparator.comparing(Movie::getPrice).reversed())
-                    .toList();
-        }
-        if (requestParameter.equals(SortDirection.ASC.toString())) {
-            return movies.stream()
-                    .sorted(Comparator.comparing(Movie::getPrice).reversed().reversed()).toList();
-        }
-        throw new MovieNotFoundException(requestParameter);
+        Order order = sortDirection.equals("asc") ? builder.asc(sortPath) : builder.desc(sortPath);
+        query.orderBy(order);
+
+        return entityManager.createQuery(query).getResultList();
     }
 }
