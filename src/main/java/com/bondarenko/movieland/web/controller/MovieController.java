@@ -2,6 +2,7 @@ package com.bondarenko.movieland.web.controller;
 
 import com.bondarenko.movieland.configuration.SortDirectionEditor;
 import com.bondarenko.movieland.dto.MovieDto;
+import com.bondarenko.movieland.entity.MovieDetails;
 import com.bondarenko.movieland.entity.MovieRequest;
 import com.bondarenko.movieland.entity.SortDirection;
 import com.bondarenko.movieland.service.MovieService;
@@ -35,6 +36,11 @@ public class MovieController {
                                         @RequestParam(name = "price", required = false) SortDirection price,
                                         @RequestParam(name = "rating", required = false) SortDirection rating) {
         return movieService.getByGenre(new MovieRequest(price, rating, genreId));
+    }
+
+    @GetMapping("/{movieId}")
+    protected MovieDetails getByMovieId(@PathVariable("movieId") int movieId) {
+        return movieService.getById(movieId);
     }
 
     @InitBinder

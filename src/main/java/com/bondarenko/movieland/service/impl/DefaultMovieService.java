@@ -3,6 +3,7 @@ package com.bondarenko.movieland.service.impl;
 import com.bondarenko.movieland.dto.MovieDto;
 import com.bondarenko.movieland.entity.Genre;
 import com.bondarenko.movieland.entity.Movie;
+import com.bondarenko.movieland.entity.MovieDetails;
 import com.bondarenko.movieland.entity.MovieRequest;
 import com.bondarenko.movieland.entity.SortDirection;
 import com.bondarenko.movieland.exceptions.GenreNotFoundException;
@@ -62,6 +63,26 @@ public class DefaultMovieService implements MovieService {
         List<Movie> randomMovies = new ArrayList<>(movieRepository.findAll(pageable).toList());
         Collections.shuffle(randomMovies);
         return movieMapper.toMovieDtos(randomMovies.subList(0, randomMovieCount));
+    }
+
+    @Override
+    public MovieDetails getById(int id) {
+        Movie movie = movieRepository.findMovieById(id);
+
+
+//        int movieId = movie.getId();
+//        List<Genre> genres = genreRepository.findByMovieId(movieId);
+
+
+        MovieDetails movieDetails = new MovieDetails();
+        movieDetails.setMovie(movie);
+//        movieDetails.setGenres(genres);
+
+
+//        Country country =new Country();
+//        country.setCountryId();
+//        country.setCountryName();
+        return movieDetails;
     }
 
     @Override

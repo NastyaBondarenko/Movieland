@@ -12,4 +12,6 @@ import java.util.Set;
 public interface MovieRepository extends JpaRepository<Movie, Integer> {
 
     List<Movie> findMoviesByGenreIn(Set<Genre> genre);
+
+    Movie findMovieById(int id);
 }
