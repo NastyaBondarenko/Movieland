@@ -31,18 +31,18 @@ public class Review {
     @Column(name = "id")
     private int id;
 
-    @ManyToOne
-    @JoinColumn(name = "movie_id", referencedColumnName = "id")
-    private Movie movie;
+//    @ManyToOne
+//    @JoinColumn(name = "movie_id", referencedColumnName = "id")
+//    private Movie movie;
 
-    @OneToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private User user;
+//    @OneToOne
+//    @JoinColumn(name = "user_id", referencedColumnName = "id")
+//    private User user;
 
     @Column(name = "description")
     private String description;
 
     @ManyToOne
-    @JoinColumn(name = "movie_details_id", referencedColumnName = "id")
-    private MovieDetails movieDetails;
+    @JoinColumn(name = "movie_id", referencedColumnName = "id")
+    private Movie movie;
 }

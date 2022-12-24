@@ -3,11 +3,11 @@ package com.bondarenko.movieland.service.impl;
 import com.bondarenko.movieland.dto.MovieDto;
 import com.bondarenko.movieland.entity.Genre;
 import com.bondarenko.movieland.entity.Movie;
-import com.bondarenko.movieland.entity.MovieDetails;
 import com.bondarenko.movieland.entity.MovieRequest;
 import com.bondarenko.movieland.entity.SortDirection;
 import com.bondarenko.movieland.exceptions.GenreNotFoundException;
 import com.bondarenko.movieland.mapper.MovieMapper;
+import com.bondarenko.movieland.repository.CountryRepository;
 import com.bondarenko.movieland.repository.GenreRepository;
 import com.bondarenko.movieland.repository.MovieRepository;
 import com.bondarenko.movieland.service.MovieService;
@@ -34,6 +34,7 @@ public class DefaultMovieService implements MovieService {
     private int randomMovieCount;
     private final MovieRepository movieRepository;
     private final GenreRepository genreRepository;
+    private final CountryRepository countryRepository;
     private final MovieMapper movieMapper;
     private static final String RATING_PARAMETER = "rating";
     private static final String PRICE_PARAMETER = "price";
@@ -66,23 +67,41 @@ public class DefaultMovieService implements MovieService {
     }
 
     @Override
-    public MovieDetails getById(int id) {
+    public Movie getById(int id) {
         Movie movie = movieRepository.findMovieById(id);
+//        List<Country> countries = countryRepository.findCountriesByMovieIsIn(movie);
 
 
+//        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+//        CriteriaQuery<Movie> query = builder.createQuery(Movie.class);
+//        Root<Movie> root = query.from(Movie.class);
+
+//        Join<Movie, Country> country = root.join("country");
+//        query.where(builder.equal(country.get("id"), id));
+//        entityManager.createQuery(query).getResultList();
+
+//        Join<Movie, Review> review = root.join("review");
+//        query.where(builder.equal(review.get("id"), id));
+//        entityManager.createQuery(query).getResultList();
+
+//        Movie resultList = entityManager.createQuery(query).getResultList().stream().findFirst().get();
+//        List<Country> country1 = resultList.getCountry();
+//        movie.setCountry(country1);
 //        int movieId = movie.getId();
 //        List<Genre> genres = genreRepository.findByMovieId(movieId);
 
 
-        MovieDetails movieDetails = new MovieDetails();
-        movieDetails.setMovie(movie);
+//        MovieDetails movieDetails = new MovieDetails();
+//        movieDetails.setMovie(movie);
 //        movieDetails.setGenres(genres);
 
 
 //        Country country =new Country();
 //        country.setCountryId();
-//        country.setCountryName();
-        return movieDetails;
+
+//        movie.setCountries(countries);
+
+        return movie;
     }
 
     @Override

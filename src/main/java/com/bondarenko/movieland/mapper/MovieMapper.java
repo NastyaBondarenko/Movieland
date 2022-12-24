@@ -14,4 +14,6 @@ public interface MovieMapper {
 
     @Mapping(target = "yearOfRelease", expression = "java(movie.getYearOfRelease().getYear())")
     MovieDto toMovieDto(Movie movie);
+
+
 }

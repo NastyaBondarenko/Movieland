@@ -32,6 +32,6 @@ public class Genre {
     private String name;
 
     @ManyToOne
-    @JoinColumn(name = "movie_details_id", referencedColumnName = "id")
-    private MovieDetails movieDetails;
+    @JoinColumn(name = "movie_id", referencedColumnName = "id")
+    private Movie movie;
 }
