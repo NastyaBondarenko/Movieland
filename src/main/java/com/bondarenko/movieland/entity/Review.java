@@ -1,15 +1,6 @@
 package com.bondarenko.movieland.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.SequenceGenerator;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -31,18 +22,19 @@ public class Review {
     @Column(name = "id")
     private int id;
 
-    @ManyToOne
-    @JoinColumn(name = "movie_id", referencedColumnName = "id")
-    private Movie movie;
-
-    @OneToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private User user;
-
     @Column(name = "description")
     private String description;
+    @JoinColumn(name = "movie_id", referencedColumnName = "id")
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Movie movie;
 
-    @ManyToOne
-    @JoinColumn(name = "movie_details_id", referencedColumnName = "id")
-    private MovieDetails movieDetails;
+//    @JoinColumn(name = "user_id", referencedColumnName = "id")
+//    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//    private User user;
+
+
+
+
+
+
 }

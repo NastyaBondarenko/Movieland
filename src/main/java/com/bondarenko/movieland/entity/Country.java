@@ -1,14 +1,6 @@
 package com.bondarenko.movieland.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.SequenceGenerator;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -22,6 +14,7 @@ import lombok.Setter;
 @Builder
 @Entity
 @Table(name = "country")
+
 public class Country {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "country_id_sequence")
@@ -31,7 +24,12 @@ public class Country {
 
     @Column(name = "name")
     private String name;
-    @ManyToOne
-    @JoinColumn(name = "movie_details_id", referencedColumnName = "id")
-    private MovieDetails movieDetails;
+//    @ManyToOne
+//    @JoinColumn(name = "movie_details_id", referencedColumnName = "id")
+//    private MovieDetails movieDetails;
+
+
+    @JoinColumn(name = "movie_id", referencedColumnName = "id")
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Movie movie;
 }

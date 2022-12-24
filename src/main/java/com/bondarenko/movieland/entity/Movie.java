@@ -1,13 +1,6 @@
 package com.bondarenko.movieland.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.SequenceGenerator;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,7 +8,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -56,6 +51,21 @@ public class Movie {
     @Column(name = "votes")
     private int votes;
 
-    @ManyToMany
+    @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL)
+    private List<Country> countries = new ArrayList<>();
+
+    @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL)
     private Set<Genre> genre = new HashSet<>();
+
+    @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL)
+    private List<Review> reviews = new ArrayList<>();
+
+//    @OneToMany(mappedBy = "movieDetails", cascade = CascadeType.ALL)
+
+
+//    @OneToMany(mappedBy = "movieDetails", cascade = CascadeType.ALL)
+//    private Set<Genre> genres = new HashSet<>();
+
+//    @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL)
+//    private List<Review> reviews = new ArrayList<>();
 }

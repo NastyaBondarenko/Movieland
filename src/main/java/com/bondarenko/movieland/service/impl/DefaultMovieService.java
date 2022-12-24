@@ -1,13 +1,10 @@
 package com.bondarenko.movieland.service.impl;
 
 import com.bondarenko.movieland.dto.MovieDto;
-import com.bondarenko.movieland.entity.Genre;
-import com.bondarenko.movieland.entity.Movie;
-import com.bondarenko.movieland.entity.MovieDetails;
-import com.bondarenko.movieland.entity.MovieRequest;
-import com.bondarenko.movieland.entity.SortDirection;
+import com.bondarenko.movieland.entity.*;
 import com.bondarenko.movieland.exceptions.GenreNotFoundException;
 import com.bondarenko.movieland.mapper.MovieMapper;
+import com.bondarenko.movieland.repository.CountryRepository;
 import com.bondarenko.movieland.repository.GenreRepository;
 import com.bondarenko.movieland.repository.MovieRepository;
 import com.bondarenko.movieland.service.MovieService;
@@ -34,6 +31,7 @@ public class DefaultMovieService implements MovieService {
     private int randomMovieCount;
     private final MovieRepository movieRepository;
     private final GenreRepository genreRepository;
+    private final CountryRepository countryRepository;
     private final MovieMapper movieMapper;
     private static final String RATING_PARAMETER = "rating";
     private static final String PRICE_PARAMETER = "price";
@@ -66,23 +64,28 @@ public class DefaultMovieService implements MovieService {
     }
 
     @Override
-    public MovieDetails getById(int id) {
+    public Movie getById(int id) {
         Movie movie = movieRepository.findMovieById(id);
 
+//        Set<Genre> genres = movie.getGenre();
 
-//        int movieId = movie.getId();
-//        List<Genre> genres = genreRepository.findByMovieId(movieId);
+        Country country = countryRepository.findByIdFetchMovie(id);
+
+//        movie.setGenre(genres);
+//        Country country = countryRepository.findByIdFetchMovie(id);
 
 
-        MovieDetails movieDetails = new MovieDetails();
-        movieDetails.setMovie(movie);
+//        MovieDetails movieDetails = new MovieDetails();
+//        movieDetails.setMovie(movie);
+////        movieDetails.setCountries(List.of(country));
+//
 //        movieDetails.setGenres(genres);
 
 
 //        Country country =new Country();
 //        country.setCountryId();
 //        country.setCountryName();
-        return movieDetails;
+        return movie;
     }
 
     @Override
