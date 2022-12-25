@@ -11,7 +11,6 @@ import lombok.Setter;
 @AllArgsConstructor
 public class MovieRequest {
     private SortDirection price;
-
     private SortDirection rating;
     private Integer genreId;
 }

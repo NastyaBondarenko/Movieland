@@ -1,10 +1,14 @@
 package com.bondarenko.movieland.entity;
 
-import jakarta.persistence.*;
-import lombok.*;
-
-import java.util.ArrayList;
-import java.util.List;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
 @Setter
@@ -27,7 +31,7 @@ public class User {
     @Column(name = "password")
     private String password;
 
-//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    //    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 //    private List<Review> reviews = new ArrayList<>();
 
 //    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)

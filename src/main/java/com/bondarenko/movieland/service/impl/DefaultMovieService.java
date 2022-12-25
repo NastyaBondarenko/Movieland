@@ -67,24 +67,6 @@ public class DefaultMovieService implements MovieService {
     public Movie getById(int id) {
         Movie movie = movieRepository.findMovieById(id);
 
-//        Set<Genre> genres = movie.getGenre();
-
-        Country country = countryRepository.findByIdFetchMovie(id);
-
-//        movie.setGenre(genres);
-//        Country country = countryRepository.findByIdFetchMovie(id);
-
-
-//        MovieDetails movieDetails = new MovieDetails();
-//        movieDetails.setMovie(movie);
-////        movieDetails.setCountries(List.of(country));
-//
-//        movieDetails.setGenres(genres);
-
-
-//        Country country =new Country();
-//        country.setCountryId();
-//        country.setCountryName();
         return movie;
     }
 

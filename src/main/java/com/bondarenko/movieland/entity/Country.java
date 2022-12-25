@@ -24,7 +24,7 @@ public class Country {
     @Column(name = "name")
     private String name;
 
+    @ManyToOne
     @JoinColumn(name = "movie_id", referencedColumnName = "id")
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Movie movie;
 }
