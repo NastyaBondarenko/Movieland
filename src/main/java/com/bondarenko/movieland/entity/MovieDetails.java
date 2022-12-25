@@ -14,8 +14,7 @@
 //import lombok.Setter;
 //
 //
-//import java.util.ArrayList;
-//import java.util.List;
+//import java.util.*;
 //
 //@AllArgsConstructor
 //@NoArgsConstructor
@@ -28,16 +27,24 @@
 //    @Column(name = "id")
 //    private int id;
 //
-////    @OneToOne
-////    @JoinColumn(name = "movie_id", referencedColumnName = "id")
-////    private Movie movie;
-////
-////    @OneToMany(mappedBy = "movieDetails", cascade = CascadeType.ALL)
-////    private List<Country> countries = new ArrayList<>();
-////
-////    @OneToMany(mappedBy = "movieDetails", cascade = CascadeType.ALL)
-////    private List<Genre> genres = new ArrayList<>();
-////
-////    @OneToMany(mappedBy = "movieDetails", cascade = CascadeType.ALL)
-////    private List<Review> reviews = new ArrayList<>();
+//    @OneToOne
+//    @JoinColumn(name = "movie_id", referencedColumnName = "id")
+//    private Movie movie;
+//
+//    @OneToMany(mappedBy = "movieDetails", cascade = CascadeType.ALL)
+//    private List<Country> countries = new ArrayList<>();
+//
+//    @OneToMany(mappedBy = "movieDetails", cascade = CascadeType.ALL)
+//    private Set<Genre> genres = new HashSet<>();
+//
+//    @OneToMany(mappedBy = "movieDetails", cascade = CascadeType.ALL)
+//    private List<Review> reviews = new ArrayList<>();
+//
+////    public void setGenre(Set<Genre> genres) {
+////        Set<Genre> requiredGenres = Optional.ofNullable(genres)
+////                .orElse(Collections.emptySet());
+////        this.genres.clear();
+////        this.genres.addAll(requiredGenres);
+////        this.genres.forEach(genre -> genre.setMovieDetails(this));
+////    }
 //}

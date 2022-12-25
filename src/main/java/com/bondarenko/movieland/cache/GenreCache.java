@@ -1,6 +1,7 @@
 package com.bondarenko.movieland.cache;
 
 import com.bondarenko.movieland.entity.Genre;
+import com.bondarenko.movieland.entity.Movie;
 import com.bondarenko.movieland.repository.GenreRepository;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
@@ -47,6 +49,16 @@ public class GenreCache implements GenreRepository {
     public Optional<Genre> findGenreById(int id) {
         return genreRepository.findById(id);
     }
+
+//    @Override
+//    public List<Genre> findGenresByMovieIn(Set<Movie> movies) {
+//        return null;
+//    }
+
+//    @Override
+//    public List<Genre> findGenresByMovieIn(Set<Movie> movies) {
+//        return null;
+//    }
 
     @Override
     public <S extends Genre> S save(S entity) {

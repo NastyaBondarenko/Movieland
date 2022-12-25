@@ -2,37 +2,27 @@ package com.bondarenko.movieland.dto;
 
 import com.bondarenko.movieland.entity.Country;
 import com.bondarenko.movieland.entity.Genre;
+import com.bondarenko.movieland.entity.Movie;
 import com.bondarenko.movieland.entity.Review;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.OneToMany;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode
 public class MovieDetailsDto {
-    private int id;
 
-    private String nameRussian;
-
-    private String nameNative;
-
-    private int yearOfRelease;
-
-    private String description;
-
-    private double rating;
-
-    private double price;
-
-    private String picturePath;
-
-    private int votes;
-
-    private Set<Genre> genre = new HashSet<>();
+    private Movie movie;
 
     private List<Country> countries = new ArrayList<>();
+
+    private Set<Genre> genres = new HashSet<>();
 
     private List<Review> reviews = new ArrayList<>();
 }
