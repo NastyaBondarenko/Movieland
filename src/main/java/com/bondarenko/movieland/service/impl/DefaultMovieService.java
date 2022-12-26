@@ -7,6 +7,7 @@ import com.bondarenko.movieland.mapper.MovieMapper;
 import com.bondarenko.movieland.repository.CountryRepository;
 import com.bondarenko.movieland.repository.GenreRepository;
 import com.bondarenko.movieland.repository.MovieRepository;
+import com.bondarenko.movieland.repository.ReviewRepository;
 import com.bondarenko.movieland.service.MovieService;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -18,10 +19,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -32,6 +30,7 @@ public class DefaultMovieService implements MovieService {
     private final MovieRepository movieRepository;
     private final GenreRepository genreRepository;
     private final CountryRepository countryRepository;
+    private final ReviewRepository reviewRepository;
     private final MovieMapper movieMapper;
     private static final String RATING_PARAMETER = "rating";
     private static final String PRICE_PARAMETER = "price";
@@ -66,7 +65,15 @@ public class DefaultMovieService implements MovieService {
     @Override
     public Movie getById(int id) {
         Movie movie = movieRepository.findMovieById(id);
-
+//        List<Review> reviews = reviewRepository.findByMovie_Id(id);
+//        movie.setReviews(new HashSet<>(reviews));
+//        Set<Country> countries = countryRepository.findByMovies_Id_MovieId(id);
+////        List<Review> reviews = reviewRepository.findWithParentById(id);
+//        movie.setCountries(countries);
+//        List<Review> byMovie_id = reviewRepository.findByMovie_Id(id);
+//        List<Country> ddd = countryRepository.findByMovie_Id(id);
+//        movie.setReviews(new HashSet<>(byMovie_id));
+//        movie.setCountries(new HashSet<>(ddd));
         return movie;
     }
 
@@ -103,6 +110,7 @@ public class DefaultMovieService implements MovieService {
     private List<Movie> getMoviesByGenre(int genreId) {
         Genre genre = genreRepository.findGenreById(genreId)
                 .orElseThrow(() -> new GenreNotFoundException(genreId));
-        return movieRepository.findMoviesByGenreIn(Set.of(genre));
+//        return movieRepository.findMoviesByGenreIn(Set.of(genre));
+        return  null;
     }
 }

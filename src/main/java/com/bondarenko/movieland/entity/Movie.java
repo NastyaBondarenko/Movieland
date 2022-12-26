@@ -59,12 +59,12 @@ public class Movie {
     @Column(name = "votes")
     private int votes;
 
-    @OneToMany
-    private Set<Genre> genre = new HashSet<>();
+    @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Genre> genres = new HashSet<>();
 
-    @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL)
-    private List<Country> countries = new ArrayList<>();
+    @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL,orphanRemoval = true)
+    private Set<Country> countries = new HashSet<>();
 
-    @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL)
-    private List<Review> reviews = new ArrayList<>();
+    @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL,orphanRemoval = true)
+    private Set<Review> reviews = new HashSet<>();
 }

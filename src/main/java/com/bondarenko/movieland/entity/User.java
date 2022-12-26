@@ -1,14 +1,14 @@
 package com.bondarenko.movieland.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -16,7 +16,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 public class User {
     @Id
     @Column(name = "id")
@@ -31,9 +31,6 @@ public class User {
     @Column(name = "password")
     private String password;
 
-    //    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-//    private List<Review> reviews = new ArrayList<>();
-
-//    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
-//    private Review review;
+//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL,orphanRemoval = true)
+//    private Set<Review> reviews = new HashSet<>();
 }

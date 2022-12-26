@@ -1,15 +1,6 @@
 package com.bondarenko.movieland.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.SequenceGenerator;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -23,6 +14,7 @@ import lombok.Setter;
 @Builder
 @Entity
 @Table(name = "review")
+
 public class Review {
 
     @Id
@@ -32,17 +24,13 @@ public class Review {
     private int id;
 
 //    @ManyToOne
-//    @JoinColumn(name = "movie_id", referencedColumnName = "id")
-//    private Movie movie;
-
-//    @OneToOne
 //    @JoinColumn(name = "user_id", referencedColumnName = "id")
 //    private User user;
 
     @Column(name = "description")
     private String description;
 
-    @ManyToOne
-    @JoinColumn(name = "movie_id", referencedColumnName = "id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "movie_id")
     private Movie movie;
 }
