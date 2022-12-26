@@ -19,8 +19,4 @@ public class Country {
 
     @Column(name = "name")
     private String name;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "movie_id", referencedColumnName = "id")
-    private Movie movie;
 }

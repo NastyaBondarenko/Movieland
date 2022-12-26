@@ -22,16 +22,4 @@ public class Genre {
 
     @Column(name = "name")
     private String name;
-
-    @ManyToOne
-    @JoinColumn(name = "movie_id", referencedColumnName = "id")
-    private Movie movie;
-    //
-//    @OneToMany(mappedBy = "genre", cascade = CascadeType.ALL, orphanRemoval = true)
-//    List<MovieGenre> movies = new ArrayList<>();
-    //    @JoinColumn(name = "movie_id", referencedColumnName = "id")
-//    @ManyToOne
-//    //    @JoinColumn(name = "movie_id", referencedColumnName = "id")
-//
-//    private Movie movie;
 }

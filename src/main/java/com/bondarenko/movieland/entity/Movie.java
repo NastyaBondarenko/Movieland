@@ -52,18 +52,15 @@ public class Movie {
     private int votes;
 
     @OneToMany
-    @JoinTable(name="movie_genre",joinColumns = @JoinColumn(name="movie_id"),
-            inverseJoinColumns = @JoinColumn(name="genre_id"))
+    @JoinTable(name = "movie_genre", joinColumns = @JoinColumn(name = "movie_id"),
+            inverseJoinColumns = @JoinColumn(name = "genre_id"))
     private Set<Genre> genres = new HashSet<>();
 
     @OneToMany
-    @JoinTable(name="movie_country",joinColumns = @JoinColumn(name="movie_id"),
-            inverseJoinColumns = @JoinColumn(name="country_id"))
+    @JoinTable(name = "movie_country", joinColumns = @JoinColumn(name = "movie_id"),
+            inverseJoinColumns = @JoinColumn(name = "country_id"))
     private Set<Country> countries = new HashSet<>();
 
     @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL)
     private Set<Review> reviews = new HashSet<>();
 }
-
-//    @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL, orphanRemoval = true)
-//@OneToMany(mappedBy = "movie", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
