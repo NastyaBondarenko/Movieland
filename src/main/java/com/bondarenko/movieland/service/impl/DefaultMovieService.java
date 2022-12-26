@@ -70,7 +70,6 @@ public class DefaultMovieService implements MovieService {
 //        movie.setReviews(new HashSet<>(reviews));
 
 
-
 //        List<Genre> genres=genreRepository.findByIdFetchGenre(id);
 //        movie.setGenres(new HashSet<>(genres));
 //        List<Review> reviews = reviewRepository.findByMovie_Id(id);
@@ -95,7 +94,7 @@ public class DefaultMovieService implements MovieService {
             CriteriaQuery<Movie> query = builder.createQuery(Movie.class);
             Root<Movie> root = query.from(Movie.class);
 
-            Join<Movie, Genre> genre = root.join("genre");
+            Join<Movie, Genre> genre = root.join("genres");
             query.where(builder.equal(genre.get("id"), genreId));
             Order order = getOrder(movieRequest, builder, root);
             query.orderBy(order);
