@@ -14,4 +14,6 @@ public interface ReviewRepository extends JpaRepository<Review, Integer> {
 //List<Review> findByMovie_Id(int id);
 //@EntityGraph(attributePaths = {"user"})
 //List<Review> findByMovie_Id(int id);
+@EntityGraph(attributePaths = {"user"})
+List<Review> findByMovie_Id(int id);
 }

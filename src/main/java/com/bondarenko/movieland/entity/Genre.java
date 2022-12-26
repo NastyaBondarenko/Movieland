@@ -6,9 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Immutable;
 
-import java.util.HashSet;
-import java.util.Set;
-
 
 @Getter
 @Entity
@@ -29,4 +26,12 @@ public class Genre {
     @ManyToOne
     @JoinColumn(name = "movie_id", referencedColumnName = "id")
     private Movie movie;
+    //
+//    @OneToMany(mappedBy = "genre", cascade = CascadeType.ALL, orphanRemoval = true)
+//    List<MovieGenre> movies = new ArrayList<>();
+    //    @JoinColumn(name = "movie_id", referencedColumnName = "id")
+//    @ManyToOne
+//    //    @JoinColumn(name = "movie_id", referencedColumnName = "id")
+//
+//    private Movie movie;
 }

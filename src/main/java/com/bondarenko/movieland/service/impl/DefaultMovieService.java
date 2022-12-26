@@ -66,6 +66,14 @@ public class DefaultMovieService implements MovieService {
     public Movie getById(int id) {
         Movie movie = movieRepository.findMovieById(id);
 //        List<Review> reviews = reviewRepository.findByMovie_Id(id);
+//
+//        movie.setReviews(new HashSet<>(reviews));
+
+
+
+//        List<Genre> genres=genreRepository.findByIdFetchGenre(id);
+//        movie.setGenres(new HashSet<>(genres));
+//        List<Review> reviews = reviewRepository.findByMovie_Id(id);
 //        movie.setReviews(new HashSet<>(reviews));
 //        Set<Country> countries = countryRepository.findByMovies_Id_MovieId(id);
 ////        List<Review> reviews = reviewRepository.findWithParentById(id);
@@ -110,7 +118,6 @@ public class DefaultMovieService implements MovieService {
     private List<Movie> getMoviesByGenre(int genreId) {
         Genre genre = genreRepository.findGenreById(genreId)
                 .orElseThrow(() -> new GenreNotFoundException(genreId));
-//        return movieRepository.findMoviesByGenreIn(Set.of(genre));
-        return  null;
+        return movieRepository.findMoviesByGenresIn(Set.of(genre));
     }
 }

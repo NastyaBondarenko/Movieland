@@ -50,6 +50,12 @@ public class GenreCache implements GenreRepository {
         return genreRepository.findById(id);
     }
 
+
+//    @Override
+//    public List<Genre> findByMovie(Movie movie) {
+//        return null;
+//    }
+
 //    @Override
 //    public List<Genre> findGenresByMovieIn(Set<Movie> movies) {
 //        return null;

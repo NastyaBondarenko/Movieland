@@ -3,6 +3,7 @@ package com.bondarenko.movieland.repository;
 import com.bondarenko.movieland.entity.Country;
 import com.bondarenko.movieland.entity.Review;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -19,4 +20,5 @@ public interface CountryRepository extends JpaRepository<Country, Integer> {
 //    Set<Country> findByMovies_Id_MovieId(int movieId);
 
 //    List<Country> findByMovie_Id(int id);
+
 }

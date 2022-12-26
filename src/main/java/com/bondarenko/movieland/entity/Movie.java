@@ -1,14 +1,6 @@
 package com.bondarenko.movieland.entity;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.SequenceGenerator;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -59,12 +51,19 @@ public class Movie {
     @Column(name = "votes")
     private int votes;
 
-    @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany
+    @JoinTable(name="movie_genre",joinColumns = @JoinColumn(name="movie_id"),
+            inverseJoinColumns = @JoinColumn(name="genre_id"))
     private Set<Genre> genres = new HashSet<>();
 
-    @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL,orphanRemoval = true)
+    @OneToMany
+    @JoinTable(name="movie_country",joinColumns = @JoinColumn(name="movie_id"),
+            inverseJoinColumns = @JoinColumn(name="country_id"))
     private Set<Country> countries = new HashSet<>();
 
-    @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL,orphanRemoval = true)
+    @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL)
     private Set<Review> reviews = new HashSet<>();
 }
+
+//    @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL, orphanRemoval = true)
+//@OneToMany(mappedBy = "movie", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
