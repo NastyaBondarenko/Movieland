@@ -1,6 +1,14 @@
 package com.bondarenko.movieland.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,38 +26,21 @@ import java.util.Set;
 @Entity
 @Table(name = "users")
 public class User {
-//    @Id
-//    @Column(name = "id")
-//    private int id;
-//
-//    @Column(name = "nickname")
-//    private String nickname;
-//
-//    @Column(name = "email")
-//    private String email;
-//
-//    @Column(name = "password")
-//    private String password;
-//
-//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL,orphanRemoval = true)
-//    private Set<Review> reviews = new HashSet<>();
-
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq_generator")
-    @SequenceGenerator(name = "user_seq_generator", sequenceName = "user_id_sequence")
-    @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_id_sequence")
+    @SequenceGenerator(name = "user_id_sequence", sequenceName = "user_id_sequence")
+    @Column(name = "id")
     private int id;
 
-    @Column(name = "nickname", unique = true, nullable = false, length = 50)
+    @Column(name = "nickname")
     private String nickname;
 
-    @Column(name = "email", unique = true, nullable = false)
+    @Column(name = "email")
     private String email;
 
-    @Column(name = "password", nullable = false)
+    @Column(name = "password")
     private String password;
 
-//
-//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-//    private Set<Review> reviews = new HashSet<>();
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private Set<Review> reviews = new HashSet<>();
 }

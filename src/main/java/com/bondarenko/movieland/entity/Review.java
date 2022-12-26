@@ -1,6 +1,15 @@
 package com.bondarenko.movieland.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,7 +23,6 @@ import lombok.Setter;
 @Builder
 @Entity
 @Table(name = "review")
-
 public class Review {
 
     @Id
@@ -30,25 +38,7 @@ public class Review {
     @JoinColumn(name = "movie_id")
     private Movie movie;
 
-//    @ManyToOne
-//    @JoinColumn(name = "user_id", referencedColumnName = "id")
-//    private User user;
-
-
-
-
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "review_seq_generator")
-//    @SequenceGenerator(name = "review_seq_generator", sequenceName = "review_id_sequence")
-//    @Column(name = "id", nullable = false)
-//    private Integer id;
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "movie_id", nullable = false)
-//    private Movie movie;
-////    @ManyToOne(fetch = FetchType.LAZY)
-////    @JoinColumn(name = "user_id", nullable = false)
-////    private User user;
-//
-//    @Column(name = "description", nullable = false, length = 500)
-//    private String description;
+    @ManyToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User user;
 }
