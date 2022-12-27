@@ -1,5 +1,6 @@
 package com.bondarenko.movieland.mapper;
 
+import com.bondarenko.movieland.dto.MovieDetailsDto;
 import com.bondarenko.movieland.dto.MovieDto;
 import com.bondarenko.movieland.entity.Movie;
 import org.mapstruct.Mapper;
@@ -15,5 +16,6 @@ public interface MovieMapper {
     @Mapping(target = "yearOfRelease", expression = "java(movie.getYearOfRelease().getYear())")
     MovieDto toMovieDto(Movie movie);
 
-
+    @Mapping(target = "reviews", ignore = true)
+    MovieDetailsDto toMovieDetailsDto(Movie movie);
 }
