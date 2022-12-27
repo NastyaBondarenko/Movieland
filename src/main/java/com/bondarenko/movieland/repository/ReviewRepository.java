@@ -10,7 +10,6 @@ import java.util.Set;
 
 @Repository
 public interface ReviewRepository extends JpaRepository<Review, Integer> {
-
     @EntityGraph(attributePaths = {"user"})
     Set<Review> findByMovie(Movie movie);
 }

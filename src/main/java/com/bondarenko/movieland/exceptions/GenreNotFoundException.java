@@ -5,13 +5,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.NOT_FOUND)
 public class GenreNotFoundException extends RuntimeException {
-    private static final String NO_GENRE_MESSAGE = "Genre is not found";
-
     private static final String NO_GENRE_MESSAGE_BY_ID_MESSAGE = "There is no genre get by: %s";
-
-    public GenreNotFoundException() {
-        super(String.format(NO_GENRE_MESSAGE));
-    }
 
     public GenreNotFoundException(int genreId) {
         super(String.format(NO_GENRE_MESSAGE_BY_ID_MESSAGE, genreId));

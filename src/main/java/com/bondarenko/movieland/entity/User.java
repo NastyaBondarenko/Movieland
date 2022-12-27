@@ -1,5 +1,6 @@
 package com.bondarenko.movieland.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -35,12 +36,15 @@ public class User {
     @Column(name = "nickname", nullable = false)
     private String nickname;
 
+    @JsonIgnore
     @Column(name = "email", nullable = false)
     private String email;
 
+    @JsonIgnore
     @Column(name = "password", nullable = false)
     private String password;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private Set<Review> reviews = new HashSet<>();
 }

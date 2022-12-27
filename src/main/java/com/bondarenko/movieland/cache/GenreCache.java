@@ -1,7 +1,6 @@
 package com.bondarenko.movieland.cache;
 
 import com.bondarenko.movieland.entity.Genre;
-import com.bondarenko.movieland.entity.Movie;
 import com.bondarenko.movieland.repository.GenreRepository;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
@@ -49,22 +47,6 @@ public class GenreCache implements GenreRepository {
     public Optional<Genre> findGenreById(int id) {
         return genreRepository.findById(id);
     }
-
-
-//    @Override
-//    public List<Genre> findByMovie(Movie movie) {
-//        return null;
-//    }
-
-//    @Override
-//    public List<Genre> findGenresByMovieIn(Set<Movie> movies) {
-//        return null;
-//    }
-
-//    @Override
-//    public List<Genre> findGenresByMovieIn(Set<Movie> movies) {
-//        return null;
-//    }
 
     @Override
     public <S extends Genre> S save(S entity) {
@@ -98,32 +80,26 @@ public class GenreCache implements GenreRepository {
 
     @Override
     public void deleteById(Integer integer) {
-
     }
 
     @Override
     public void delete(Genre entity) {
-
     }
 
     @Override
     public void deleteAllById(Iterable<? extends Integer> integers) {
-
     }
 
     @Override
     public void deleteAll(Iterable<? extends Genre> entities) {
-
     }
 
     @Override
     public void deleteAll() {
-
     }
 
     @Override
     public void flush() {
-
     }
 
     @Override
@@ -138,17 +114,14 @@ public class GenreCache implements GenreRepository {
 
     @Override
     public void deleteAllInBatch(Iterable<Genre> entities) {
-
     }
 
     @Override
     public void deleteAllByIdInBatch(Iterable<Integer> integers) {
-
     }
 
     @Override
     public void deleteAllInBatch() {
-
     }
 
     @Override

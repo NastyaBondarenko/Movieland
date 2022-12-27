@@ -28,7 +28,7 @@ public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "review_id_sequence")
     @SequenceGenerator(name = "review_id_sequence", sequenceName = "review_id_sequence")
-    @Column(name = "id",nullable = false)
+    @Column(name = "id", nullable = false)
     private int id;
 
     @Column(name = "description", nullable = false)
@@ -39,6 +39,6 @@ public class Review {
     private Movie movie;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id",nullable = false)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 }

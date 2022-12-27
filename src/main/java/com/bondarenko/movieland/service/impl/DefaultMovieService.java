@@ -3,7 +3,10 @@ package com.bondarenko.movieland.service.impl;
 import com.bondarenko.movieland.dto.MovieDetailsDto;
 import com.bondarenko.movieland.dto.MovieDto;
 import com.bondarenko.movieland.dto.ReviewDto;
-import com.bondarenko.movieland.entity.*;
+import com.bondarenko.movieland.entity.Genre;
+import com.bondarenko.movieland.entity.Movie;
+import com.bondarenko.movieland.entity.MovieRequest;
+import com.bondarenko.movieland.entity.SortDirection;
 import com.bondarenko.movieland.exceptions.GenreNotFoundException;
 import com.bondarenko.movieland.exceptions.MovieNotFoundException;
 import com.bondarenko.movieland.mapper.MovieMapper;
@@ -36,8 +39,8 @@ public class DefaultMovieService implements MovieService {
     private final MovieRepository movieRepository;
     private final GenreRepository genreRepository;
     private final ReviewRepository reviewRepository;
-    private final MovieMapper movieMapper;
     private final ReviewMapper reviewMapper;
+    private final MovieMapper movieMapper;
     private static final String RATING_PARAMETER = "rating";
     private static final String PRICE_PARAMETER = "price";
 
@@ -72,12 +75,10 @@ public class DefaultMovieService implements MovieService {
     @Transactional(readOnly = true)
     public MovieDetailsDto getById(int id) {
         Movie movie = movieRepository.findMovieById(id).orElseThrow(() -> new MovieNotFoundException(id));
+        Set<ReviewDto> reviewDtos = reviewMapper.toReviewDtos(reviewRepository.findByMovie(movie));
 
         MovieDetailsDto movieDetailsDto = movieMapper.toMovieDetailsDto(movie);
-        Set<Review> reviews = reviewRepository.findByMovie(movie);
-        Set<ReviewDto> reviewDtos = reviewMapper.toReviewDtos(reviews);
         movieDetailsDto.setReviews(reviewDtos);
-
         return movieDetailsDto;
     }
 
