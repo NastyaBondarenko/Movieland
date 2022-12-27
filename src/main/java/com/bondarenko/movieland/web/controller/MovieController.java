@@ -40,7 +40,7 @@ public class MovieController {
     }
 
     @GetMapping("/{movieId}")
-    protected Movie getByMovieId(@PathVariable("movieId") int movieId) {
+    protected MovieDetailsDto getByMovieId(@PathVariable("movieId") int movieId) {
         return movieService.getById(movieId);
     }
 

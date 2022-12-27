@@ -1,10 +1,13 @@
 package com.bondarenko.movieland.service.impl;
 
+import com.bondarenko.movieland.dto.MovieDetailsDto;
 import com.bondarenko.movieland.dto.MovieDto;
+import com.bondarenko.movieland.dto.ReviewDto;
 import com.bondarenko.movieland.entity.*;
 import com.bondarenko.movieland.exceptions.GenreNotFoundException;
+import com.bondarenko.movieland.exceptions.MovieNotFoundException;
 import com.bondarenko.movieland.mapper.MovieMapper;
-import com.bondarenko.movieland.repository.CountryRepository;
+import com.bondarenko.movieland.mapper.ReviewMapper;
 import com.bondarenko.movieland.repository.GenreRepository;
 import com.bondarenko.movieland.repository.MovieRepository;
 import com.bondarenko.movieland.repository.ReviewRepository;
@@ -19,7 +22,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -29,9 +35,9 @@ public class DefaultMovieService implements MovieService {
     private int randomMovieCount;
     private final MovieRepository movieRepository;
     private final GenreRepository genreRepository;
-    private final CountryRepository countryRepository;
     private final ReviewRepository reviewRepository;
     private final MovieMapper movieMapper;
+    private final ReviewMapper reviewMapper;
     private static final String RATING_PARAMETER = "rating";
     private static final String PRICE_PARAMETER = "price";
 
@@ -63,25 +69,16 @@ public class DefaultMovieService implements MovieService {
     }
 
     @Override
-    public Movie getById(int id) {
-        Movie movie = movieRepository.findMovieById(id);
-//        List<Review> reviews = reviewRepository.findByMovie_Id(id);
-//
-//        movie.setReviews(new HashSet<>(reviews));
+    @Transactional(readOnly = true)
+    public MovieDetailsDto getById(int id) {
+        Movie movie = movieRepository.findMovieById(id).orElseThrow(() -> new MovieNotFoundException(id));
 
+        MovieDetailsDto movieDetailsDto = movieMapper.toMovieDetailsDto(movie);
+        Set<Review> reviews = reviewRepository.findByMovie(movie);
+        Set<ReviewDto> reviewDtos = reviewMapper.toReviewDtos(reviews);
+        movieDetailsDto.setReviews(reviewDtos);
 
-//        List<Genre> genres=genreRepository.findByIdFetchGenre(id);
-//        movie.setGenres(new HashSet<>(genres));
-//        List<Review> reviews = reviewRepository.findByMovie_Id(id);
-//        movie.setReviews(new HashSet<>(reviews));
-//        Set<Country> countries = countryRepository.findByMovies_Id_MovieId(id);
-////        List<Review> reviews = reviewRepository.findWithParentById(id);
-//        movie.setCountries(countries);
-//        List<Review> byMovie_id = reviewRepository.findByMovie_Id(id);
-//        List<Country> ddd = countryRepository.findByMovie_Id(id);
-//        movie.setReviews(new HashSet<>(byMovie_id));
-//        movie.setCountries(new HashSet<>(ddd));
-        return movie;
+        return movieDetailsDto;
     }
 
     @Override
