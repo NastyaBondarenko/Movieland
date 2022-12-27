@@ -52,6 +52,6 @@ public class MovieDetailsDto {
     private Set<CountryDto> countries;
 
     @JsonProperty(index = 12)
-    @JsonIgnore
+//    @JsonIgnore
     private Set<ReviewDto> reviews;
 }
