@@ -1,28 +1,57 @@
 package com.bondarenko.movieland.dto;
 
-import com.bondarenko.movieland.entity.Country;
-import com.bondarenko.movieland.entity.Genre;
-import com.bondarenko.movieland.entity.Movie;
-import com.bondarenko.movieland.entity.Review;
-import lombok.*;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
+import java.time.LocalDate;
 import java.util.Set;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode
+//@NonNullFields
 public class MovieDetailsDto {
+    @JsonProperty(index = 1)
+    private int id;
 
-    private Movie movie;
+    @JsonProperty(index = 2)
+    private String nameRussian;
 
-    private List<Country> countries = new ArrayList<>();
+    @JsonProperty(index = 3)
+    private String nameNative;
 
-    private Set<Genre> genres = new HashSet<>();
+    @JsonProperty(index = 4)
+    @JsonFormat(pattern = "yyyy")
+    private LocalDate yearOfRelease;
 
-    private List<Review> reviews = new ArrayList<>();
+    @JsonProperty(index = 5)
+    private String description;
+
+    @JsonProperty(index = 6)
+    private double rating;
+
+    @JsonProperty(index = 7)
+    private double price;
+
+    @JsonProperty(index = 8)
+    private String picturePath;
+
+    @JsonProperty(index = 9)
+    private int votes;
+
+    @JsonProperty(index = 10)
+    private Set<GenreDto> genres;
+
+    @JsonProperty(index = 11)
+    private Set<CountryDto> countries;
+
+    @JsonProperty(index = 12)
+    @JsonIgnore
+    private Set<ReviewDto> reviews;
 }
