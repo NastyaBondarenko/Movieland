@@ -2,6 +2,7 @@ package com.bondarenko.movieland.service;
 
 import com.bondarenko.movieland.dto.MovieDetailsDto;
 import com.bondarenko.movieland.dto.MovieDto;
+import com.bondarenko.movieland.entity.CurrencyType;
 import com.bondarenko.movieland.entity.MovieRequest;
 
 import java.util.List;
@@ -14,5 +15,5 @@ public interface MovieService {
 
     List<MovieDto> getByGenre(MovieRequest movieRequest);
 
-    MovieDetailsDto getById(int movieId);
+    MovieDetailsDto getById(int movieId, CurrencyType currency);
 }

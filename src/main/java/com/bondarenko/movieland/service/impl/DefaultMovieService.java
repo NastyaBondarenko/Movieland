@@ -3,6 +3,7 @@ package com.bondarenko.movieland.service.impl;
 import com.bondarenko.movieland.dto.MovieDetailsDto;
 import com.bondarenko.movieland.dto.MovieDto;
 import com.bondarenko.movieland.dto.ReviewDto;
+import com.bondarenko.movieland.entity.CurrencyType;
 import com.bondarenko.movieland.entity.Genre;
 import com.bondarenko.movieland.entity.Movie;
 import com.bondarenko.movieland.entity.MovieRequest;
@@ -14,10 +15,16 @@ import com.bondarenko.movieland.mapper.ReviewMapper;
 import com.bondarenko.movieland.repository.GenreRepository;
 import com.bondarenko.movieland.repository.MovieRepository;
 import com.bondarenko.movieland.repository.ReviewRepository;
+import com.bondarenko.movieland.service.CurrencyService;
 import com.bondarenko.movieland.service.MovieService;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.criteria.*;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Join;
+import jakarta.persistence.criteria.Order;
+import jakarta.persistence.criteria.Path;
+import jakarta.persistence.criteria.Root;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
@@ -36,9 +43,10 @@ public class DefaultMovieService implements MovieService {
 
     @Value("${movies.random.count:3}")
     private int randomMovieCount;
+    private final ReviewRepository reviewRepository;
     private final MovieRepository movieRepository;
     private final GenreRepository genreRepository;
-    private final ReviewRepository reviewRepository;
+    private final CurrencyService currencyService;
     private final ReviewMapper reviewMapper;
     private final MovieMapper movieMapper;
     private static final String RATING_PARAMETER = "rating";
@@ -73,12 +81,16 @@ public class DefaultMovieService implements MovieService {
 
     @Override
     @Transactional(readOnly = true)
-    public MovieDetailsDto getById(int id) {
+    public MovieDetailsDto getById(int id, CurrencyType currencyType) {
         Movie movie = movieRepository.findMovieById(id).orElseThrow(() -> new MovieNotFoundException(id));
-        Set<ReviewDto> reviewDtos = reviewMapper.toReviewDtos(reviewRepository.findByMovie(movie));
-
         MovieDetailsDto movieDetailsDto = movieMapper.toMovieDetailsDto(movie);
+        Set<ReviewDto> reviewDtos = reviewMapper.toReviewDtos(reviewRepository.findByMovie(movie));
         movieDetailsDto.setReviews(reviewDtos);
+
+        if (currencyType != null) {
+            double convertedPrice = currencyService.convertPrice(movieDetailsDto.getPrice(), currencyType);
+            movieDetailsDto.setPrice(convertedPrice);
+        }
         return movieDetailsDto;
     }
 
