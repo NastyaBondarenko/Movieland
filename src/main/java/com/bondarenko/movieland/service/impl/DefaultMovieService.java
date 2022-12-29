@@ -103,13 +103,10 @@ public class DefaultMovieService implements MovieService {
             CriteriaBuilder builder = entityManager.getCriteriaBuilder();
             CriteriaQuery<Movie> query = builder.createQuery(Movie.class);
             Root<Movie> root = query.from(Movie.class);
-
             Join<Movie, Genre> genre = root.join("genres");
-            query.where(builder.equal(genre.get("id"), genreId));
-            Order order = getOrder(movieRequest, builder, root);
-            query.orderBy(order);
 
-            entityManager.createQuery(query).getResultList();
+            Order order = getOrder(movieRequest, builder, root);
+            query.where(builder.equal(genre.get("id"), genreId)).orderBy(order);
             return movieMapper.toMovieDtos(entityManager.createQuery(query).getResultList());
         }
         return movieMapper.toMovieDtos(getMoviesByGenre(genreId));
