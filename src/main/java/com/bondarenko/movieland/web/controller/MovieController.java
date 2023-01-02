@@ -23,9 +23,8 @@ public class MovieController {
     private final MovieService movieService;
 
     @GetMapping
-    protected List<MovieDto> getAll(@RequestParam(name = "price", required = false) SortDirection price,
-                                    @RequestParam(name = "rating", required = false) SortDirection rating) {
-        return movieService.findAll(new MovieRequest(price, rating, null));
+    protected List<MovieDto> getAll(MovieRequest movieRequest) {
+        return movieService.findAll(movieRequest);
     }
 
     @GetMapping("/random")
@@ -34,10 +33,8 @@ public class MovieController {
     }
 
     @GetMapping("/genre/{genreId}")
-    protected List<MovieDto> getByGenre(@PathVariable("genreId") int genreId,
-                                        @RequestParam(name = "price", required = false) SortDirection price,
-                                        @RequestParam(name = "rating", required = false) SortDirection rating) {
-        return movieService.getByGenre(new MovieRequest(price, rating, genreId));
+    protected List<MovieDto> getByGenre(MovieRequest movieRequest) {
+        return movieService.getByGenre(movieRequest);
     }
 
     @GetMapping("/{movieId}")
