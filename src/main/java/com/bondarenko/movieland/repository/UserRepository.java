@@ -1,35 +1,13 @@
 package com.bondarenko.movieland.repository;
 
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import com.bondarenko.movieland.entity.User;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.Optional;
 
 @Repository
-public class UserRepository {
-    private final List<UserDetails> APPLICATION_USERS = Arrays.asList(
-            new User(
-                    "user",
-                    "pass",
-                    Collections.singleton(new SimpleGrantedAuthority("ROLE_ADMIN"))
-            ),
-            new User(
-                    "admin.gmail",
-                    "password",
-                    Collections.singleton(new SimpleGrantedAuthority("ROLE_USER"))
-            )
-    );
+public interface UserRepository extends JpaRepository<User, Integer> {
+    Optional<User> findUserByEmail(String email);
 
-    public UserDetails findUserByEmail(String email) {
-        return APPLICATION_USERS
-                .stream()
-                .filter(u -> u.getUsername().equals(email))
-                .findFirst()
-                .orElseThrow(() -> new UsernameNotFoundException("No user was found"));
-    }
 }
