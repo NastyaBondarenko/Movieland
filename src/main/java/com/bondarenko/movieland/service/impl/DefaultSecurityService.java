@@ -3,6 +3,7 @@ package com.bondarenko.movieland.service.impl;
 import com.bondarenko.movieland.configuration.JwtUtils;
 import com.bondarenko.movieland.dto.LoginResponseDto;
 import com.bondarenko.movieland.entity.LoginResponse;
+import com.bondarenko.movieland.exceptions.UserNotFoundException;
 import com.bondarenko.movieland.mapper.LoginMapper;
 import com.bondarenko.movieland.service.SecurityService;
 import com.bondarenko.movieland.service.UserService;
@@ -29,7 +30,7 @@ public class DefaultSecurityService implements SecurityService {
         if (user != null) {
             return ResponseEntity.ok(jwtUtils.generateToken(user));
         }
-        return ResponseEntity.status(400).body("error");
+        return ResponseEntity.status(400).body(new UserNotFoundException(email).getMessage());
 
     }
 
