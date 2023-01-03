@@ -1,9 +1,9 @@
 package com.bondarenko.movieland.service;
 
-import org.springframework.security.core.userdetails.UserDetails;
+import com.bondarenko.movieland.entity.User;
 
 public interface UserService {
-    UserDetails loadUserByEmail(String email);
+    User findUserByEmail(String email);
 
     String getNickname(String email);
 }

@@ -1,13 +1,18 @@
 package com.bondarenko.movieland.configuration;
 
+import com.bondarenko.movieland.service.UserService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -19,6 +24,8 @@ import java.util.function.Function;
 public class JwtUtils {
     @Value("${jwtSigningKey}")
     private String jwtSigningKey;
+    @Autowired
+    private UserService userService;
 
     public String extractUserName(String token) {
         return extractClaim(token, Claims::getSubject);
@@ -70,5 +77,10 @@ public class JwtUtils {
     public Boolean isTokenValid(String token, UserDetails userDetails) {
         final String userName = extractUserName(token);
         return (userName.equals(userDetails.getUsername()) && !isTokenExpired(token));
+    }
+
+    public UserDetails loadUserByEmail(String email) {
+        String password = userService.findUserByEmail(email).getPassword();
+        return new User(email, password, Collections.singleton(new SimpleGrantedAuthority("ROLE_USER")));
     }
 }

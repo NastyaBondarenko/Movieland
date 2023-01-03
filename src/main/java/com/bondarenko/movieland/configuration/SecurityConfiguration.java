@@ -1,6 +1,5 @@
 package com.bondarenko.movieland.configuration;
 
-import com.bondarenko.movieland.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,8 +23,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class SecurityConfiguration {
     private final JwtAuthFilter jwtAuthFilter;
-    private final UserService userService;
-
+    private final JwtUtils jwtUtils;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -70,7 +68,7 @@ public class SecurityConfiguration {
         return new UserDetailsService() {
             @Override
             public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-                return userService.loadUserByEmail(email);
+                return jwtUtils.loadUserByEmail(email);
             }
         };
     }

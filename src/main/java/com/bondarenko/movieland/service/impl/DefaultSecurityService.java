@@ -19,19 +19,17 @@ import org.springframework.stereotype.Service;
 public class DefaultSecurityService implements SecurityService {
     private final AuthenticationManager authenticationManager;
     private final LoginMapper loginMapper;
-
     private final UserService userService;
     private final JwtUtils jwtUtils;
 
     @Override
     public ResponseEntity<String> getAuthentication(String email, String password) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
-        final UserDetails user = userService.loadUserByEmail(email);
+        final UserDetails user = jwtUtils.loadUserByEmail(email);
         if (user != null) {
             return ResponseEntity.ok(jwtUtils.generateToken(user));
         }
         return ResponseEntity.status(400).body(new UserNotFoundException(email).getMessage());
-
     }
 
     @Override
