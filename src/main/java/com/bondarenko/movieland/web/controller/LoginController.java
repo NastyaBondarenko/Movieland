@@ -16,7 +16,7 @@ public class LoginController {
     private final SecurityService securityService;
 
     @PostMapping("/login")
-    public LoginResponseDto authenticate(@RequestBody LoginRequest request) {
+    public LoginResponseDto getAuthentication(@RequestBody LoginRequest request) {
         return securityService.getLoginResponse(request.getEmail(), request.getPassword());
     }
 }
