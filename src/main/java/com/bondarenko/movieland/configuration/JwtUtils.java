@@ -3,6 +3,8 @@ package com.bondarenko.movieland.configuration;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
@@ -13,8 +15,10 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
 @Component
+@RequiredArgsConstructor
 public class JwtUtils {
-    private String jwtSigningKey = "secret";
+    @Value("${jwtSigningKey}")
+    private String jwtSigningKey;
 
     public String extractUserName(String token) {
         return extractClaim(token, Claims::getSubject);
