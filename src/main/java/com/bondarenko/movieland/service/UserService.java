@@ -1,7 +1,9 @@
 package com.bondarenko.movieland.service;
 
-import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
 
 public interface UserService {
-    ResponseEntity authenticates(String email, String password);
+    UserDetails loadUserByEmail(String email);
+
+    String getNickname(String email);
 }

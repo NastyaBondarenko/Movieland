@@ -1,6 +1,6 @@
 package com.bondarenko.movieland.configuration;
 
-import com.bondarenko.movieland.repository.UserRepository;
+import com.bondarenko.movieland.service.UserService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,7 +21,7 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 @RequiredArgsConstructor
 public class JwtAuthFilter extends OncePerRequestFilter {
 
-    private final UserRepository userRepository;
+    private final UserService userService;
     private final JwtUtils jwtUtils;
 
 
@@ -39,7 +39,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         jwtToken = authHeader.substring(7);
         userEmail = jwtUtils.extractUserName(jwtToken);
         if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = userRepository.findUserByEmail(userEmail);
+            UserDetails userDetails = userService.loadUserByEmail(userEmail);
             if (jwtUtils.isTokenValid(jwtToken, userDetails)) {
                 UsernamePasswordAuthenticationToken authToken =
                         new UsernamePasswordAuthenticationToken(userDetails, null,
