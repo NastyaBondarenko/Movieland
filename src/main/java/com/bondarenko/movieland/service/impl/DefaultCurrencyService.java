@@ -12,7 +12,6 @@ import reactor.core.publisher.Mono;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -38,7 +37,7 @@ public class DefaultCurrencyService implements CurrencyService {
                 .retrieve()
                 .bodyToMono(Currency[].class).log();
         Currency[] currencies = response.block();
-        return Arrays.stream(currencies).toList();
+        return List.of(currencies);
     }
 
     private double getBankRate(CurrencyType currencyType, List<Currency> currencyList) {
