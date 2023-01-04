@@ -4,14 +4,13 @@ import com.bondarenko.movieland.entity.User;
 import com.bondarenko.movieland.exceptions.UserNotFoundException;
 import com.bondarenko.movieland.repository.UserRepository;
 import com.bondarenko.movieland.service.UserService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class DefaultUserService implements UserService {
-    @Autowired
+
     private UserRepository userRepository;
 
     @Override
