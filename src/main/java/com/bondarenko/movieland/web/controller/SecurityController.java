@@ -1,6 +1,6 @@
 package com.bondarenko.movieland.web.controller;
 
-import com.bondarenko.movieland.dto.LoginRequest;
+import com.bondarenko.movieland.dto.LoginRequestDto;
 import com.bondarenko.movieland.dto.LoginResponseDto;
 import com.bondarenko.movieland.service.SecurityService;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +16,7 @@ public class SecurityController {
     private final SecurityService securityService;
 
     @PostMapping("/login")
-    public LoginResponseDto getAuthentication(@RequestBody LoginRequest request) {
+    public LoginResponseDto getAuthentication(@RequestBody LoginRequestDto request) {
         return securityService.getLoginResponse(request.getEmail(), request.getPassword());
     }
 }
