@@ -69,6 +69,6 @@ public class Movie {
             inverseJoinColumns = @JoinColumn(name = "country_id"))
     private Set<Country> countries = new HashSet<>();
 
-    @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "movie")
     private Set<Review> reviews = new HashSet<>();
 }

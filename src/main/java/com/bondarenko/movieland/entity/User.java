@@ -45,6 +45,6 @@ public class User {
     private String password;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user")
     private Set<Review> reviews = new HashSet<>();
 }
