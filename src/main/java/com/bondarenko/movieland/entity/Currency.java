@@ -22,7 +22,9 @@ public class Currency {
     @JsonProperty("cc")
     private String currencyType;
 
+    @JsonProperty("exchangedate")
+    private String exchangeDate;
+
     private double rate;
 
-    private String exchangedate;
 }
