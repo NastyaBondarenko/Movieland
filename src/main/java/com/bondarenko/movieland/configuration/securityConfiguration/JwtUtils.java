@@ -1,5 +1,6 @@
 package com.bondarenko.movieland.configuration.securityConfiguration;
 
+import com.bondarenko.movieland.entity.UserRole;
 import com.bondarenko.movieland.service.UserService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -70,6 +71,7 @@ public class JwtUtils {
 
     public UserDetails loadUserByEmail(String email) {
         String password = userService.findUserByEmail(email).getPassword();
-        return new User(email, password, Collections.singleton(new SimpleGrantedAuthority("ROLE_USER")));
+        UserRole userRole = userService.findUserByEmail(email).getRole();
+        return new User(email, password, Collections.singleton(new SimpleGrantedAuthority(userRole.getName())));
     }
 }
