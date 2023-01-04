@@ -1,4 +1,4 @@
-package com.bondarenko.movieland.configuration;
+package com.bondarenko.movieland.configuration.securityConfiguration;
 
 import com.bondarenko.movieland.service.UserService;
 import io.jsonwebtoken.Claims;
@@ -35,12 +35,6 @@ public class JwtUtils {
         return extractClaim(token, Claims::getExpiration);
     }
 
-    public boolean hasClaim(String token, String claimName) {
-        final Claims claims = extractAllClaims(token);
-        return claims.get(claimName) != null;
-    }
-
-
     private <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = extractAllClaims(token);
         return claimsResolver.apply(claims);
@@ -60,10 +54,6 @@ public class JwtUtils {
         return createToken(claims, userDetails);
     }
 
-    public String generateToken(UserDetails userDetails, Map<String, Object> claims) {
-        return createToken(claims, userDetails);
-    }
-
     private String createToken(Map<String, Object> claims, UserDetails userDetails) {
         return Jwts.builder().setClaims(claims)
                 .setSubject(userDetails.getUsername())
@@ -72,7 +62,6 @@ public class JwtUtils {
                 .setExpiration(new Date(System.currentTimeMillis() + TimeUnit.HOURS.toMillis(2)))
                 .signWith(SignatureAlgorithm.HS256, jwtSigningKey).compact();
     }
-
 
     public Boolean isTokenValid(String token, UserDetails userDetails) {
         final String userName = extractUserName(token);

@@ -1,4 +1,4 @@
-package com.bondarenko.movieland.configuration;
+package com.bondarenko.movieland.configuration.securityConfiguration;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -24,9 +24,9 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
-        final String authHeader = request.getHeader(AUTHORIZATION);
-        final String userEmail;
-        final String jwtToken;
+        String authHeader = request.getHeader(AUTHORIZATION);
+        String userEmail;
+        String jwtToken;
 
         if (authHeader == null || !authHeader.startsWith("Bearer")) {
             filterChain.doFilter(request, response);
