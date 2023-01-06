@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
@@ -46,6 +47,11 @@ public class GenreCache implements GenreRepository {
     @Override
     public Optional<Genre> findGenreById(int id) {
         return genreRepository.findById(id);
+    }
+
+    @Override
+    public Set<Genre> findByIdIn(List<Integer> id) {
+        return genreRepository.findByIdIn(id);
     }
 
     @Override

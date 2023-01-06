@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -28,5 +29,10 @@ public class DefaultGenreService implements GenreService {
     public Genre findGenreById(int genreId) {
         return genreRepository.findGenreById(genreId)
                 .orElseThrow(() -> new GenreNotFoundException(genreId));
+    }
+
+    @Override
+    public Set<Genre> findByIdIn(List<Integer> genreIds) {
+        return genreRepository.findByIdIn(genreIds);
     }
 }

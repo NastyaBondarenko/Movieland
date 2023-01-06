@@ -17,7 +17,6 @@ import java.util.Set;
 public class DefaultCountryService implements CountryService {
 
     private CountryRepository countryRepository;
-
     private CountryMapper countryMapper;
 
     @Override

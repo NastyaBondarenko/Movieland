@@ -2,18 +2,25 @@ package com.bondarenko.movieland.service.impl;
 
 import com.bondarenko.movieland.dto.MovieDetailsDto;
 import com.bondarenko.movieland.dto.MovieDto;
+import com.bondarenko.movieland.dto.MovieDtoShort;
 import com.bondarenko.movieland.dto.ReviewDto;
 import com.bondarenko.movieland.entity.*;
 import com.bondarenko.movieland.exceptions.MovieNotFoundException;
 import com.bondarenko.movieland.mapper.MovieMapper;
 import com.bondarenko.movieland.repository.MovieRepository;
+import com.bondarenko.movieland.service.CountryService;
 import com.bondarenko.movieland.service.CurrencyService;
 import com.bondarenko.movieland.service.GenreService;
 import com.bondarenko.movieland.service.MovieService;
 import com.bondarenko.movieland.service.ReviewService;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.criteria.*;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Join;
+import jakarta.persistence.criteria.Order;
+import jakarta.persistence.criteria.Path;
+import jakarta.persistence.criteria.Root;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
@@ -32,10 +39,11 @@ public class DefaultMovieService implements MovieService {
 
     @Value("${movies.random.count:3}")
     private int randomMovieCount;
-    private final MovieRepository movieRepository;
     private final CurrencyService currencyService;
+    private final CountryService countryService;
     private final ReviewService reviewService;
     private final GenreService genreService;
+    private final MovieRepository movieRepository;
     private final MovieMapper movieMapper;
     private static final String RATING_PARAMETER = "rating";
     private static final String PRICE_PARAMETER = "price";
@@ -100,6 +108,33 @@ public class DefaultMovieService implements MovieService {
         return movieMapper.toMovieDtos(getMoviesByGenre(genreId));
     }
 
+    @Override
+    public void add(MovieDtoShort movieDtoShort) {
+        Set<Genre> genres = getGenresByIds(movieDtoShort);
+        Set<Country> countries = getCountriesByIds(movieDtoShort);
+
+        Movie movie = movieMapper.toMovie(movieDtoShort);
+        movie.setGenres(genres);
+        movie.setCountries(countries);
+        movieRepository.save(movie);
+    }
+
+    @Override
+    @Transactional
+    public void update(MovieDtoShort movieDtoShort, int movieId) {
+        Set<Genre> genres = getGenresByIds(movieDtoShort);
+        Set<Country> countries = getCountriesByIds(movieDtoShort);
+
+        Movie movie = movieMapper.toMovie(movieDtoShort);
+//        Car updateCar = movieRepository.findById(movieId)
+//                .map(movie -> movieMapper.update(car, carDto))
+//                .orElseThrow(() -> new CarNotFoundException("Car not found"));
+//        return carMapper.carToCarDto(carRepository.save(updateCar));
+
+
+    }
+
+
     private Order getOrder(MovieRequest movieRequest, CriteriaBuilder builder, Root<Movie> root) {
         SortDirection priceDirection = movieRequest.getPrice();
         SortDirection sortDirection = priceDirection == null ? movieRequest.getRating() : priceDirection;
@@ -112,5 +147,15 @@ public class DefaultMovieService implements MovieService {
     private List<Movie> getMoviesByGenre(int genreId) {
         Genre genre = genreService.findGenreById(genreId);
         return movieRepository.findMoviesByGenresIn(Set.of(genre));
+    }
+
+    private Set<Genre> getGenresByIds(MovieDtoShort movieDtoShort) {
+        List<Integer> genresId = movieDtoShort.getGenres();
+        return genreService.findByIdIn(genresId);
+    }
+
+    private Set<Country> getCountriesByIds(MovieDtoShort movieDtoShort) {
+        List<Integer> countryIds = movieDtoShort.getCountries();
+        return countryService.findByIdIn(countryIds);
     }
 }

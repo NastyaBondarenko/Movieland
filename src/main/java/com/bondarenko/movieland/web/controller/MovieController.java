@@ -1,13 +1,14 @@
 package com.bondarenko.movieland.web.controller;
 
-import com.bondarenko.movieland.util.CurrencyTypeConvertor;
-import com.bondarenko.movieland.util.SortDirectionConvertor;
 import com.bondarenko.movieland.dto.MovieDetailsDto;
 import com.bondarenko.movieland.dto.MovieDto;
+import com.bondarenko.movieland.dto.MovieDtoShort;
 import com.bondarenko.movieland.entity.CurrencyType;
 import com.bondarenko.movieland.entity.MovieRequest;
 import com.bondarenko.movieland.entity.SortDirection;
 import com.bondarenko.movieland.service.MovieService;
+import com.bondarenko.movieland.util.CurrencyTypeConvertor;
+import com.bondarenko.movieland.util.SortDirectionConvertor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.WebDataBinder;
@@ -41,6 +42,16 @@ public class MovieController {
     protected MovieDetailsDto getByMovieId(@PathVariable("movieId") int movieId,
                                            @RequestParam(name = "currency", required = false) CurrencyType currency) {
         return movieService.getById(movieId, currency);
+    }
+
+    @PostMapping
+    protected void add(@RequestBody MovieDtoShort movieDtoShort) {
+        movieService.add(movieDtoShort);
+    }
+
+    @PutMapping("/{movieId}")
+    protected void update(@PathVariable("movieId") int movieId, @RequestBody MovieDtoShort movieDtoShort) {
+        movieService.update(movieDtoShort, movieId);
     }
 
     @InitBinder
