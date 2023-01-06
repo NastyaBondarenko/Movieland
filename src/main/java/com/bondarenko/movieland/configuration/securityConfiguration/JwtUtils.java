@@ -6,6 +6,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -72,6 +73,9 @@ public class JwtUtils {
     public UserDetails loadUserByEmail(String email) {
         String password = userService.findUserByEmail(email).getPassword();
         UserRole userRole = userService.findUserByEmail(email).getRole();
+        int userId = userService.findUserByEmail(email).getId();
+        MDC.put("userId", String.valueOf(userId));
+        MDC.put("email", email);
         return new User(email, password, Collections.singleton(new SimpleGrantedAuthority(userRole.getName())));
     }
 }

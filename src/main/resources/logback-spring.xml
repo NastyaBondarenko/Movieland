@@ -27,6 +27,12 @@
         </timeBasedFileNamingAndTriggeringPolicy>
     </appender>
 
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <layout>
+            <Pattern>%green(%d{ HH:mm:ss}) [%thread] %X{requestId} %highlight(guest %-5level) - %c{1} - %m%n</Pattern>
+        </layout>
+    </appender>
+
     <root level="DEBUG">
         <appender-ref ref="ROLLING-FILE"/>
     </root>
