@@ -11,7 +11,6 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.List;
 
 @Service
@@ -25,7 +24,6 @@ public class DefaultCurrencyService implements CurrencyService {
         if (currencyType != CurrencyType.UAH) {
             double bankRate = getBankRate(currencyType, currencyList);
             return BigDecimal.valueOf(price / bankRate)
-                    .setScale(2, RoundingMode.HALF_EVEN)
                     .doubleValue();
         }
         return price;
