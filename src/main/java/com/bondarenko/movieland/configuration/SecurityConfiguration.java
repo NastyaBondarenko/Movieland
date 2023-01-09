@@ -1,4 +1,4 @@
-package com.bondarenko.movieland.configuration.securityconfiguration;
+package com.bondarenko.movieland.configuration;
 
 import com.bondarenko.movieland.filter.JwtAuthFilter;
 import com.bondarenko.movieland.util.JwtUtils;
