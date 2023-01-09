@@ -1,6 +1,7 @@
 package com.bondarenko.movieland.configuration;
 
 import com.bondarenko.movieland.filter.JwtAuthFilter;
+import com.bondarenko.movieland.service.impl.JwtSecurityService;
 import com.bondarenko.movieland.util.JwtUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -23,6 +24,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class SecurityConfiguration {
     private final JwtAuthFilter jwtAuthFilter;
+    private final JwtSecurityService jwtSecurityService;
     private final JwtUtils jwtUtils;
 
     @Bean
@@ -65,6 +67,6 @@ public class SecurityConfiguration {
 
     @Bean
     public UserDetailsService userDetailsService() {
-        return jwtUtils::loadUserByEmail;
+        return jwtSecurityService::loadUserByEmail;
     }
 }

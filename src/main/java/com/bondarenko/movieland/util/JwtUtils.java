@@ -1,34 +1,24 @@
 package com.bondarenko.movieland.util;
 
-import com.bondarenko.movieland.service.UserService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.MDC;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
-import static com.bondarenko.movieland.entity.User.UserRole;
-
 @Component
 @RequiredArgsConstructor
 public class JwtUtils {
     @Value("${jwtSigningKey}")
     private String jwtSigningKey;
-    @Autowired
-    private UserService userService;
 
     public String extractUserName(String token) {
         return extractClaim(token, Claims::getSubject);
@@ -69,14 +59,5 @@ public class JwtUtils {
     public Boolean isTokenValid(String token, UserDetails userDetails) {
         final String userName = extractUserName(token);
         return (userName.equals(userDetails.getUsername()) && !isTokenExpired(token));
-    }
-
-    public UserDetails loadUserByEmail(String email) {
-        String password = userService.findUserByEmail(email).getPassword();
-        UserRole userRole = userService.findUserByEmail(email).getRole();
-        int userId = userService.findUserByEmail(email).getId();
-        MDC.put("userId", String.valueOf(userId));
-        MDC.put("email", email);
-        return new User(email, password, Collections.singleton(new SimpleGrantedAuthority(userRole.getName())));
     }
 }
