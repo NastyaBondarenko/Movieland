@@ -24,24 +24,24 @@ public class MovieController {
     private final MovieService movieService;
 
     @GetMapping
-    protected List<MovieDto> getAll(MovieRequest movieRequest) {
+    protected List<MovieDto> findAll(MovieRequest movieRequest) {
         return movieService.findAll(movieRequest);
     }
 
     @GetMapping("/random")
-    protected List<MovieDto> getRandom() {
-        return movieService.getRandom();
+    protected List<MovieDto> findRandom() {
+        return movieService.findRandom();
     }
 
     @GetMapping("/genre/{genreId}")
-    protected List<MovieDto> getByGenre(MovieRequest movieRequest) {
-        return movieService.getByGenre(movieRequest);
+    protected List<MovieDto> findByGenre(MovieRequest movieRequest) {
+        return movieService.findByGenre(movieRequest);
     }
 
     @GetMapping("/{movieId}")
-    protected MovieDetailsDto getByMovieId(@PathVariable("movieId") int movieId,
-                                           @RequestParam(name = "currency", required = false) CurrencyType currency) {
-        return movieService.getById(movieId, currency);
+    protected MovieDetailsDto findByMovieId(@PathVariable("movieId") int movieId,
+                                            @RequestParam(name = "currency", required = false) CurrencyType currency) {
+        return movieService.findById(movieId, currency);
     }
 
     @PostMapping

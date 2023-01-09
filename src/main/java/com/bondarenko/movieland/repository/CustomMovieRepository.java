@@ -6,9 +6,9 @@ import com.bondarenko.movieland.entity.MovieRequest;
 import java.util.List;
 
 public interface CustomMovieRepository {
-    List<Movie> getAll(MovieRequest movieRequest);
+    List<Movie> findAll(MovieRequest movieRequest);
 
-    List<Movie> getByGenre(MovieRequest movieRequest, Integer genreId);
+    List<Movie> findByGenre(MovieRequest movieRequest, Integer genreId);
 
-    List<Movie> getRandom();
+    List<Movie> findRandom();
 }

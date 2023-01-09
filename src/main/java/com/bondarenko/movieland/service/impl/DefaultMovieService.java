@@ -4,7 +4,11 @@ import com.bondarenko.movieland.dto.MovieDetailsDto;
 import com.bondarenko.movieland.dto.MovieDto;
 import com.bondarenko.movieland.dto.MovieDtoShort;
 import com.bondarenko.movieland.dto.ReviewDto;
-import com.bondarenko.movieland.entity.*;
+import com.bondarenko.movieland.entity.Country;
+import com.bondarenko.movieland.entity.CurrencyType;
+import com.bondarenko.movieland.entity.Genre;
+import com.bondarenko.movieland.entity.Movie;
+import com.bondarenko.movieland.entity.MovieRequest;
 import com.bondarenko.movieland.exceptions.MovieNotFoundException;
 import com.bondarenko.movieland.mapper.MovieMapper;
 import com.bondarenko.movieland.repository.MovieRepository;
@@ -23,7 +27,6 @@ import java.util.Set;
 @Service
 @RequiredArgsConstructor
 public class DefaultMovieService implements MovieService {
-
     private final CurrencyService currencyService;
     private final CountryService countryService;
     private final ReviewService reviewService;
@@ -34,26 +37,25 @@ public class DefaultMovieService implements MovieService {
     @Override
     @Transactional(readOnly = true)
     public List<MovieDto> findAll(MovieRequest movieRequest) {
-        List<Movie> movies = movieRepository.findAll();
         if (movieRequest.getPrice() != null || movieRequest.getRating() != null) {
-            List<Movie> resultList = movieRepository.getAll(movieRequest);
+            List<Movie> resultList = movieRepository.findAll(movieRequest);
 
             return movieMapper.toMovieDtos(resultList);
         }
-        return movieMapper.toMovieDtos(movies);
+        return movieMapper.toMovieDtos(movieRepository.findAll());
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<MovieDto> getRandom() {
-        List<Movie> randomMovies = movieRepository.getRandom();
+    public List<MovieDto> findRandom() {
+        List<Movie> randomMovies = movieRepository.findRandom();
         return movieMapper.toMovieDtos(randomMovies);
     }
 
     @Override
     @Transactional(readOnly = true)
-    public MovieDetailsDto getById(int id, CurrencyType currencyType) {
-        Movie movie = movieRepository.findMovieById(id).orElseThrow(() -> new MovieNotFoundException(id));
+    public MovieDetailsDto findById(int id, CurrencyType currencyType) {
+        Movie movie = findById(id);
         MovieDetailsDto movieDetailsDto = movieMapper.toMovieDetailsDto(movie);
         Set<ReviewDto> reviewDtos = reviewService.findByMovie(movie);
         movieDetailsDto.setReviews(reviewDtos);
@@ -67,20 +69,20 @@ public class DefaultMovieService implements MovieService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<MovieDto> getByGenre(MovieRequest movieRequest) {
+    public List<MovieDto> findByGenre(MovieRequest movieRequest) {
         Integer genreId = movieRequest.getGenreId();
 
         if (movieRequest.getPrice() != null || movieRequest.getRating() != null) {
-            List<Movie> resultList = movieRepository.getByGenre(movieRequest, genreId);
+            List<Movie> resultList = movieRepository.findByGenre(movieRequest, genreId);
             return movieMapper.toMovieDtos(resultList);
         }
-        return movieMapper.toMovieDtos(getMoviesByGenre(genreId));
+        return movieMapper.toMovieDtos(findMoviesByGenre(genreId));
     }
 
     @Override
     public void add(MovieDtoShort movieDtoShort) {
-        Set<Genre> genres = getGenresByIds(movieDtoShort);
-        Set<Country> countries = getCountriesByIds(movieDtoShort);
+        Set<Genre> genres = findGenresByIds(movieDtoShort);
+        Set<Country> countries = findCountriesByIds(movieDtoShort);
 
         Movie movie = movieMapper.toMovie(movieDtoShort);
         movie.setGenres(genres);
@@ -91,8 +93,8 @@ public class DefaultMovieService implements MovieService {
     @Override
     @Transactional
     public void update(MovieDtoShort movieDtoShort, int movieId) {
-        Set<Genre> genres = getGenresByIds(movieDtoShort);
-        Set<Country> countries = getCountriesByIds(movieDtoShort);
+        Set<Genre> genres = findGenresByIds(movieDtoShort);
+        Set<Country> countries = findCountriesByIds(movieDtoShort);
 
         Movie movie = movieMapper.toMovie(movieDtoShort);
 //        Car updateCar = movieRepository.findById(movieId)
@@ -103,18 +105,22 @@ public class DefaultMovieService implements MovieService {
 
     }
 
-    private List<Movie> getMoviesByGenre(int genreId) {
+    private List<Movie> findMoviesByGenre(int genreId) {
         Genre genre = genreService.findGenreById(genreId);
         return movieRepository.findMoviesByGenresIn(Set.of(genre));
     }
 
-    private Set<Genre> getGenresByIds(MovieDtoShort movieDtoShort) {
+    private Set<Genre> findGenresByIds(MovieDtoShort movieDtoShort) {
         List<Integer> genresId = movieDtoShort.getGenres();
         return genreService.findByIdIn(genresId);
     }
 
-    private Set<Country> getCountriesByIds(MovieDtoShort movieDtoShort) {
+    private Set<Country> findCountriesByIds(MovieDtoShort movieDtoShort) {
         List<Integer> countryIds = movieDtoShort.getCountries();
         return countryService.findByIdIn(countryIds);
+    }
+
+    private Movie findById(int movieId) {
+        return movieRepository.findMovieById(movieId).orElseThrow(() -> new MovieNotFoundException(movieId));
     }
 }

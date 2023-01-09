@@ -12,11 +12,11 @@ public interface MovieService {
 
     List<MovieDto> findAll(MovieRequest movieRequest);
 
-    List<MovieDto> getRandom();
+    List<MovieDto> findRandom();
 
-    List<MovieDto> getByGenre(MovieRequest movieRequest);
+    List<MovieDto> findByGenre(MovieRequest movieRequest);
 
-    MovieDetailsDto getById(int movieId, CurrencyType currency);
+    MovieDetailsDto findById(int movieId, CurrencyType currency);
 
     void add(MovieDtoShort movieDetailsDto);
 

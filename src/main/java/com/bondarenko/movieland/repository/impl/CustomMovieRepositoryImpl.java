@@ -23,7 +23,7 @@ public class CustomMovieRepositoryImpl implements CustomMovieRepository {
     private EntityManager entityManager;
 
     @Override
-    public List<Movie> getAll(MovieRequest movieRequest) {
+    public List<Movie> findAll(MovieRequest movieRequest) {
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Movie> query = builder.createQuery(Movie.class);
         Root<Movie> root = query.from(Movie.class);
@@ -33,7 +33,7 @@ public class CustomMovieRepositoryImpl implements CustomMovieRepository {
     }
 
     @Override
-    public List<Movie> getByGenre(MovieRequest movieRequest, Integer genreId) {
+    public List<Movie> findByGenre(MovieRequest movieRequest, Integer genreId) {
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Movie> query = builder.createQuery(Movie.class);
         Root<Movie> root = query.from(Movie.class);
@@ -45,7 +45,7 @@ public class CustomMovieRepositoryImpl implements CustomMovieRepository {
     }
 
     @Override
-    public List<Movie> getRandom() {
+    public List<Movie> findRandom() {
         TypedQuery<Movie> query = entityManager
                 .createQuery("SELECT m from Movie m ORDER BY random()", Movie.class);
         query.setMaxResults(randomMovieCount);
