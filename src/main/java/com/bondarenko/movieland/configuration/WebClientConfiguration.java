@@ -13,7 +13,7 @@ public class WebClientConfiguration {
     private String url;
 
     @Bean
-    public WebClient webClient() {
+    public WebClient nbuWebClient() {
         return WebClient.builder()
                 .baseUrl(url)
                 .build();
