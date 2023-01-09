@@ -1,5 +1,6 @@
-package com.bondarenko.movieland.configuration.securityconfiguration;
+package com.bondarenko.movieland.filter;
 
+import com.bondarenko.movieland.util.JwtUtils;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

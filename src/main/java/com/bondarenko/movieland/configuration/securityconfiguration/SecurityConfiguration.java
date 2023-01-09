@@ -1,5 +1,7 @@
 package com.bondarenko.movieland.configuration.securityconfiguration;
 
+import com.bondarenko.movieland.filter.JwtAuthFilter;
+import com.bondarenko.movieland.util.JwtUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

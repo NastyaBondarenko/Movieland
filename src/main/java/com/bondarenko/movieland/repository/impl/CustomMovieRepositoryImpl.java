@@ -3,7 +3,7 @@ package com.bondarenko.movieland.repository.impl;
 import com.bondarenko.movieland.entity.Genre;
 import com.bondarenko.movieland.entity.Movie;
 import com.bondarenko.movieland.entity.MovieRequest;
-import com.bondarenko.movieland.common.SortDirection;
+import com.bondarenko.movieland.entity.SortDirection;
 import com.bondarenko.movieland.repository.CustomMovieRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -50,7 +50,6 @@ public class CustomMovieRepositoryImpl implements CustomMovieRepository {
                 .createQuery("SELECT m from Movie m ORDER BY random()", Movie.class);
         query.setMaxResults(randomMovieCount);
         return query.getResultList();
-
     }
 
     private Order getOrder(MovieRequest movieRequest, CriteriaBuilder builder, Root<Movie> root) {

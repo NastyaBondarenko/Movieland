@@ -1,4 +1,4 @@
-package com.bondarenko.movieland.configuration.securityconfiguration;
+package com.bondarenko.movieland.util;
 
 import com.bondarenko.movieland.service.UserService;
 import io.jsonwebtoken.Claims;
