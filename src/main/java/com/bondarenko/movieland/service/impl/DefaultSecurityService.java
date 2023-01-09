@@ -22,15 +22,6 @@ public class DefaultSecurityService implements SecurityService {
     private final UserService userService;
     private final JwtUtils jwtUtils;
 
-    @Override
-    public ResponseEntity<String> getAuthentication(String email, String password) {
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
-        final UserDetails user = jwtUtils.loadUserByEmail(email);
-        if (user != null) {
-            return ResponseEntity.ok(jwtUtils.generateToken(user));
-        }
-        return ResponseEntity.status(400).body(new UserNotFoundException(email).getMessage());
-    }
 
     @Override
     public LoginDto getLogin(String email, String password) {
@@ -40,5 +31,14 @@ public class DefaultSecurityService implements SecurityService {
                 .token(token)
                 .nickname(nickname)
                 .build());
+    }
+
+    private ResponseEntity<String> getAuthentication(String email, String password) {
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
+        final UserDetails user = jwtUtils.loadUserByEmail(email);
+        if (user != null) {
+            return ResponseEntity.ok(jwtUtils.generateToken(user));
+        }
+        return ResponseEntity.status(400).body(new UserNotFoundException(email).getMessage());
     }
 }
