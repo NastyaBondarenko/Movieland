@@ -38,9 +38,7 @@ public class DefaultMovieService implements MovieService {
     @Transactional(readOnly = true)
     public List<MovieDto> findAll(MovieRequest movieRequest) {
         if (movieRequest.getPrice() != null || movieRequest.getRating() != null) {
-            List<Movie> resultList = movieRepository.findAll(movieRequest);
-
-            return movieMapper.toMovieDtos(resultList);
+            return movieMapper.toMovieDtos(movieRepository.findAll(movieRequest));
         }
         return movieMapper.toMovieDtos(movieRepository.findAll());
     }
@@ -71,10 +69,8 @@ public class DefaultMovieService implements MovieService {
     @Transactional(readOnly = true)
     public List<MovieDto> findByGenre(MovieRequest movieRequest) {
         Integer genreId = movieRequest.getGenreId();
-
         if (movieRequest.getPrice() != null || movieRequest.getRating() != null) {
-            List<Movie> resultList = movieRepository.findByGenre(movieRequest, genreId);
-            return movieMapper.toMovieDtos(resultList);
+            return movieMapper.toMovieDtos(movieRepository.findByGenre(movieRequest, genreId));
         }
         return movieMapper.toMovieDtos(findMoviesByGenre(genreId));
     }
