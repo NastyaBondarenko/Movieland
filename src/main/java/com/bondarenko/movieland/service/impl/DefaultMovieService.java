@@ -89,16 +89,20 @@ public class DefaultMovieService implements MovieService {
     @Override
     @Transactional
     public void update(MovieDtoShort movieDtoShort, int movieId) {
+        //
         Set<Genre> genres = findGenresByIds(movieDtoShort);
         Set<Country> countries = findCountriesByIds(movieDtoShort);
 
-        Movie movie = movieMapper.toMovie(movieDtoShort);
-//        Car updateCar = movieRepository.findById(movieId)
-//                .map(movie -> movieMapper.update(car, carDto))
-//                .orElseThrow(() -> new CarNotFoundException("Car not found"));
-//        return carMapper.carToCarDto(carRepository.save(updateCar));
+
+        Movie newMovie = movieMapper.toMovie(movieDtoShort);
+        newMovie.setGenres(genres);
+        newMovie.setCountries(countries);
 
 
+        Movie updateCar = movieRepository.findById(movieId)
+                .map(movie -> movieMapper.update(movie, newMovie))
+                .orElseThrow(() -> new MovieNotFoundException(movieId));
+        movieRepository.save(updateCar);
     }
 
     private List<Movie> findMoviesByGenre(int genreId) {
@@ -116,7 +120,8 @@ public class DefaultMovieService implements MovieService {
         return countryService.findByIdIn(countryIds);
     }
 
+    //delete
     private Movie findById(int movieId) {
-        return movieRepository.findMovieById(movieId).orElseThrow(() -> new MovieNotFoundException(movieId));
+        return movieRepository.findById(movieId).orElseThrow(() -> new MovieNotFoundException(movieId));
     }
 }

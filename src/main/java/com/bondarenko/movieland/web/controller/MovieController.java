@@ -11,6 +11,7 @@ import com.bondarenko.movieland.util.CurrencyTypeConvertor;
 import com.bondarenko.movieland.util.SortDirectionConvertor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
@@ -45,11 +46,13 @@ public class MovieController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAnyRole('ADMIN')")
     protected void add(@RequestBody MovieDtoShort movieDtoShort) {
         movieService.add(movieDtoShort);
     }
 
     @PutMapping("/{movieId}")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     protected void update(@PathVariable("movieId") int movieId, @RequestBody MovieDtoShort movieDtoShort) {
         movieService.update(movieDtoShort, movieId);
     }
