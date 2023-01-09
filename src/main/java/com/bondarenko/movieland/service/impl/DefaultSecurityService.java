@@ -1,6 +1,6 @@
 package com.bondarenko.movieland.service.impl;
 
-import com.bondarenko.movieland.configuration.securityConfiguration.JwtUtils;
+import com.bondarenko.movieland.configuration.securityconfiguration.JwtUtils;
 import com.bondarenko.movieland.dto.LoginDto;
 import com.bondarenko.movieland.entity.Login;
 import com.bondarenko.movieland.exceptions.UserNotFoundException;

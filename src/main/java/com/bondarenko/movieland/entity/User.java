@@ -53,4 +53,13 @@ public class User {
     @Enumerated(value = EnumType.STRING)
     @Column(name = "role")
     private UserRole role;
+
+    @AllArgsConstructor
+    @Getter
+    public enum UserRole {
+        ADMIN("ADMIN"),
+        USER("USER");
+
+        private final String name;
+    }
 }

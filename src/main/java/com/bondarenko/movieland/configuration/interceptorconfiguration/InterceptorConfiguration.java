@@ -1,4 +1,4 @@
-package com.bondarenko.movieland.configuration.interceptorConfiguration;
+package com.bondarenko.movieland.configuration.interceptorconfiguration;
 
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Configuration;

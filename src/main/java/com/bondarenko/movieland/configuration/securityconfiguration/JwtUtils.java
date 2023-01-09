@@ -1,6 +1,5 @@
-package com.bondarenko.movieland.configuration.securityConfiguration;
+package com.bondarenko.movieland.configuration.securityconfiguration;
 
-import com.bondarenko.movieland.entity.UserRole;
 import com.bondarenko.movieland.service.UserService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -20,6 +19,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
+
+import static com.bondarenko.movieland.entity.User.UserRole;
 
 @Component
 @RequiredArgsConstructor

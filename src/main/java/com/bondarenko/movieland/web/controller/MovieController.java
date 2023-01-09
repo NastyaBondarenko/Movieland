@@ -5,7 +5,7 @@ import com.bondarenko.movieland.dto.MovieDto;
 import com.bondarenko.movieland.dto.MovieDtoShort;
 import com.bondarenko.movieland.entity.CurrencyType;
 import com.bondarenko.movieland.entity.MovieRequest;
-import com.bondarenko.movieland.entity.SortDirection;
+import com.bondarenko.movieland.common.SortDirection;
 import com.bondarenko.movieland.service.MovieService;
 import com.bondarenko.movieland.util.CurrencyTypeConvertor;
 import com.bondarenko.movieland.util.SortDirectionConvertor;

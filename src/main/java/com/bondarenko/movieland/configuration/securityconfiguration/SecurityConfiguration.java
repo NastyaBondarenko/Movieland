@@ -1,4 +1,4 @@
-package com.bondarenko.movieland.configuration.securityConfiguration;
+package com.bondarenko.movieland.configuration.securityconfiguration;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;

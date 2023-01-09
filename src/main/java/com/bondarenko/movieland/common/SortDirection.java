@@ -1,4 +1,4 @@
-package com.bondarenko.movieland.entity;
+package com.bondarenko.movieland.common;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
