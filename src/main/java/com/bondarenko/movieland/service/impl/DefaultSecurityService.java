@@ -1,8 +1,8 @@
 package com.bondarenko.movieland.service.impl;
 
 import com.bondarenko.movieland.configuration.securityConfiguration.JwtUtils;
-import com.bondarenko.movieland.dto.LoginResponseDto;
-import com.bondarenko.movieland.entity.LoginResponse;
+import com.bondarenko.movieland.dto.LoginDto;
+import com.bondarenko.movieland.entity.Login;
 import com.bondarenko.movieland.exceptions.UserNotFoundException;
 import com.bondarenko.movieland.mapper.LoginMapper;
 import com.bondarenko.movieland.service.SecurityService;
@@ -33,10 +33,10 @@ public class DefaultSecurityService implements SecurityService {
     }
 
     @Override
-    public LoginResponseDto getLoginResponse(String email, String password) {
+    public LoginDto getLogin(String email, String password) {
         String token = getAuthentication(email, password).getBody();
         String nickname = userService.getNickname(email);
-        return loginMapper.toLoginResponseDto(LoginResponse.builder()
+        return loginMapper.toLoginResponseDto(Login.builder()
                 .token(token)
                 .nickname(nickname)
                 .build());

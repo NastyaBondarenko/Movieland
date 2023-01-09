@@ -1,7 +1,7 @@
 package com.bondarenko.movieland.web.controller;
 
+import com.bondarenko.movieland.dto.LoginDto;
 import com.bondarenko.movieland.dto.LoginRequestDto;
-import com.bondarenko.movieland.dto.LoginResponseDto;
 import com.bondarenko.movieland.service.SecurityService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -19,8 +19,8 @@ public class SecurityController {
     Logger log = LoggerFactory.getLogger(this.getClass());
 
     @PostMapping("/login")
-    public LoginResponseDto getAuthentication(@RequestBody LoginRequestDto request) {
+    public LoginDto getLogin(@RequestBody LoginRequestDto request) {
         log.info("Successful signing up for user " + request.getEmail());
-        return securityService.getLoginResponse(request.getEmail(), request.getPassword());
+        return securityService.getLogin(request.getEmail(), request.getPassword());
     }
 }

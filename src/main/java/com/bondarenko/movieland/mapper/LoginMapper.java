@@ -1,10 +1,10 @@
 package com.bondarenko.movieland.mapper;
 
-import com.bondarenko.movieland.dto.LoginResponseDto;
-import com.bondarenko.movieland.entity.LoginResponse;
+import com.bondarenko.movieland.dto.LoginDto;
+import com.bondarenko.movieland.entity.Login;
 import org.mapstruct.Mapper;
 
 @Mapper
 public interface LoginMapper {
-    LoginResponseDto toLoginResponseDto(LoginResponse loginResponse);
+    LoginDto toLoginResponseDto(Login login);
 }
