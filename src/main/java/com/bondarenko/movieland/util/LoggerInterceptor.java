@@ -1,4 +1,4 @@
-package com.bondarenko.movieland.configuration.interceptorconfiguration;
+package com.bondarenko.movieland.util;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

@@ -1,5 +1,6 @@
-package com.bondarenko.movieland.configuration.interceptorconfiguration;
+package com.bondarenko.movieland.configuration;
 
+import com.bondarenko.movieland.util.LoggerInterceptor;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -9,7 +10,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @AllArgsConstructor
 public class InterceptorConfiguration implements WebMvcConfigurer {
 
-    LoggerInterceptor logInterceptor;
+    private LoggerInterceptor logInterceptor;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {

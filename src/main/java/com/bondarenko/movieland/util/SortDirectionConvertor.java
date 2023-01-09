@@ -1,6 +1,6 @@
 package com.bondarenko.movieland.util;
 
-import com.bondarenko.movieland.common.SortDirection;
+import com.bondarenko.movieland.entity.SortDirection;
 import org.apache.commons.lang3.EnumUtils;
 import org.apache.commons.lang3.StringUtils;
 
