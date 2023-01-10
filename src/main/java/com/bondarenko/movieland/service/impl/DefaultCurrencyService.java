@@ -1,11 +1,11 @@
 package com.bondarenko.movieland.service.impl;
 
-import com.bondarenko.movieland.service.entity.common.Currency;
-import com.bondarenko.movieland.service.entity.common.CurrencyType;
 import com.bondarenko.movieland.exceptions.CurrencyNotFoundException;
 import com.bondarenko.movieland.service.CurrencyService;
-import com.google.common.annotations.VisibleForTesting;
+import com.bondarenko.movieland.service.entity.common.Currency;
+import com.bondarenko.movieland.service.entity.common.CurrencyType;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -30,8 +30,8 @@ public class DefaultCurrencyService implements CurrencyService {
         return price;
     }
 
-    @VisibleForTesting
-    List<Currency> getBankCurrency() {
+    @Cacheable({"currency"})
+    public List<Currency> getBankCurrency() {
         Mono<Currency[]> response = webClient.get()
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
