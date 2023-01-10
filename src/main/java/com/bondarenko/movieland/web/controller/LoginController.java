@@ -4,19 +4,18 @@ import com.bondarenko.movieland.dto.LoginDto;
 import com.bondarenko.movieland.dto.LoginRequestDto;
 import com.bondarenko.movieland.service.LoginService;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(path = "/api/v1")
 public class LoginController {
     private final LoginService loginService;
-    Logger log = LoggerFactory.getLogger(this.getClass());
 
     @PostMapping("/login")
     public LoginDto getLogin(@RequestBody LoginRequestDto request) {
