@@ -2,7 +2,7 @@ package com.bondarenko.movieland.web.controller;
 
 import com.bondarenko.movieland.dto.MovieDetailsDto;
 import com.bondarenko.movieland.dto.MovieDto;
-import com.bondarenko.movieland.dto.MovieDtoShort;
+import com.bondarenko.movieland.dto.MovieRequestDto;
 import com.bondarenko.movieland.entity.CurrencyType;
 import com.bondarenko.movieland.entity.MovieRequest;
 import com.bondarenko.movieland.entity.SortDirection;
@@ -47,14 +47,14 @@ public class MovieController {
 
     @PostMapping
     @PreAuthorize("hasAnyRole('ADMIN')")
-    protected void add(@RequestBody MovieDtoShort movieDtoShort) {
-        movieService.add(movieDtoShort);
+    protected void add(@RequestBody MovieRequestDto movieDto) {
+        movieService.add(movieDto);
     }
 
     @PutMapping("/{movieId}")
     @PreAuthorize("hasAnyRole('ADMIN')")
-    protected void update(@PathVariable("movieId") int movieId, @RequestBody MovieDtoShort movieDtoShort) {
-        movieService.update(movieDtoShort, movieId);
+    protected void update(@PathVariable("movieId") int movieId, @RequestBody MovieRequestDto movieDto) {
+        movieService.update(movieDto, movieId);
     }
 
     @InitBinder

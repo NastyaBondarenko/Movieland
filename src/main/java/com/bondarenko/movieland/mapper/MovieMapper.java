@@ -2,10 +2,11 @@ package com.bondarenko.movieland.mapper;
 
 import com.bondarenko.movieland.dto.MovieDetailsDto;
 import com.bondarenko.movieland.dto.MovieDto;
-import com.bondarenko.movieland.dto.MovieDtoShort;
+import com.bondarenko.movieland.dto.MovieRequestDto;
 import com.bondarenko.movieland.entity.Movie;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 import org.mapstruct.Named;
 
 import java.time.LocalDate;
@@ -26,7 +27,16 @@ public interface MovieMapper {
     @Mapping(target = "genres", ignore = true)
     @Mapping(target = "countries", ignore = true)
     @Mapping(target = "votes", ignore = true)
-    Movie toMovie(MovieDtoShort movieDtoShort);
+    Movie toMovie(MovieRequestDto movieRequestDto);
+
+    @Mapping(target = "yearOfRelease", ignore = true)
+    @Mapping(target = "description", ignore = true)
+    @Mapping(target = "votes", ignore = true)
+    @Mapping(target = "price", ignore = true)
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "genres", ignore = true)
+    @Mapping(target = "countries", ignore = true)
+    Movie update(@MappingTarget Movie movie, MovieRequestDto movieRequestDto);
 
     @Named("year")
     default LocalDate mapYearToLocalDate(int yearOfRelease) {
