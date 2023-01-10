@@ -31,8 +31,8 @@ public class DefaultReviewService implements ReviewService {
 
     @Override
     @Transactional(readOnly = true)
-    public Set<ReviewDto> findByMovie(Movie movie) {
-        return reviewMapper.toReviewDtos(reviewRepository.findByMovie(movie));
+    public Set<ReviewDto> findByMovieId(int id) {
+        return reviewMapper.toReviewDtos(reviewRepository.findByMovieId(id));
     }
 
     private boolean checkIfNew(Review newReview) {

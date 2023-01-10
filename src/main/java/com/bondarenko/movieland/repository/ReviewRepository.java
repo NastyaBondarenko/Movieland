@@ -11,8 +11,9 @@ import java.util.Set;
 
 @Repository
 public interface ReviewRepository extends JpaRepository<Review, Integer> {
-    @EntityGraph(attributePaths = {"user"})
-    Set<Review> findByMovie(Movie movie);
 
     Optional<Review> findByMovieAndDescription(Movie movie, String description);
+
+    @EntityGraph(attributePaths = {"user"})
+    Set<Review> findByMovieId(int id);
 }
