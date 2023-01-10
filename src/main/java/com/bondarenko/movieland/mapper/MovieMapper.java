@@ -1,8 +1,8 @@
 package com.bondarenko.movieland.mapper;
 
-import com.bondarenko.movieland.dto.MovieDetailsDto;
+import com.bondarenko.movieland.service.dto.request.MovieDetailsDto;
 import com.bondarenko.movieland.dto.MovieDto;
-import com.bondarenko.movieland.dto.MovieRequestDto;
+import com.bondarenko.movieland.service.dto.request.MovieRequestDto;
 import com.bondarenko.movieland.entity.Movie;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

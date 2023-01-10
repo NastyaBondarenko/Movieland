@@ -1,5 +1,8 @@
-package com.bondarenko.movieland.dto;
+package com.bondarenko.movieland.service.dto.request;
 
+import com.bondarenko.movieland.dto.CountryDto;
+import com.bondarenko.movieland.dto.GenreDto;
+import com.bondarenko.movieland.dto.ReviewDto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.micrometer.common.lang.NonNullFields;

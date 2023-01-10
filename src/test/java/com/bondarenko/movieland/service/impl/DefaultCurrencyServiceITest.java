@@ -1,7 +1,7 @@
 package com.bondarenko.movieland.service.impl;
 
-import com.bondarenko.movieland.entity.Currency;
-import com.bondarenko.movieland.entity.CurrencyType;
+import com.bondarenko.movieland.service.entity.common.Currency;
+import com.bondarenko.movieland.service.entity.common.CurrencyType;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

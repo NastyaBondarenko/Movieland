@@ -1,6 +1,6 @@
 package com.bondarenko.movieland.util;
 
-import com.bondarenko.movieland.entity.CurrencyType;
+import com.bondarenko.movieland.service.entity.common.CurrencyType;
 import org.apache.commons.lang3.EnumUtils;
 import org.apache.commons.lang3.StringUtils;
 

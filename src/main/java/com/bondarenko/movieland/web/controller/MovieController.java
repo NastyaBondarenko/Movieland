@@ -1,11 +1,11 @@
 package com.bondarenko.movieland.web.controller;
 
-import com.bondarenko.movieland.dto.MovieDetailsDto;
+import com.bondarenko.movieland.service.dto.request.MovieDetailsDto;
 import com.bondarenko.movieland.dto.MovieDto;
-import com.bondarenko.movieland.dto.MovieRequestDto;
-import com.bondarenko.movieland.entity.CurrencyType;
-import com.bondarenko.movieland.entity.MovieRequest;
-import com.bondarenko.movieland.entity.SortDirection;
+import com.bondarenko.movieland.service.dto.request.MovieRequestDto;
+import com.bondarenko.movieland.service.entity.common.CurrencyType;
+import com.bondarenko.movieland.service.entity.request.MovieRequest;
+import com.bondarenko.movieland.service.entity.common.SortDirection;
 import com.bondarenko.movieland.service.MovieService;
 import com.bondarenko.movieland.util.CurrencyTypeConvertor;
 import com.bondarenko.movieland.util.SortDirectionConvertor;

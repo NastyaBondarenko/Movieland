@@ -1,4 +1,4 @@
-package com.bondarenko.movieland.entity;
+package com.bondarenko.movieland.service.entity.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

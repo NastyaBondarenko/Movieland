@@ -1,7 +1,7 @@
 package com.bondarenko.movieland.web.controller;
 
-import com.bondarenko.movieland.dto.LoginDto;
-import com.bondarenko.movieland.dto.LoginRequestDto;
+import com.bondarenko.movieland.service.dto.response.LoginDto;
+import com.bondarenko.movieland.service.dto.request.LoginRequestDto;
 import com.bondarenko.movieland.service.LoginService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -1,7 +1,7 @@
 package com.bondarenko.movieland.service;
 
 import com.bondarenko.movieland.dto.ReviewDto;
-import com.bondarenko.movieland.dto.ReviewDtoShot;
+import com.bondarenko.movieland.service.dto.request.ReviewDtoShot;
 import com.bondarenko.movieland.entity.Movie;
 
 import java.util.Set;

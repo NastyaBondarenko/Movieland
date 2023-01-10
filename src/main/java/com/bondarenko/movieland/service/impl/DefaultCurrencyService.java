@@ -1,7 +1,7 @@
 package com.bondarenko.movieland.service.impl;
 
-import com.bondarenko.movieland.entity.Currency;
-import com.bondarenko.movieland.entity.CurrencyType;
+import com.bondarenko.movieland.service.entity.common.Currency;
+import com.bondarenko.movieland.service.entity.common.CurrencyType;
 import com.bondarenko.movieland.exceptions.CurrencyNotFoundException;
 import com.bondarenko.movieland.service.CurrencyService;
 import com.google.common.annotations.VisibleForTesting;

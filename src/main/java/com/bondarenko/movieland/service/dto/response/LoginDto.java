@@ -1,4 +1,4 @@
-package com.bondarenko.movieland.dto;
+package com.bondarenko.movieland.service.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -1,4 +1,4 @@
-package com.bondarenko.movieland.dto;
+package com.bondarenko.movieland.service.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;

@@ -1,7 +1,7 @@
 package com.bondarenko.movieland.service.impl;
 
-import com.bondarenko.movieland.dto.LoginDto;
-import com.bondarenko.movieland.entity.Login;
+import com.bondarenko.movieland.service.dto.response.LoginDto;
+import com.bondarenko.movieland.service.entity.response.Login;
 import com.bondarenko.movieland.exceptions.UserNotFoundException;
 import com.bondarenko.movieland.mapper.LoginMapper;
 import com.bondarenko.movieland.service.LoginService;

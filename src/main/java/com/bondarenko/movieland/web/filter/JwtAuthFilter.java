@@ -1,4 +1,4 @@
-package com.bondarenko.movieland.filter;
+package com.bondarenko.movieland.web.filter;
 
 import com.bondarenko.movieland.service.SecurityService;
 import com.bondarenko.movieland.util.JwtUtils;

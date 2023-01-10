@@ -1,5 +1,6 @@
-package com.bondarenko.movieland.entity;
+package com.bondarenko.movieland.service.entity.request;
 
+import com.bondarenko.movieland.service.entity.common.SortDirection;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

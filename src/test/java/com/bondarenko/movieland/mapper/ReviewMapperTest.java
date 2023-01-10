@@ -1,7 +1,7 @@
 package com.bondarenko.movieland.mapper;
 
 import com.bondarenko.movieland.dto.ReviewDto;
-import com.bondarenko.movieland.dto.ReviewDtoShot;
+import com.bondarenko.movieland.service.dto.request.ReviewDtoShot;
 import com.bondarenko.movieland.entity.Review;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

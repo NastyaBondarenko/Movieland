@@ -1,7 +1,7 @@
 package com.bondarenko.movieland.repository;
 
 import com.bondarenko.movieland.entity.Movie;
-import com.bondarenko.movieland.entity.MovieRequest;
+import com.bondarenko.movieland.service.entity.request.MovieRequest;
 
 import java.util.List;
 

@@ -1,6 +1,6 @@
 package com.bondarenko.movieland.web.controller;
 
-import com.bondarenko.movieland.dto.ReviewDtoShot;
+import com.bondarenko.movieland.service.dto.request.ReviewDtoShot;
 import com.bondarenko.movieland.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;

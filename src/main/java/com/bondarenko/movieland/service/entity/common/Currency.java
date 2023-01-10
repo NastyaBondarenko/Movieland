@@ -1,4 +1,4 @@
-package com.bondarenko.movieland.entity;
+package com.bondarenko.movieland.service.entity.common;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;

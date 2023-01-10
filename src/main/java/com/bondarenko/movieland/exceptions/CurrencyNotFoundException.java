@@ -1,6 +1,6 @@
 package com.bondarenko.movieland.exceptions;
 
-import com.bondarenko.movieland.entity.CurrencyType;
+import com.bondarenko.movieland.service.entity.common.CurrencyType;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
