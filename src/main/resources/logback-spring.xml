@@ -12,6 +12,9 @@
 
     <appender name="RollingFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${LOGS}/movieland.log</file>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>${LOGS}/movieland-%d{yyyy-MM-dd}.log</fileNamePattern>
         </rollingPolicy>
@@ -28,7 +31,7 @@
     </appender>
 
     <root level="DEBUG">
-        <appender-ref ref="ROLLING-FILE"/>
+        <appender-ref ref="RollingFile"/>
     </root>
 
     <root level="INFO">
