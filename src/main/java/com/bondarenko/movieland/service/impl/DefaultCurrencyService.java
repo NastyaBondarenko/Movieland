@@ -4,6 +4,7 @@ import com.bondarenko.movieland.entity.Currency;
 import com.bondarenko.movieland.entity.CurrencyType;
 import com.bondarenko.movieland.exceptions.CurrencyNotFoundException;
 import com.bondarenko.movieland.service.CurrencyService;
+import com.google.common.annotations.VisibleForTesting;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
@@ -29,7 +30,8 @@ public class DefaultCurrencyService implements CurrencyService {
         return price;
     }
 
-    private List<Currency> getBankCurrency() {
+    @VisibleForTesting
+    List<Currency> getBankCurrency() {
         Mono<Currency[]> response = webClient.get()
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
