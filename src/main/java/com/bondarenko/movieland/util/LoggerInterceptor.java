@@ -29,7 +29,7 @@ public class LoggerInterceptor implements HandlerInterceptor {
     @Override
     public void afterCompletion(HttpServletRequest request,
                                 HttpServletResponse response, Object object, Exception arg3) {
-        log.info("Request is completed for user " + MDC.get("email"));
+//        log.info("Request is completed for user " + MDC.get("email"));
         MDC.clear();
     }
 }
