@@ -10,12 +10,8 @@
         </layout>
     </appender>
 
-    <appender name="ROLLING-FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <appender name="RollingFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${LOGS}/movieland.log</file>
-        <encoder>
-            <pattern>${FILE_LOG_PATTERN}</pattern>
-        </encoder>
-
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>${LOGS}/movieland-%d{yyyy-MM-dd}.log</fileNamePattern>
         </rollingPolicy>
