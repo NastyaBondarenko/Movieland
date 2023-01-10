@@ -1,7 +1,7 @@
 package com.bondarenko.movieland.service.impl;
 
 import com.bondarenko.movieland.dto.ReviewDto;
-import com.bondarenko.movieland.service.dto.request.ReviewDtoShot;
+import com.bondarenko.movieland.service.dto.request.ReviewRequestDto;
 import com.bondarenko.movieland.entity.Movie;
 import com.bondarenko.movieland.entity.Review;
 import com.bondarenko.movieland.mapper.ReviewMapper;
@@ -22,7 +22,7 @@ public class DefaultReviewService implements ReviewService {
 
     @Override
     @Transactional
-    public void add(ReviewDtoShot reviewDto) {
+    public void add(ReviewRequestDto reviewDto) {
         Review review = reviewMapper.toReview(reviewDto);
         if (checkIfNew(review)) {
             reviewRepository.save(review);

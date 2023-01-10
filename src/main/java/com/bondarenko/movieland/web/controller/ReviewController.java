@@ -1,6 +1,6 @@
 package com.bondarenko.movieland.web.controller;
 
-import com.bondarenko.movieland.service.dto.request.ReviewDtoShot;
+import com.bondarenko.movieland.service.dto.request.ReviewRequestDto;
 import com.bondarenko.movieland.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -17,7 +17,7 @@ public class ReviewController {
 
     @PostMapping
     @PreAuthorize("hasAnyRole('USER')")
-    public void add(@RequestBody ReviewDtoShot reviewDto) {
+    public void add(@RequestBody ReviewRequestDto reviewDto) {
         reviewService.add(reviewDto);
     }
 }

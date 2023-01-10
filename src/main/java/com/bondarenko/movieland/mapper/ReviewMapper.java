@@ -2,7 +2,7 @@ package com.bondarenko.movieland.mapper;
 
 import com.bondarenko.movieland.dto.ReviewDto;
 import com.bondarenko.movieland.entity.Review;
-import com.bondarenko.movieland.service.dto.request.ReviewDtoShot;
+import com.bondarenko.movieland.service.dto.request.ReviewRequestDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -14,5 +14,5 @@ public interface ReviewMapper {
     Set<ReviewDto> toReviewDtos(Set<Review> reviews);
 
     @Mapping(target = "movie.id", source = "movieId")
-    Review toReview(ReviewDtoShot reviewDtoShot);
+    Review toReview(ReviewRequestDto reviewRequestDto);
 }

@@ -1,7 +1,7 @@
 package com.bondarenko.movieland.mapper;
 
 import com.bondarenko.movieland.dto.ReviewDto;
-import com.bondarenko.movieland.service.dto.request.ReviewDtoShot;
+import com.bondarenko.movieland.service.dto.request.ReviewRequestDto;
 import com.bondarenko.movieland.entity.Review;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -44,7 +44,7 @@ public class ReviewMapperTest {
     @Test
     @DisplayName("Mapping ReviewDto  to Review")
     void givenReviewDto_whenMapReviewDtoToReview_thenReviewReturn() {
-        ReviewDtoShot reviewDto = ReviewDtoShot.builder()
+        ReviewRequestDto reviewDto = ReviewRequestDto.builder()
                 .movieId(1)
                 .description("Гениальное кино!")
                 .build();

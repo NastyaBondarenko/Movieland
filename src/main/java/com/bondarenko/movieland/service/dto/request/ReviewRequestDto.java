@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-public class ReviewDtoShot {
+public class ReviewRequestDto {
     private int movieId;
     private String description;
 }
