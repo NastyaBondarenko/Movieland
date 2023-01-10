@@ -1,6 +1,6 @@
 package com.bondarenko.movieland.filter;
 
-import com.bondarenko.movieland.service.security.SecurityService;
+import com.bondarenko.movieland.service.SecurityService;
 import com.bondarenko.movieland.util.JwtUtils;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -21,8 +21,8 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 @Component
 @RequiredArgsConstructor
 public class JwtAuthFilter extends OncePerRequestFilter {
-    private final JwtUtils jwtUtils;
     private final SecurityService securityService;
+    private final JwtUtils jwtUtils;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,

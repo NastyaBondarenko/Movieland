@@ -1,5 +1,6 @@
-package com.bondarenko.movieland.service.security;
+package com.bondarenko.movieland.service.impl;
 
+import com.bondarenko.movieland.service.SecurityService;
 import com.bondarenko.movieland.service.UserService;
 import com.bondarenko.movieland.util.JwtUtils;
 import lombok.AllArgsConstructor;
@@ -14,11 +15,12 @@ import java.util.Collections;
 
 @Service
 @AllArgsConstructor
-public class SecurityService {
+public class DefaultSecurityService implements SecurityService {
     private PasswordEncoder passwordEncoder;
     private final JwtUtils jwtUtils;
     private UserService userService;
 
+    @Override
     public UserDetails loadUserByEmail(String email) {
         String password = userService.findUserByEmail(email).getPassword();
         String encodedPassword = passwordEncoder.encode(password);
@@ -27,6 +29,7 @@ public class SecurityService {
         return new User(email, encodedPassword, Collections.singleton(new SimpleGrantedAuthority(userRoleName)));
     }
 
+    @Override
     public String generateToken(String email) {
         final UserDetails user = loadUserByEmail(email);
         return jwtUtils.generateToken(user);
