@@ -1,6 +1,6 @@
 package com.bondarenko.movieland.filter;
 
-import com.bondarenko.movieland.service.impl.JwtSecurityService;
+import com.bondarenko.movieland.service.security.SecurityService;
 import com.bondarenko.movieland.util.JwtUtils;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -22,7 +22,7 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 @RequiredArgsConstructor
 public class JwtAuthFilter extends OncePerRequestFilter {
     private final JwtUtils jwtUtils;
-    private final JwtSecurityService jwtSecurityService;
+    private final SecurityService securityService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
@@ -38,7 +38,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         jwtToken = authHeader.substring(7);
         userEmail = jwtUtils.extractUserName(jwtToken);
         if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = jwtSecurityService.loadUserByEmail(userEmail);
+            UserDetails userDetails = securityService.loadUserByEmail(userEmail);
             if (jwtUtils.isTokenValid(jwtToken, userDetails)) {
                 UsernamePasswordAuthenticationToken authToken =
                         new UsernamePasswordAuthenticationToken(userDetails, null,
