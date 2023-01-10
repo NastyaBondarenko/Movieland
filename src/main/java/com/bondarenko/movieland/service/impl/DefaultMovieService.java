@@ -92,12 +92,11 @@ public class DefaultMovieService implements MovieService {
         movieRepository.save(movie);
     }
 
-    private Movie enrichMovie(Movie movie, MovieRequestDto movieDto) {
+    private void enrichMovie(Movie movie, MovieRequestDto movieDto) {
         Set<Genre> genres = genreService.findByIdIn(movieDto.getGenreIds());
         Set<Country> countries = countryService.findByIdIn(movieDto.getCountryIds());
         movie.setGenres(genres);
         movie.setCountries(countries);
-        return movie;
     }
 
     private List<Movie> findMoviesByGenre(int genreId) {

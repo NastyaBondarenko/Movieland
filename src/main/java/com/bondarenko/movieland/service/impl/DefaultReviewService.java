@@ -9,6 +9,7 @@ import com.bondarenko.movieland.repository.ReviewRepository;
 import com.bondarenko.movieland.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 import java.util.Set;
@@ -20,6 +21,7 @@ public class DefaultReviewService implements ReviewService {
     private final ReviewMapper reviewMapper;
 
     @Override
+    @Transactional
     public void add(ReviewDtoShot reviewDto) {
         Review review = reviewMapper.toReview(reviewDto);
         if (checkIfNew(review)) {
@@ -28,6 +30,7 @@ public class DefaultReviewService implements ReviewService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Set<ReviewDto> findByMovie(Movie movie) {
         return reviewMapper.toReviewDtos(reviewRepository.findByMovie(movie));
     }

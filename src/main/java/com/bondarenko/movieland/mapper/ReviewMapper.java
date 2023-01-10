@@ -1,8 +1,8 @@
 package com.bondarenko.movieland.mapper;
 
 import com.bondarenko.movieland.dto.ReviewDto;
-import com.bondarenko.movieland.service.dto.request.ReviewDtoShot;
 import com.bondarenko.movieland.entity.Review;
+import com.bondarenko.movieland.service.dto.request.ReviewDtoShot;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
