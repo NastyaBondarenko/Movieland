@@ -76,10 +76,10 @@ public class DefaultMovieService implements MovieService {
 
     @Override
     @Transactional
-    public void add(MovieRequestDto movieRequestDto) {
+    public MovieDto add(MovieRequestDto movieRequestDto) {
         Movie movie = movieMapper.toMovie(movieRequestDto);
         enrichMovie(movie, movieRequestDto);
-        movieRepository.save(movie);
+        return movieMapper.toMovieDto(movieRepository.save(movie));
     }
 
     @Override

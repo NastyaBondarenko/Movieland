@@ -18,7 +18,7 @@ public interface MovieService {
 
     MovieDetailsDto findById(int movieId, CurrencyType currency);
 
-    void add(MovieRequestDto movieDetailsDto);
+    MovieDto add(MovieRequestDto movieDetailsDto);
 
     void update(MovieRequestDto movieRequestDto, int movieId);
 }

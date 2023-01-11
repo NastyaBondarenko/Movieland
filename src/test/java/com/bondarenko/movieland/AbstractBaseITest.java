@@ -1,5 +1,7 @@
 package com.bondarenko.movieland;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
@@ -14,6 +16,8 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 @ActiveProfiles("test")
 public class AbstractBaseITest {
+    @Autowired
+    protected ObjectMapper objectMapper;
 
     @Container
     private static final PostgreSQLContainer<?> container =
