@@ -32,3 +32,34 @@ MOVIE_GENRE:
 
   - MOVIE_ID: 2
     GENRE_ID: 2
+
+COUNTRY:
+  - ID: 1
+    NAME: "USA"
+
+MOVIE_COUNTRY:
+  - MOVIE_ID: 1
+    COUNTRY_ID: 1
+
+  - MOVIE_ID: 2
+    COUNTRY_ID: 1
+
+REVIEW:
+  - ID: 1
+    DESCRIPTION: "Гениальное кино!"
+    MOVIE_ID: 2
+    USER_ID: 1
+
+  - ID: 2
+    DESCRIPTION: "Очень хороший фильм!"
+    MOVIE_ID: 2
+    USER_ID: 1
+
+USERS:
+  - ID: 1
+    NICKNAME: "Джесси Паттерсон"
+    EMAIL: "jessie.com"
+    PASSWORD: "tommy"
+    ROLE: "USER"
+
+
