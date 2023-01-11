@@ -4,7 +4,6 @@ import com.bondarenko.movieland.service.SecurityService;
 import com.bondarenko.movieland.service.UserService;
 import com.bondarenko.movieland.util.JwtUtils;
 import lombok.AllArgsConstructor;
-import org.slf4j.MDC;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -25,7 +24,6 @@ public class DefaultSecurityService implements SecurityService {
         String password = userService.findUserByEmail(email).getPassword();
         String encodedPassword = passwordEncoder.encode(password);
         String userRoleName = userService.findUserByEmail(email).getRole().getName();
-        MDC.put("email", email);
         return new User(email, encodedPassword, Collections.singleton(new SimpleGrantedAuthority(userRoleName)));
     }
 

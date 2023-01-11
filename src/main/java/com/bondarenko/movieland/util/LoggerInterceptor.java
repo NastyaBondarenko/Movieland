@@ -6,8 +6,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
-import org.springframework.web.servlet.ModelAndView;
 
+import java.security.Principal;
 import java.util.UUID;
 
 @Slf4j
@@ -18,18 +18,10 @@ public class LoggerInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object object) {
         String requestId = UUID.randomUUID().toString();
         MDC.put("requestId", requestId);
+
+        Principal principal = request.getUserPrincipal();
+        String user = principal == null ? "guest" : principal.getName();
+        MDC.put("user", user);
         return true;
-    }
-
-    @Override
-    public void postHandle(HttpServletRequest request, HttpServletResponse response,
-                           Object object, ModelAndView model) {
-    }
-
-    @Override
-    public void afterCompletion(HttpServletRequest request,
-                                HttpServletResponse response, Object object, Exception arg3) {
-//        log.info("Request is completed for user " + MDC.get("email"));
-        MDC.clear();
     }
 }

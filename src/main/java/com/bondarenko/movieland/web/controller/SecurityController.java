@@ -14,12 +14,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(path = "/api/v1")
-public class LoginController {
+public class SecurityController {
     private final LoginService loginService;
 
     @PostMapping("/login")
     public LoginDto getLogin(@RequestBody LoginRequestDto request) {
-        log.info("Successful signing up for user " + request.getEmail());
+        log.info("Successful signing up for user {} ", request.getEmail());
         return loginService.getLogin(request.getEmail(), request.getPassword());
     }
 }
