@@ -4,6 +4,7 @@ import com.bondarenko.movieland.AbstractWebITest;
 import com.bondarenko.movieland.entity.Genre;
 import com.bondarenko.movieland.repository.GenreRepository;
 import com.bondarenko.movieland.service.dto.request.MovieRequestDto;
+import com.bondarenko.movieland.service.dto.request.ReviewRequestDto;
 import com.github.database.rider.core.api.dataset.DataSet;
 import com.github.database.rider.core.api.dataset.ExpectedDataSet;
 import com.github.database.rider.spring.api.DBRider;
@@ -183,8 +184,8 @@ public class ControllerITest extends AbstractWebITest {
     }
 
     @Test
-    @DataSet("datasets/movie/dataset_countries.yml")
-    @ExpectedDataSet("datasets/movie/dataset_countries.yml")
+    @DataSet("datasets/country/dataset_countries.yml")
+    @ExpectedDataSet("datasets/country/dataset_countries.yml")
     @DisplayName("when Get All Countries with Correct Url then Ok Status Returned")
     void whenGetAllCountries_withCorrectUrl_thenOkStatusReturned() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/country")
@@ -241,57 +242,60 @@ public class ControllerITest extends AbstractWebITest {
                                 ]"""))
                 .andExpect(status().isOk());
     }
-//
-//    @Test
-//    @DataSet("datasets/common/car/dataset_reviews.yml")
-//    @DisplayName("when Add Review and Ok Status Returned")
-//    void whenAddReview_andOkStatusReturned() throws Exception {
-//        ReviewRequestDto reviewDto = ReviewRequestDto.builder()
-//                .movieId(1)
-//                .description("Гениальное кино!")
-//                .build();
-//
-//        mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/review")
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .content(objectMapper.writeValueAsString(reviewDto)))
-//                .andExpect(content()
-//                        .json("""
-//
-//                                """))
-//                .andExpect(status().isOk());
-//    }
 
+    @Test
+    @DataSet("datasets/review/dataset_reviews.yml")
+    @ExpectedDataSet("datasets/review/dataset_add_review.yml")
+    @DisplayName("when Add Review then Review Added and Ok Status Returned")
+    void whenAddReview_thenReviewAdded_andOkStatusReturned() throws Exception {
+        ReviewRequestDto reviewDto = ReviewRequestDto.builder()
+                .movieId(1)
+                .description("Гениальное кино!")
+                .build();
 
-//    @Test
-//    @DisplayName("when Get Genres with Incorrect Url then Not Found Returned")
-//    void whenGetGenres_withIncorrectUrl_thenNotFoundReturned() throws Exception {
-//        when(genreRepository.findAll()).thenReturn(List.of(new Genre(1, "криминал")));
-//        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/genres")
-//                        .contentType(MediaType.APPLICATION_JSON))
-//                .andExpect(status().isNotFound());
-//    }
-//
-//    @Test
-//    @DisplayName("when Get All Movies with Incorrect Url then Not Found Returned")
-//    void whenGetAllMovies_withIncorrectUrl_thenNotFoundReturned() throws Exception {
-//        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/movies")
-//                        .contentType(MediaType.APPLICATION_JSON))
-//                .andExpect(status().isNotFound());
-//    }
-//
-//    @Test
-//    @DisplayName("when Get Movie By Genre with Incorrect Url then Bad Request Return")
-//    void whenGetMovieByGenre_withIncorrectUrl_thenBadRequestReturn() throws Exception {
-//        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/movie/genre/dd")
-//                        .contentType(MediaType.APPLICATION_JSON))
-//                .andExpect(status().isBadRequest());
-//    }
-//
-//    @Test
-//    @DisplayName("when Get Random Movies with Incorrect Url then Not Found Return")
-//    void whenGetRandomMovies_withIncorrectUrl_thenNotFoundReturn() throws Exception {
-//        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/movie/randoms")
-//                        .contentType(MediaType.APPLICATION_JSON))
-//                .andExpect(status().isBadRequest());
-//    }
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/review")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(reviewDto)))
+                .andExpect(content()
+                        .json("""
+                                {
+                                   "id":1,
+                                   "description":"Гениальное кино!"
+                                }
+                                """))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    @DisplayName("when Get Genres with Incorrect Url then Not Found Returned")
+    void whenGetGenres_withIncorrectUrl_thenNotFoundReturned() throws Exception {
+        when(genreRepository.findAll()).thenReturn(List.of(new Genre(1, "криминал")));
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/genres")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    @DisplayName("when Get All Movies with Incorrect Url then Not Found Returned")
+    void whenGetAllMovies_withIncorrectUrl_thenNotFoundReturned() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/movies")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    @DisplayName("when Get Movie By Genre with Incorrect Url then Bad Request Return")
+    void whenGetMovieByGenre_withIncorrectUrl_thenBadRequestReturn() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/movie/genre/dd")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @DisplayName("when Get Random Movies with Incorrect Url then Not Found Return")
+    void whenGetRandomMovies_withIncorrectUrl_thenNotFoundReturn() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/movie/randoms")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
+    }
 }

@@ -1,5 +1,6 @@
 package com.bondarenko.movieland.web.controller;
 
+import com.bondarenko.movieland.dto.ReviewDto;
 import com.bondarenko.movieland.service.dto.request.ReviewRequestDto;
 import com.bondarenko.movieland.service.ReviewService;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +18,7 @@ public class ReviewController {
 
     @PostMapping
     @PreAuthorize("hasAnyRole('USER')")
-    public void add(@RequestBody ReviewRequestDto reviewDto) {
-        reviewService.add(reviewDto);
+    public ReviewDto add(@RequestBody ReviewRequestDto reviewDto) {
+        return reviewService.add(reviewDto);
     }
 }

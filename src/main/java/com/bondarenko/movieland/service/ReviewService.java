@@ -6,7 +6,7 @@ import com.bondarenko.movieland.service.dto.request.ReviewRequestDto;
 import java.util.Set;
 
 public interface ReviewService {
-    void add(ReviewRequestDto reviewDto);
+    ReviewDto add(ReviewRequestDto reviewDto);
 
     Set<ReviewDto> findByMovieId(int id);
 }

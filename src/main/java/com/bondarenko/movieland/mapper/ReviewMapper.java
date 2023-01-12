@@ -15,4 +15,6 @@ public interface ReviewMapper {
 
     @Mapping(target = "movie.id", source = "movieId")
     Review toReview(ReviewRequestDto reviewRequestDto);
+
+    ReviewDto toReviewDto(Review review);
 }
