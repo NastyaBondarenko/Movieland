@@ -23,7 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @DBRider
-public class SecurityControllerITest extends AbstractWebITest {
+public class ControllerSecurityITest extends AbstractWebITest {
 
     @MockBean
     private GenreRepository genreRepository;
