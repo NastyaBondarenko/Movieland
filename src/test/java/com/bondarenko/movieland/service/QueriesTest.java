@@ -1,4 +1,4 @@
-package com.bondarenko.movieland.service.queries;
+package com.bondarenko.movieland.service;
 
 import com.bondarenko.movieland.AbstractBaseITest;
 import com.bondarenko.movieland.configuration.TestConfigurationToCountAllQueries;
@@ -23,7 +23,7 @@ import static com.vladmihalcea.sql.SQLStatementCountValidator.assertSelectCount;
 
 @Import(TestConfigurationToCountAllQueries.class)
 @AutoConfigureMockMvc(addFilters = false)
-public class QueriesITest extends AbstractBaseITest {
+public class QueriesTest extends AbstractBaseITest {
 
     @Autowired
     private DefaultMovieService movieService;
