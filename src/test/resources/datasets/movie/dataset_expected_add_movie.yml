@@ -1,0 +1,20 @@
+MOVIE:
+  - ID: 1
+    NAME_RUSSIAN: 'Побег'
+    NAME_NATIVE: 'The Shawshank Redemption'
+    YEAR_OF_RELEASE: "1994-01-01"
+    DESCRIPTION: 'Успешный банкир Энди Дюфрейн'
+    RATING: 0.0
+    PRICE: 123.45
+    PICTURE_PATH: 'https://images-na'
+    VOTES: 0
+
+  - ID: 2
+    NAME_RUSSIAN: 'Побег из Шоушенка'
+    NAME_NATIVE: 'The Shawshank Redemption'
+    YEAR_OF_RELEASE: "1995-01-01"
+    DESCRIPTION: 'Успешный банкир Энди Дюфрейн обвинен в убийстве'
+    RATING: 8.9
+    PRICE: 123.45
+    PICTURE_PATH: 'https://images.jpg'
+    VOTES: 100

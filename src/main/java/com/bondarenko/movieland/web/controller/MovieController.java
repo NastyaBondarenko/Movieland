@@ -47,8 +47,8 @@ public class MovieController {
 
     @PostMapping
     @PreAuthorize("hasAnyRole('ADMIN')")
-    protected void add(@RequestBody MovieRequestDto movieDto) {
-        movieService.add(movieDto);
+    protected MovieDto add(@RequestBody MovieRequestDto movieDto) {
+        return movieService.add(movieDto);
     }
 
     @PutMapping("/{movieId}")
