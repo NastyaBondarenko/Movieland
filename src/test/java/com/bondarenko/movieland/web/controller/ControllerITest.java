@@ -16,6 +16,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import java.util.List;
 
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -112,11 +113,44 @@ public class ControllerITest extends AbstractWebITest {
     }
 
     @Test
+    @DataSet(value = "datasets/movie/dataset_movies.yml", cleanAfter = true,
+            cleanBefore = true, skipCleaningFor = "flyway_schema_history")
+    @ExpectedDataSet("datasets/movie/dataset_update_movie.yml")
+    @DisplayName("when Update Movie then Updated Movie and Ok Status Returned")
+    void whenUpdateMovie_thenUpdatedMovie_andOkStatusReturned() throws Exception {
+        MovieRequestDto movieRequestDto = MovieRequestDto.builder()
+                .nameRussian("Побег")
+                .nameNative("The Shawshank Redemption")
+                .picturePath("https://images-na")
+                .countryIds(List.of(1))
+                .genreIds(List.of(1))
+                .build();
+        mockMvc.perform(put("/api/v1/movie/2")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(movieRequestDto)))
+                .andExpect(content()
+                        .json("""
+                                {
+                                "id":2,
+                                "nameRussian":"Побег",
+                                "nameNative":"The Shawshank Redemption",
+                                "yearOfRelease":1999,
+                                "description":"Обвиненный в страшном преступлении",
+                                "rating":8.9,
+                                "price":134.67,
+                                "picturePath":"https://images-na",
+                                "votes":100
+                                }
+                                 """))
+                .andExpect(status().isOk());
+    }
+
+    @Test
     @DataSet(value = "datasets/movie/dataset_add_movie.yml", cleanAfter = true,
             cleanBefore = true, skipCleaningFor = "flyway_schema_history")
     @ExpectedDataSet("datasets/movie/dataset_expected_add_movie.yml")
-    @DisplayName("when Add Movie then Ok Status Returned")
-    void whenAddMovie_thenOkStatusReturned() throws Exception {
+    @DisplayName("when Add Movie then Added Car and Ok Status Returned")
+    void whenAddMovie_thenAddedCar_andOkStatusReturned() throws Exception {
         MovieRequestDto movieRequestDto = MovieRequestDto.builder()
                 .nameRussian("Побег")
                 .nameNative("The Shawshank Redemption")
