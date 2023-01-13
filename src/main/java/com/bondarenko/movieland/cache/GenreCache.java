@@ -53,6 +53,11 @@ public class GenreCache implements GenreRepository {
     }
 
     @Override
+    public List<Genre> findByMovieId(int movieId) {
+        return genreRepository.findByMovieId(movieId);
+    }
+
+    @Override
     public <S extends Genre> S save(S entity) {
         return null;
     }

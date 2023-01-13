@@ -1,12 +1,16 @@
 package com.bondarenko.movieland.service.impl;
 
+import com.bondarenko.movieland.dto.GenreDto;
 import com.bondarenko.movieland.dto.MovieDto;
 import com.bondarenko.movieland.dto.ReviewDto;
 import com.bondarenko.movieland.entity.Country;
 import com.bondarenko.movieland.entity.Genre;
 import com.bondarenko.movieland.entity.Movie;
 import com.bondarenko.movieland.exceptions.MovieNotFoundException;
+import com.bondarenko.movieland.mapper.GenreMapper;
 import com.bondarenko.movieland.mapper.MovieMapper;
+import com.bondarenko.movieland.repository.CountryRepository;
+import com.bondarenko.movieland.repository.GenreRepository;
 import com.bondarenko.movieland.repository.MovieRepository;
 import com.bondarenko.movieland.service.*;
 import com.bondarenko.movieland.service.dto.request.MovieDetailsDto;
@@ -18,6 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -29,8 +34,10 @@ public class DefaultMovieService implements MovieService {
     private final GenreService genreService;
     private final MovieRepository movieRepository;
     private final MovieMapper movieMapper;
-
+    GenreRepository genreRepository;
+    GenreMapper genreMapper;
     DefaultEnrichmentService defaultEnrichmentService;
+    CountryRepository countryRepository;
 
 
     @Override
@@ -59,6 +66,8 @@ public class DefaultMovieService implements MovieService {
         ReviewCallable reviewCallable = new ReviewCallable(reviewService, id);
         reviewDtos = defaultEnrichmentService.enrichReviews(reviewCallable);
 
+        List<Genre> genres = genreRepository.findByMovieId(id);
+        Set<GenreDto> genreDtos = genreMapper.toGenreDto(genres);
 
 //        reviewCallable = new ReviewCallable(reviewService, id);
 
@@ -76,6 +85,8 @@ public class DefaultMovieService implements MovieService {
 
 //        Set<ReviewDto> reviewDtos = reviewService.findByMovieId(id);
         movieDetailsDto.setReviews(reviewDtos);
+        movieDetailsDto.setGenres(genreDtos);
+
         if (currencyType != null) {
             double convertedPrice = currencyService.convertPrice(movieDetailsDto.getPrice(), currencyType);
             movieDetailsDto.setPrice(convertedPrice);
