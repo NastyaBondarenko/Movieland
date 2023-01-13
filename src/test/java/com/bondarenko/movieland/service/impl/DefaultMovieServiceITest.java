@@ -118,8 +118,8 @@ public class DefaultMovieServiceITest extends AbstractBaseITest {
     @DataSet(value = "datasets/movie/dataset_add_movie.yml", cleanAfter = true,
             cleanBefore = true, skipCleaningFor = "flyway_schema_history")
     @ExpectedDataSet("datasets/movie/dataset_expected_add_movie.yml")
-    @DisplayName("when Find Movie By Id then Correct MovieDetailsDto Returned")
-    public void whenFindMovideById_thenCorrectMovieDetailsDtoReturned() {
+    @DisplayName("when Add Movie then Correct MovieDto Returned")
+    public void whenAddMovie_thenCorrectMovieDtoReturned() {
         MovieRequestDto movieRequestDto = MovieRequestDto.builder()
                 .nameRussian("Побег")
                 .nameNative("The Shawshank Redemption")
@@ -140,5 +140,42 @@ public class DefaultMovieServiceITest extends AbstractBaseITest {
         assertEquals(0.0, movieDto.getRating());
         assertEquals(123.45, movieDto.getPrice());
         assertEquals(0, movieDto.getVotes());
+    }
+
+    @Test
+    @DataSet(value = "datasets/movie/dataset_movies.yml", cleanAfter = true,
+            cleanBefore = true, skipCleaningFor = "flyway_schema_history")
+    @DisplayName("when Update Movie then Updated MovieDto Returned")
+    public void whenUpdateMovie_thenUpdatedMovieDtoReturned() {
+        MovieDetailsDto movieDtoBeforeUpdate = movieService.findById(1, null);
+
+        assertEquals(1, movieDtoBeforeUpdate.getId());
+        assertEquals("Успешный банкир Энди Дюфрейн обвинен в убийстве", movieDtoBeforeUpdate.getDescription());
+        assertEquals("https://images.jpg", movieDtoBeforeUpdate.getPicturePath());
+        assertEquals("Побег из Шоушенка", movieDtoBeforeUpdate.getNameRussian());
+        assertEquals("The Shawshank Redemption", movieDtoBeforeUpdate.getNameNative());
+        assertEquals(8.9, movieDtoBeforeUpdate.getRating());
+        assertEquals(123.45, movieDtoBeforeUpdate.getPrice());
+        assertEquals(100, movieDtoBeforeUpdate.getVotes());
+
+        MovieRequestDto movieRequestDto = MovieRequestDto.builder()
+                .nameRussian("Побег")
+                .nameNative("The Shawshank Redemption")
+                .picturePath("https://images-na")
+                .countryIds(List.of(1))
+                .genreIds(List.of(1))
+                .build();
+
+        MovieDto updatedMovieDto = movieService.update(movieRequestDto, 1);
+
+        assertEquals(1, updatedMovieDto.getId());
+        assertEquals("Успешный банкир Энди Дюфрейн обвинен в убийстве", updatedMovieDto.getDescription());
+        assertEquals("https://images-na", updatedMovieDto.getPicturePath());
+        assertEquals("Побег", updatedMovieDto.getNameRussian());
+        assertEquals("The Shawshank Redemption", updatedMovieDto.getNameNative());
+        assertEquals(8.9, updatedMovieDto.getRating());
+        assertEquals(1994, updatedMovieDto.getYearOfRelease());
+        assertEquals(123.45, updatedMovieDto.getPrice());
+        assertEquals(100, updatedMovieDto.getVotes());
     }
 }
