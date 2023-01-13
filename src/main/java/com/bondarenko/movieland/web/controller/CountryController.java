@@ -18,7 +18,7 @@ public class CountryController {
     private final CountryService countryService;
 
     @GetMapping
-    protected List<CountryDto> getAll() {
+    protected List<CountryDto> findAll() {
         return countryService.findAll();
     }
 }
