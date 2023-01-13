@@ -1,20 +1,13 @@
 package com.bondarenko.movieland.service.impl;
 
-import com.bondarenko.movieland.dto.CountryDto;
-import com.bondarenko.movieland.dto.GenreDto;
 import com.bondarenko.movieland.dto.MovieDto;
-import com.bondarenko.movieland.dto.ReviewDto;
 import com.bondarenko.movieland.entity.Country;
 import com.bondarenko.movieland.entity.Genre;
 import com.bondarenko.movieland.entity.Movie;
 import com.bondarenko.movieland.exceptions.MovieNotFoundException;
 import com.bondarenko.movieland.mapper.MovieMapper;
 import com.bondarenko.movieland.repository.MovieRepository;
-import com.bondarenko.movieland.service.CountryService;
-import com.bondarenko.movieland.service.CurrencyService;
-import com.bondarenko.movieland.service.GenreService;
-import com.bondarenko.movieland.service.MovieService;
-import com.bondarenko.movieland.service.ReviewService;
+import com.bondarenko.movieland.service.*;
 import com.bondarenko.movieland.service.dto.request.MovieDetailsDto;
 import com.bondarenko.movieland.service.dto.request.MovieRequestDto;
 import com.bondarenko.movieland.service.entity.common.CurrencyType;
@@ -61,11 +54,17 @@ public class DefaultMovieService implements MovieService {
         Movie movie = movieRepository.findById(id).orElseThrow(() -> new MovieNotFoundException(id));
         MovieDetailsDto movieDetailsDto = movieMapper.toMovieDetailsDto(movie);
 
-        Set<GenreDto> genreDtos = genreService.findByMovieId(id);
-        Set<CountryDto> countryDtos = countryService.findByMovieId(id);
 
-        ReviewCallable reviewCallable = new ReviewCallable(reviewService, id);
-        Set<ReviewDto> reviewDtos = defaultEnrichmentService.enrichReviews(reviewCallable);
+//        ReviewCallable reviewCallable = new ReviewCallable(reviewService, id);
+//        GenreCallable genreCallable = new GenreCallable(genreService, id);
+//        CountryCallable countryCallable = new CountryCallable(countryService, id);
+
+
+
+//        GenreCallable genreCallable = new GenreCallable(reviewService, id);
+       defaultEnrichmentService.enrichMovieDetailsDto(movieDetailsDto, id);
+
+//        Set<GenreDto> genreDtos = defaultEnrichmentService.enrichReviews(genreCallable);
 //        reviewCallable = new ReviewCallable(reviewService, id);
 
 //        try {
@@ -81,9 +80,9 @@ public class DefaultMovieService implements MovieService {
 //        enrichmentService.enrichReviews()
 
 //        Set<ReviewDto> reviewDtos = reviewService.findByMovieId(id);
-        movieDetailsDto.setReviews(reviewDtos);
-        movieDetailsDto.setGenres(genreDtos);
-        movieDetailsDto.setCountries(countryDtos);
+//        movieDetailsDto.setReviews(reviewDtos);
+//        movieDetailsDto.setGenres(genreDtos);
+//        movieDetailsDto.setCountries(countryDtos);
 
         if (currencyType != null) {
             double convertedPrice = currencyService.convertPrice(movieDetailsDto.getPrice(), currencyType);

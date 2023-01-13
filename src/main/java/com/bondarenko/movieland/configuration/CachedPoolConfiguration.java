@@ -10,9 +10,6 @@ import java.util.concurrent.Executors;
 public class CachedPoolConfiguration {
     @Bean
     public ExecutorService taskExecutor() {
-        //        pool.setCorePoolSize(corePoolSize);
-//        pool.setMaxPoolSize(maxPoolSize);
-//        pool.setWaitForTasksToCompleteOnShutdown(true);
         return Executors.newCachedThreadPool();
     }
 }
