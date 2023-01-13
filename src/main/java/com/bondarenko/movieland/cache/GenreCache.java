@@ -12,7 +12,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.query.FluentQuery;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,7 +52,7 @@ public class GenreCache implements GenreRepository {
     }
 
     @Override
-    public List<Genre> findByMovieId(int movieId) {
+    public Set<Genre> findByMovieId(int movieId) {
         return genreRepository.findByMovieId(movieId);
     }
 

@@ -10,5 +10,6 @@ import java.util.Set;
 @Mapper
 public interface CountryMapper {
     List<CountryDto> toCountryDtos(List<Country> countries);
-    Set<CountryDto> toCountryDto(Set<Country> countries);
+
+    Set<CountryDto> toCountryDtos(Set<Country> countries);
 }

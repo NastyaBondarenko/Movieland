@@ -18,6 +18,5 @@ public interface GenreRepository extends JpaRepository<Genre, Integer> {
     Set<Genre> findByIdIn(List<Integer> genreIds);
 
     @Query(value = "SELECT genre.id, genre.name FROM genre  INNER JOIN movie_genre ON genre.id=movie_genre.genre_id  WHERE movie_genre.movie_id=?;", nativeQuery = true)
-    List<Genre> findByMovieId(int id);
-
+    Set<Genre> findByMovieId(int id);
 }

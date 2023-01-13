@@ -8,13 +8,13 @@ import com.bondarenko.movieland.entity.Country;
 import com.bondarenko.movieland.entity.Genre;
 import com.bondarenko.movieland.entity.Movie;
 import com.bondarenko.movieland.exceptions.MovieNotFoundException;
-import com.bondarenko.movieland.mapper.CountryMapper;
-import com.bondarenko.movieland.mapper.GenreMapper;
 import com.bondarenko.movieland.mapper.MovieMapper;
-import com.bondarenko.movieland.repository.CountryRepository;
-import com.bondarenko.movieland.repository.GenreRepository;
 import com.bondarenko.movieland.repository.MovieRepository;
-import com.bondarenko.movieland.service.*;
+import com.bondarenko.movieland.service.CountryService;
+import com.bondarenko.movieland.service.CurrencyService;
+import com.bondarenko.movieland.service.GenreService;
+import com.bondarenko.movieland.service.MovieService;
+import com.bondarenko.movieland.service.ReviewService;
 import com.bondarenko.movieland.service.dto.request.MovieDetailsDto;
 import com.bondarenko.movieland.service.dto.request.MovieRequestDto;
 import com.bondarenko.movieland.service.entity.common.CurrencyType;
@@ -24,7 +24,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -36,12 +35,9 @@ public class DefaultMovieService implements MovieService {
     private final GenreService genreService;
     private final MovieRepository movieRepository;
     private final MovieMapper movieMapper;
-    GenreRepository genreRepository;
-    GenreMapper genreMapper;
-    DefaultEnrichmentService defaultEnrichmentService;
-    CountryRepository countryRepository;
 
-    CountryMapper countryMapper;
+    DefaultEnrichmentService defaultEnrichmentService;
+
 
     @Override
     @Transactional(readOnly = true)
@@ -64,15 +60,12 @@ public class DefaultMovieService implements MovieService {
     public MovieDetailsDto findById(int id, CurrencyType currencyType) {
         Movie movie = movieRepository.findById(id).orElseThrow(() -> new MovieNotFoundException(id));
         MovieDetailsDto movieDetailsDto = movieMapper.toMovieDetailsDto(movie);
-        Set<ReviewDto> reviewDtos;
+
+        Set<GenreDto> genreDtos = genreService.findByMovieId(id);
+        Set<CountryDto> countryDtos = countryService.findByMovieId(id);
 
         ReviewCallable reviewCallable = new ReviewCallable(reviewService, id);
-        reviewDtos = defaultEnrichmentService.enrichReviews(reviewCallable);
-
-        List<Genre> genres = genreRepository.findByMovieId(id);
-        Set<GenreDto> genreDtos = genreMapper.toGenreDto(genres);
-        Set<Country> cointries = countryRepository.findByMovieId(id);
-        Set<CountryDto> countryDtos = countryMapper.toCountryDto(cointries);
+        Set<ReviewDto> reviewDtos = defaultEnrichmentService.enrichReviews(reviewCallable);
 //        reviewCallable = new ReviewCallable(reviewService, id);
 
 //        try {

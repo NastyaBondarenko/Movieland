@@ -31,4 +31,9 @@ public class DefaultCountryService implements CountryService {
     public Set<Country> findByIdIn(List<Integer> countryIds) {
         return countryRepository.findByIdIn(countryIds);
     }
+
+    @Override
+    public Set<CountryDto> findByMovieId(int movieId) {
+        return countryMapper.toCountryDtos(countryRepository.findByMovieId(movieId));
+    }
 }

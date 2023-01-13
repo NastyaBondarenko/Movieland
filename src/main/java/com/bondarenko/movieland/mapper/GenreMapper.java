@@ -10,6 +10,6 @@ import java.util.Set;
 @Mapper
 public interface GenreMapper {
     List<GenreDto> toGenreDtos(List<Genre> genres);
-    Set<GenreDto> toGenreDto(List<Genre> genres);
+    Set<GenreDto> toGenreDtos(Set<Genre> genres);
     GenreDto toGenreDto(Genre genre);
 }

@@ -10,4 +10,6 @@ public interface CountryService {
     List<CountryDto> findAll();
 
     Set<Country> findByIdIn(List<Integer> countryIds);
+
+    Set<CountryDto> findByMovieId(int id);
 }
