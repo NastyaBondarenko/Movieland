@@ -1,23 +1,19 @@
 package com.bondarenko.movieland.service.impl;
 
-import com.bondarenko.movieland.service.dto.request.MovieDetailsDto;
 import com.bondarenko.movieland.dto.MovieDto;
-import com.bondarenko.movieland.service.dto.request.MovieRequestDto;
 import com.bondarenko.movieland.dto.ReviewDto;
 import com.bondarenko.movieland.entity.Country;
-import com.bondarenko.movieland.service.entity.common.CurrencyType;
 import com.bondarenko.movieland.entity.Genre;
 import com.bondarenko.movieland.entity.Movie;
-import com.bondarenko.movieland.service.entity.request.MovieRequest;
 import com.bondarenko.movieland.exceptions.MovieNotFoundException;
 import com.bondarenko.movieland.mapper.MovieMapper;
 import com.bondarenko.movieland.repository.MovieRepository;
-import com.bondarenko.movieland.service.CountryService;
-import com.bondarenko.movieland.service.CurrencyService;
-import com.bondarenko.movieland.service.GenreService;
-import com.bondarenko.movieland.service.MovieService;
-import com.bondarenko.movieland.service.ReviewService;
-import lombok.RequiredArgsConstructor;
+import com.bondarenko.movieland.service.*;
+import com.bondarenko.movieland.service.dto.request.MovieDetailsDto;
+import com.bondarenko.movieland.service.dto.request.MovieRequestDto;
+import com.bondarenko.movieland.service.entity.common.CurrencyType;
+import com.bondarenko.movieland.service.entity.request.MovieRequest;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,7 +21,7 @@ import java.util.List;
 import java.util.Set;
 
 @Service
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class DefaultMovieService implements MovieService {
     private final CurrencyService currencyService;
     private final CountryService countryService;
@@ -33,6 +29,9 @@ public class DefaultMovieService implements MovieService {
     private final GenreService genreService;
     private final MovieRepository movieRepository;
     private final MovieMapper movieMapper;
+
+    DefaultEnrichmentService defaultEnrichmentService;
+
 
     @Override
     @Transactional(readOnly = true)
@@ -55,7 +54,27 @@ public class DefaultMovieService implements MovieService {
     public MovieDetailsDto findById(int id, CurrencyType currencyType) {
         Movie movie = movieRepository.findById(id).orElseThrow(() -> new MovieNotFoundException(id));
         MovieDetailsDto movieDetailsDto = movieMapper.toMovieDetailsDto(movie);
-        Set<ReviewDto> reviewDtos = reviewService.findByMovieId(id);
+        Set<ReviewDto> reviewDtos;
+
+        ReviewCallable reviewCallable = new ReviewCallable(reviewService, id);
+        reviewDtos = defaultEnrichmentService.enrichReviews(reviewCallable);
+
+
+//        reviewCallable = new ReviewCallable(reviewService, id);
+
+//        try {
+//
+//            Future<Set<ReviewDto>> future = executorService.submit(reviewCallable);
+//            reviewDtos= future.get();
+//            movieDetailsDto.setReviews(reviewDtos);
+//        } catch (InterruptedException e) {
+//            throw new RuntimeException(e);
+//        } catch (ExecutionException e) {
+//            throw new RuntimeException(e);
+//        }
+//        enrichmentService.enrichReviews()
+
+//        Set<ReviewDto> reviewDtos = reviewService.findByMovieId(id);
         movieDetailsDto.setReviews(reviewDtos);
         if (currencyType != null) {
             double convertedPrice = currencyService.convertPrice(movieDetailsDto.getPrice(), currencyType);
