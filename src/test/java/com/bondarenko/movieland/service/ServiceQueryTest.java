@@ -23,7 +23,7 @@ import static com.vladmihalcea.sql.SQLStatementCountValidator.assertSelectCount;
 
 @Import(TestConfigurationToCountAllQueries.class)
 @AutoConfigureMockMvc(addFilters = false)
-public class QueriesTest extends AbstractBaseITest {
+public class ServiceQueryTest extends AbstractBaseITest {
 
     @Autowired
     private DefaultMovieService movieService;
