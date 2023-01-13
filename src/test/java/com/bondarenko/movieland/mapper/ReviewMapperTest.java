@@ -33,12 +33,11 @@ public class ReviewMapperTest {
                 .build();
 
         Set<ReviewDto> reviewDtos = reviewMapper.toReviewDtos(Set.of(reviewFirst, reviewSecond, reviewThird));
-
-        ReviewDto reviewDtoFirst = reviewDtos.stream().findFirst().get();
+        ReviewDto reviewDtoFirst = reviewDtos.stream().toList().get(0);
 
         assertEquals(3, reviewDtos.size());
-        assertEquals(1, reviewDtoFirst.getId());
-        assertEquals("Гениальное кино!", reviewDtoFirst.getDescription());
+        assertEquals(2, reviewDtoFirst.getId());
+        assertEquals("Очень хороший фильм", reviewDtoFirst.getDescription());
     }
 
     @Test
