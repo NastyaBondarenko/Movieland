@@ -30,9 +30,7 @@ public class GenreCache implements GenreRepository {
     private final GenreRepository genreRepository;
 
     @PostConstruct
-    @Transactional(readOnly = true)
-    @Scheduled(fixedRateString = "${scheduled.fixedRate.hours}",
-            initialDelayString = "${scheduled.initialDelay.hours}", timeUnit = TimeUnit.HOURS)
+    @Scheduled(fixedRateString = "${scheduled.fixedRate.hours}", initialDelayString = "${scheduled.initialDelay.hours}", timeUnit = TimeUnit.HOURS)
     public void enrichCache() {
         genres = genreRepository.findAll();
         log.info("Enrich genre cache, genres in cache {} ", genres.size());

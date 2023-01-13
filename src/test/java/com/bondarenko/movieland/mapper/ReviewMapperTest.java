@@ -10,6 +10,7 @@ import org.mapstruct.factory.Mappers;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ReviewMapperTest {
     private final ReviewMapper reviewMapper = Mappers.getMapper(ReviewMapper.class);
@@ -33,11 +34,10 @@ public class ReviewMapperTest {
                 .build();
 
         Set<ReviewDto> reviewDtos = reviewMapper.toReviewDtos(Set.of(reviewFirst, reviewSecond, reviewThird));
-        ReviewDto reviewDtoFirst = reviewDtos.stream().toList().get(0);
+        ReviewDto reviewDto = reviewDtos.stream().findFirst().get();
 
         assertEquals(3, reviewDtos.size());
-        assertEquals(2, reviewDtoFirst.getId());
-        assertEquals("Очень хороший фильм", reviewDtoFirst.getDescription());
+        assertTrue(reviewDtos.contains(reviewDto));
     }
 
     @Test

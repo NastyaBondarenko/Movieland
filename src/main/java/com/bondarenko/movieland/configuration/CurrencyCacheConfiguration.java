@@ -21,7 +21,7 @@ public class CurrencyCacheConfiguration {
     }
 
     @CacheEvict(value = {"currency"}, allEntries = true)
-    @Scheduled(fixedRateString = "${caching.currency.hours}", timeUnit = TimeUnit.HOURS)
+    @Scheduled(cron = "${scheduled.caching.currency}", timeUnit = TimeUnit.HOURS)
     public void clearCache() {
         log.info("Cache 'currency' cleared");
     }
