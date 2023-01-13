@@ -8,7 +8,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 @Configuration
 @RequiredArgsConstructor
-public class WebClientConfiguration {
+public class NbuClientConfiguration {
     @Value("${nbu.url}")
     private String url;
 
