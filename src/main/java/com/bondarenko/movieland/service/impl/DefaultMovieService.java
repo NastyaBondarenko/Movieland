@@ -1,5 +1,6 @@
 package com.bondarenko.movieland.service.impl;
 
+import com.bondarenko.movieland.dto.CountryDto;
 import com.bondarenko.movieland.dto.GenreDto;
 import com.bondarenko.movieland.dto.MovieDto;
 import com.bondarenko.movieland.dto.ReviewDto;
@@ -7,6 +8,7 @@ import com.bondarenko.movieland.entity.Country;
 import com.bondarenko.movieland.entity.Genre;
 import com.bondarenko.movieland.entity.Movie;
 import com.bondarenko.movieland.exceptions.MovieNotFoundException;
+import com.bondarenko.movieland.mapper.CountryMapper;
 import com.bondarenko.movieland.mapper.GenreMapper;
 import com.bondarenko.movieland.mapper.MovieMapper;
 import com.bondarenko.movieland.repository.CountryRepository;
@@ -39,6 +41,7 @@ public class DefaultMovieService implements MovieService {
     DefaultEnrichmentService defaultEnrichmentService;
     CountryRepository countryRepository;
 
+    CountryMapper countryMapper;
 
     @Override
     @Transactional(readOnly = true)
@@ -68,7 +71,8 @@ public class DefaultMovieService implements MovieService {
 
         List<Genre> genres = genreRepository.findByMovieId(id);
         Set<GenreDto> genreDtos = genreMapper.toGenreDto(genres);
-
+        Set<Country> cointries = countryRepository.findByMovieId(id);
+        Set<CountryDto> countryDtos = countryMapper.toCountryDto(cointries);
 //        reviewCallable = new ReviewCallable(reviewService, id);
 
 //        try {
@@ -86,6 +90,7 @@ public class DefaultMovieService implements MovieService {
 //        Set<ReviewDto> reviewDtos = reviewService.findByMovieId(id);
         movieDetailsDto.setReviews(reviewDtos);
         movieDetailsDto.setGenres(genreDtos);
+        movieDetailsDto.setCountries(countryDtos);
 
         if (currencyType != null) {
             double convertedPrice = currencyService.convertPrice(movieDetailsDto.getPrice(), currencyType);
