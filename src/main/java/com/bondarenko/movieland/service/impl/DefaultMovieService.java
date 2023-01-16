@@ -12,6 +12,7 @@ import com.bondarenko.movieland.service.dto.request.MovieDetailsDto;
 import com.bondarenko.movieland.service.dto.request.MovieRequestDto;
 import com.bondarenko.movieland.service.entity.common.CurrencyType;
 import com.bondarenko.movieland.service.entity.request.MovieRequest;
+import com.bondarenko.movieland.service.impl.callable.DefaultEnrichmentServices;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,12 +25,11 @@ import java.util.Set;
 public class DefaultMovieService implements MovieService {
     private final CurrencyService currencyService;
     private final CountryService countryService;
-    private final ReviewService reviewService;
     private final GenreService genreService;
     private final MovieRepository movieRepository;
     private final MovieMapper movieMapper;
 
-    DefaultEnrichmentService defaultEnrichmentService;
+    DefaultEnrichmentServices enrichmentService;
 
 
     @Override
@@ -53,41 +53,12 @@ public class DefaultMovieService implements MovieService {
     public MovieDetailsDto findById(int id, CurrencyType currencyType) {
         Movie movie = movieRepository.findById(id).orElseThrow(() -> new MovieNotFoundException(id));
         MovieDetailsDto movieDetailsDto = movieMapper.toMovieDetailsDto(movie);
-
-
-//        ReviewCallable reviewCallable = new ReviewCallable(reviewService, id);
-//        GenreCallable genreCallable = new GenreCallable(genreService, id);
-//        CountryCallable countryCallable = new CountryCallable(countryService, id);
-
-
-
-//        GenreCallable genreCallable = new GenreCallable(reviewService, id);
-       defaultEnrichmentService.enrichMovieDetailsDto(movieDetailsDto, id);
-
-//        Set<GenreDto> genreDtos = defaultEnrichmentService.enrichReviews(genreCallable);
-//        reviewCallable = new ReviewCallable(reviewService, id);
-
-//        try {
-//
-//            Future<Set<ReviewDto>> future = executorService.submit(reviewCallable);
-//            reviewDtos= future.get();
-//            movieDetailsDto.setReviews(reviewDtos);
-//        } catch (InterruptedException e) {
-//            throw new RuntimeException(e);
-//        } catch (ExecutionException e) {
-//            throw new RuntimeException(e);
-//        }
-//        enrichmentService.enrichReviews()
-
-//        Set<ReviewDto> reviewDtos = reviewService.findByMovieId(id);
-//        movieDetailsDto.setReviews(reviewDtos);
-//        movieDetailsDto.setGenres(genreDtos);
-//        movieDetailsDto.setCountries(countryDtos);
-
+        enrichmentService.enrichMovieDetailsDto(movieDetailsDto, id);
         if (currencyType != null) {
             double convertedPrice = currencyService.convertPrice(movieDetailsDto.getPrice(), currencyType);
             movieDetailsDto.setPrice(convertedPrice);
         }
+
         return movieDetailsDto;
     }
 
