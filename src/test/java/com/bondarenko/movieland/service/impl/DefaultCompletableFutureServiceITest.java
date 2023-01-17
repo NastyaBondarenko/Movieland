@@ -13,8 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 
 import java.util.Set;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -31,7 +31,7 @@ public class DefaultCompletableFutureServiceITest extends AbstractBaseITest {
     void whenEnrichByCountryDtos_thenCompletableFuture_withEnrichedMovieDetailsDtoReturn() throws ExecutionException, InterruptedException {
         MovieDetailsDto movieDetailsDto = new MovieDetailsDto();
 
-        CompletableFuture<MovieDetailsDto> completableFuture =
+        Future<MovieDetailsDto> completableFuture =
                 completableFutureService.enrichByCountryDtos(2, movieDetailsDto);
         Set<CountryDto> actualCountryDtos = completableFuture.get().getCountries();
 
@@ -50,7 +50,7 @@ public class DefaultCompletableFutureServiceITest extends AbstractBaseITest {
     void whenEnrichByGenreDtos_thenCompletableFuture_withEnrichedMovieDetailsDtoReturn() throws ExecutionException, InterruptedException {
         MovieDetailsDto movieDetailsDto = new MovieDetailsDto();
 
-        CompletableFuture<MovieDetailsDto> completableFuture =
+        Future<MovieDetailsDto> completableFuture =
                 completableFutureService.enrichByGenreDtos(2, movieDetailsDto);
         Set<GenreDto> actualGenreDtos = completableFuture.get().getGenres();
         String genreDtoName = actualGenreDtos.stream().findFirst().get().getName();
@@ -69,7 +69,7 @@ public class DefaultCompletableFutureServiceITest extends AbstractBaseITest {
     void whenEnrichByReviewDtos_thenCompletableFuture_withEnrichedMovieDetailsDtoReturn() throws ExecutionException, InterruptedException {
         MovieDetailsDto movieDetailsDto = new MovieDetailsDto();
 
-        CompletableFuture<MovieDetailsDto> completableFuture =
+        Future<MovieDetailsDto> completableFuture =
                 completableFutureService.enrichByReviewDtos(2, movieDetailsDto);
         Set<ReviewDto> actualReviewDtos = completableFuture.get().getReviews();
 
