@@ -12,7 +12,6 @@ import com.bondarenko.movieland.service.dto.request.MovieDetailsDto;
 import com.bondarenko.movieland.service.dto.request.MovieRequestDto;
 import com.bondarenko.movieland.service.entity.common.CurrencyType;
 import com.bondarenko.movieland.service.entity.request.MovieRequest;
-import com.bondarenko.movieland.service.impl.callable.DefaultEnrichmentServices;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,9 +27,7 @@ public class DefaultMovieService implements MovieService {
     private final GenreService genreService;
     private final MovieRepository movieRepository;
     private final MovieMapper movieMapper;
-
-    DefaultEnrichmentServices enrichmentService;
-
+    private final EnrichmentService enrichmentService;
 
     @Override
     @Transactional(readOnly = true)
@@ -58,7 +55,6 @@ public class DefaultMovieService implements MovieService {
             double convertedPrice = currencyService.convertPrice(movieDetailsDto.getPrice(), currencyType);
             movieDetailsDto.setPrice(convertedPrice);
         }
-
         return movieDetailsDto;
     }
 
