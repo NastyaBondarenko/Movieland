@@ -7,7 +7,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.List;
 
@@ -16,7 +15,6 @@ import static org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS;
 
 @TestInstance(PER_CLASS)
 public class DefaultCurrencyServiceITest {
-    private final String BASE_URL = "https://bank.gov.ua/NBUStatService/v1/statdirectory/exchangenew?json";
     private List<Currency> bankCurrency;
 
     @Autowired
@@ -24,8 +22,7 @@ public class DefaultCurrencyServiceITest {
 
     @BeforeAll
     public void setUp() {
-        WebClient webClient = WebClient.create(BASE_URL);
-        currencyService = new DefaultCurrencyService(webClient);
+        currencyService = new DefaultCurrencyService();
         bankCurrency = currencyService.getBankCurrency();
     }
 

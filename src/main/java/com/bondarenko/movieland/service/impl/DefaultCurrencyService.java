@@ -17,7 +17,8 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class DefaultCurrencyService implements CurrencyService {
-    private final WebClient webClient;
+    private final String NBU_URL = "https://bank.gov.ua/NBUStatService/v1/statdirectory/exchangenew?json";
+    private final WebClient nbuClient = WebClient.create(NBU_URL);
 
     @Override
     public double convertPrice(double price, CurrencyType currencyType) {
@@ -32,7 +33,7 @@ public class DefaultCurrencyService implements CurrencyService {
 
     @Cacheable({"currency"})
     public List<Currency> getBankCurrency() {
-        Mono<Currency[]> response = webClient.get()
+        Mono<Currency[]> response = nbuClient.get()
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .bodyToMono(Currency[].class).log();
