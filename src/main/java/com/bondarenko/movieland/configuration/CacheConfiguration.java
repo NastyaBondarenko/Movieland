@@ -14,7 +14,7 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 @Configuration
 @EnableCaching
-public class CurrencyCacheConfiguration {
+public class CacheConfiguration {
     @Bean
     public CacheManager cacheManager() {
         return new ConcurrentMapCacheManager("currency");
