@@ -1,5 +1,6 @@
 package com.bondarenko.movieland.service.impl;
 
+import com.bondarenko.movieland.service.currency.NbuCurrencyService;
 import com.bondarenko.movieland.service.entity.common.Currency;
 import com.bondarenko.movieland.service.entity.common.CurrencyType;
 import org.junit.jupiter.api.BeforeAll;
@@ -14,15 +15,15 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS;
 
 @TestInstance(PER_CLASS)
-public class DefaultCurrencyServiceITest {
+public class NbuCurrencyServiceITest {
     private List<Currency> bankCurrency;
 
     @Autowired
-    private DefaultCurrencyService currencyService;
+    private NbuCurrencyService currencyService;
 
     @BeforeAll
     public void setUp() {
-        currencyService = new DefaultCurrencyService();
+        currencyService = new NbuCurrencyService();
         bankCurrency = currencyService.getBankCurrency();
     }
 

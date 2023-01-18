@@ -1,4 +1,4 @@
-package com.bondarenko.movieland.service.impl;
+package com.bondarenko.movieland.service.currency;
 
 import com.bondarenko.movieland.exceptions.CurrencyNotFoundException;
 import com.bondarenko.movieland.service.CurrencyService;
@@ -16,7 +16,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class DefaultCurrencyService implements CurrencyService {
+public class NbuCurrencyService implements CurrencyService {
     private final String NBU_URL = "https://bank.gov.ua/NBUStatService/v1/statdirectory/exchangenew?json";
     private final WebClient nbuClient = WebClient.create(NBU_URL);
 

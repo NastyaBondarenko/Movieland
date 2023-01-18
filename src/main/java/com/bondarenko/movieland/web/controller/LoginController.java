@@ -1,8 +1,8 @@
 package com.bondarenko.movieland.web.controller;
 
-import com.bondarenko.movieland.service.dto.response.LoginDto;
 import com.bondarenko.movieland.service.dto.request.LoginRequestDto;
-import com.bondarenko.movieland.service.LoginService;
+import com.bondarenko.movieland.service.dto.response.LoginDto;
+import com.bondarenko.movieland.service.security.LoginService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;

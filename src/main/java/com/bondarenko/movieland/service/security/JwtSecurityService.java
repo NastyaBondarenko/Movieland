@@ -1,4 +1,4 @@
-package com.bondarenko.movieland.service.impl;
+package com.bondarenko.movieland.service.security;
 
 import com.bondarenko.movieland.service.SecurityService;
 import com.bondarenko.movieland.service.UserService;
@@ -14,7 +14,7 @@ import java.util.Collections;
 
 @Service
 @AllArgsConstructor
-public class DefaultSecurityService implements SecurityService {
+public class JwtSecurityService implements SecurityService {
     private PasswordEncoder passwordEncoder;
     private final JwtUtils jwtUtils;
     private UserService userService;
