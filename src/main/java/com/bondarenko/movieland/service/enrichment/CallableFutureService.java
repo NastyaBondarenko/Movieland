@@ -1,4 +1,4 @@
-package com.bondarenko.movieland.service.impl;
+package com.bondarenko.movieland.service.enrichment;
 
 import com.bondarenko.movieland.dto.CountryDto;
 import com.bondarenko.movieland.dto.GenreDto;
@@ -22,7 +22,7 @@ import java.util.concurrent.Future;
 @Slf4j
 @AllArgsConstructor
 @Service
-public class DefaultFutureService implements FutureService {
+public class CallableFutureService implements FutureService {
     private final CountryService countryService;
     private final GenreService genreService;
     private final ReviewService reviewService;

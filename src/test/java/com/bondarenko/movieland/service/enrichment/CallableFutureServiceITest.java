@@ -1,4 +1,4 @@
-package com.bondarenko.movieland.service.impl;
+package com.bondarenko.movieland.service.enrichment;
 
 import com.bondarenko.movieland.AbstractBaseITest;
 import com.bondarenko.movieland.dto.CountryDto;
@@ -15,14 +15,15 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
+import java.util.concurrent.TimeoutException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DBRider
 @AutoConfigureMockMvc(addFilters = false)
-public class DefaultFutureServiceITest extends AbstractBaseITest {
+public class CallableFutureServiceITest extends AbstractBaseITest {
     @Autowired
-    private DefaultFutureService futureService;
+    private CallableFutureService futureService;
 
     @Test
     @DataSet(value = "datasets/movie/dataset_movies.yml", cleanAfter = true,
@@ -65,6 +66,19 @@ public class DefaultFutureServiceITest extends AbstractBaseITest {
             cleanBefore = true, skipCleaningFor = "flyway_schema_history")
     @DisplayName("test get futureReviewDtos and return it")
     void whenGetFutureReviewDtos_thenFutureReturned() throws ExecutionException, InterruptedException {
+
+        Future<TaskResult> completableFuture =
+                futureService.getFutureReviewDtos(2, new TaskResult());
+        Set<ReviewDto> actualReviewDtos = completableFuture.get().getReviewDtos();
+
+        assertEquals(2, actualReviewDtos.size());
+    }
+
+    @Test
+    @DataSet(value = "datasets/movie/dataset_movies.yml", cleanAfter = true,
+            cleanBefore = true, skipCleaningFor = "flyway_schema_history")
+    @DisplayName("test get futureReviewDtos and return it")
+    void whenGetFutureRevddiewDtos_thenFutureReturned() throws ExecutionException, InterruptedException, TimeoutException {
 
         Future<TaskResult> completableFuture =
                 futureService.getFutureReviewDtos(2, new TaskResult());

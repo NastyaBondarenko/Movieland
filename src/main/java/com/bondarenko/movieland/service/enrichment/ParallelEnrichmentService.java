@@ -1,4 +1,4 @@
-package com.bondarenko.movieland.service.impl;
+package com.bondarenko.movieland.service.enrichment;
 
 import com.bondarenko.movieland.exceptions.ThreadInterruptedException;
 import com.bondarenko.movieland.service.EnrichmentService;
