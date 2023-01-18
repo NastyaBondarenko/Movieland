@@ -27,8 +27,8 @@ public class DefaultFutureServiceITest extends AbstractBaseITest {
     @Test
     @DataSet(value = "datasets/movie/dataset_movies.yml", cleanAfter = true,
             cleanBefore = true, skipCleaningFor = "flyway_schema_history")
-    @DisplayName("when Enrich By CountryDtos then Completable Future with Enriched MovieDetailsDto Return")
-    void whenEnrichByCountryDtos_thenCompletableFuture_withEnrichedMovieDetailsDtoReturn() throws ExecutionException, InterruptedException {
+    @DisplayName("test get futureCountryDtos and return it")
+    void whenGetFutureCountryDtos_thenFutureReturned() throws ExecutionException, InterruptedException {
 
         Future<TaskResult> future =
                 futureService.getFutureCountryDtos(2, new TaskResult());
@@ -45,9 +45,8 @@ public class DefaultFutureServiceITest extends AbstractBaseITest {
     @Test
     @DataSet(value = "datasets/movie/dataset_movies.yml", cleanAfter = true,
             cleanBefore = true, skipCleaningFor = "flyway_schema_history")
-    @DisplayName("when Enrich By CountryDtos then Completable Future enriched By CountryDtos")
-    void whenEnrichByGenreDtos_thenCompletableFuture_withEnrichedMovieDetailsDtoReturn() throws ExecutionException, InterruptedException {
-
+    @DisplayName("test get futureGenreDtos and return it")
+    void whenGetFutureGenreDtos_thenFutureReturned() throws ExecutionException, InterruptedException {
 
         Future<TaskResult> future =
                 futureService.getFutureGenreDtos(2, new TaskResult());
@@ -64,8 +63,8 @@ public class DefaultFutureServiceITest extends AbstractBaseITest {
     @Test
     @DataSet(value = "datasets/movie/dataset_movies.yml", cleanAfter = true,
             cleanBefore = true, skipCleaningFor = "flyway_schema_history")
-    @DisplayName("when Enrich By ReviewDtos then CompletableFuture with Enriched MovieDetailsDto Return")
-    void whenEnrichByReviewDtos_thenCompletableFuture_withEnrichedMovieDetailsDtoReturn() throws ExecutionException, InterruptedException {
+    @DisplayName("test get futureReviewDtos and return it")
+    void whenGetFutureReviewDtos_thenFutureReturned() throws ExecutionException, InterruptedException {
 
         Future<TaskResult> completableFuture =
                 futureService.getFutureReviewDtos(2, new TaskResult());
