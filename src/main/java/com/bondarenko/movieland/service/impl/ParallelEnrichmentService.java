@@ -1,20 +1,20 @@
 package com.bondarenko.movieland.service.impl;
 
-import com.bondarenko.movieland.service.CompletableFutureService;
+import com.bondarenko.movieland.exceptions.ThreadInterruptedException;
 import com.bondarenko.movieland.service.EnrichmentService;
+import com.bondarenko.movieland.service.FutureService;
 import com.bondarenko.movieland.service.dto.request.MovieDetailsDto;
+import com.bondarenko.movieland.service.entity.common.TaskResult;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 @Slf4j
 @Service
@@ -22,42 +22,30 @@ import java.util.concurrent.atomic.AtomicBoolean;
 @AllArgsConstructor
 public class ParallelEnrichmentService implements EnrichmentService {
     private final long TASK_TIMEOUT = 5;
-    private CompletableFutureService completableFutureService;
+    private FutureService futureService;
 
     @Override
     public MovieDetailsDto enrichMovieDetailsDto(MovieDetailsDto movieDetailsDto, int movieId) {
+        TaskResult taskResult = new TaskResult();
+        List<Future<TaskResult>> futuresList = futureService.getFuturesList(movieId, taskResult);
 
-        List<CompletableFuture<MovieDetailsDto>> futuresList = completableFutureService
-                .getCompletableFuturesList(movieId, movieDetailsDto);
-
-        CompletableFuture<Void> completableFuturesResult = CompletableFuture.allOf(futuresList
-                .toArray(new CompletableFuture[0]));
-
-        try {
-            completableFuturesResult.get(TASK_TIMEOUT, TimeUnit.SECONDS);
-        } catch (TimeoutException e) {
-            AtomicBoolean cancelled = new AtomicBoolean(false);
-            cancelled.set(true);
-            Thread.currentThread().interrupt();
-        } catch (ExecutionException | InterruptedException e) {
-            throw new RuntimeException(e);
+        for (Future<TaskResult> future : futuresList) {
+            try {
+                TaskResult result = future.get(TASK_TIMEOUT, TimeUnit.SECONDS);
+                enrichWithTaskResult(movieDetailsDto, result);
+            } catch (TimeoutException e) {
+                future.cancel(true);
+            } catch (ExecutionException | InterruptedException e) {
+                Thread.currentThread().interrupt();
+                throw new ThreadInterruptedException(Thread.currentThread());
+            }
         }
+        return movieDetailsDto;
+    }
 
-        Optional<MovieDetailsDto> movieDetailsDtoOptional = futuresList
-                .stream()
-                .filter(future -> future.isDone() && !future.isCompletedExceptionally() && !future.isCancelled())
-                .map(CompletableFuture::join)
-                .findFirst();
-
-        return movieDetailsDtoOptional.get();
+    void enrichWithTaskResult(MovieDetailsDto movieDetailsDto, TaskResult taskResult) {
+        movieDetailsDto.setReviews(taskResult.getReviewDtos());
+        movieDetailsDto.setGenres(taskResult.getGenreDtos());
+        movieDetailsDto.setCountries(taskResult.getCountryDtos());
     }
 }
-
-
-
-
-//      try {
-//              completableFuturesResult.get(0, TimeUnit.SECONDS);
-//              } catch (ExecutionException | InterruptedException | TimeoutException exception) {
-//              throw new RuntimeException(exception);
-//              }

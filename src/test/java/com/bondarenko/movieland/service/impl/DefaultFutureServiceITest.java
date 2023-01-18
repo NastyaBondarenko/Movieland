@@ -4,7 +4,7 @@ import com.bondarenko.movieland.AbstractBaseITest;
 import com.bondarenko.movieland.dto.CountryDto;
 import com.bondarenko.movieland.dto.GenreDto;
 import com.bondarenko.movieland.dto.ReviewDto;
-import com.bondarenko.movieland.service.dto.request.MovieDetailsDto;
+import com.bondarenko.movieland.service.entity.common.TaskResult;
 import com.github.database.rider.core.api.dataset.DataSet;
 import com.github.database.rider.spring.api.DBRider;
 import org.junit.jupiter.api.DisplayName;
@@ -20,20 +20,19 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DBRider
 @AutoConfigureMockMvc(addFilters = false)
-public class DefaultCompletableFutureServiceITest extends AbstractBaseITest {
+public class DefaultFutureServiceITest extends AbstractBaseITest {
     @Autowired
-    private DefaultCompletableFutureService completableFutureService;
+    private DefaultFutureService futureService;
 
     @Test
     @DataSet(value = "datasets/movie/dataset_movies.yml", cleanAfter = true,
             cleanBefore = true, skipCleaningFor = "flyway_schema_history")
     @DisplayName("when Enrich By CountryDtos then Completable Future with Enriched MovieDetailsDto Return")
     void whenEnrichByCountryDtos_thenCompletableFuture_withEnrichedMovieDetailsDtoReturn() throws ExecutionException, InterruptedException {
-        MovieDetailsDto movieDetailsDto = new MovieDetailsDto();
 
-        Future<MovieDetailsDto> completableFuture =
-                completableFutureService.enrichByCountryDtos(2, movieDetailsDto);
-        Set<CountryDto> actualCountryDtos = completableFuture.get().getCountries();
+        Future<TaskResult> future =
+                futureService.getFutureCountryDtos(2, new TaskResult());
+        Set<CountryDto> actualCountryDtos = future.get().getCountryDtos();
 
         String countryDtoName = actualCountryDtos.stream().findFirst().get().getName();
         int countryDtoNaId = actualCountryDtos.stream().findFirst().get().getId();
@@ -48,11 +47,11 @@ public class DefaultCompletableFutureServiceITest extends AbstractBaseITest {
             cleanBefore = true, skipCleaningFor = "flyway_schema_history")
     @DisplayName("when Enrich By CountryDtos then Completable Future enriched By CountryDtos")
     void whenEnrichByGenreDtos_thenCompletableFuture_withEnrichedMovieDetailsDtoReturn() throws ExecutionException, InterruptedException {
-        MovieDetailsDto movieDetailsDto = new MovieDetailsDto();
 
-        Future<MovieDetailsDto> completableFuture =
-                completableFutureService.enrichByGenreDtos(2, movieDetailsDto);
-        Set<GenreDto> actualGenreDtos = completableFuture.get().getGenres();
+
+        Future<TaskResult> future =
+                futureService.getFutureGenreDtos(2, new TaskResult());
+        Set<GenreDto> actualGenreDtos = future.get().getGenreDtos();
         String genreDtoName = actualGenreDtos.stream().findFirst().get().getName();
         int genreDtoNaId = actualGenreDtos.stream().findFirst().get().getId();
 
@@ -67,11 +66,10 @@ public class DefaultCompletableFutureServiceITest extends AbstractBaseITest {
             cleanBefore = true, skipCleaningFor = "flyway_schema_history")
     @DisplayName("when Enrich By ReviewDtos then CompletableFuture with Enriched MovieDetailsDto Return")
     void whenEnrichByReviewDtos_thenCompletableFuture_withEnrichedMovieDetailsDtoReturn() throws ExecutionException, InterruptedException {
-        MovieDetailsDto movieDetailsDto = new MovieDetailsDto();
 
-        Future<MovieDetailsDto> completableFuture =
-                completableFutureService.enrichByReviewDtos(2, movieDetailsDto);
-        Set<ReviewDto> actualReviewDtos = completableFuture.get().getReviews();
+        Future<TaskResult> completableFuture =
+                futureService.getFutureReviewDtos(2, new TaskResult());
+        Set<ReviewDto> actualReviewDtos = completableFuture.get().getReviewDtos();
 
         assertEquals(2, actualReviewDtos.size());
     }
