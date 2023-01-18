@@ -1,4 +1,4 @@
-package com.bondarenko.movieland.service;
+package com.bondarenko.movieland.service.query;
 
 import com.bondarenko.movieland.AbstractBaseITest;
 import com.bondarenko.movieland.configuration.TestConfigurationToCountAllQueries;

@@ -30,7 +30,7 @@ public class CallableFutureServiceITest extends AbstractBaseITest {
     @Test
     @DataSet(value = "datasets/movie/dataset_movies.yml", cleanAfter = true,
             cleanBefore = true, skipCleaningFor = "flyway_schema_history")
-    @DisplayName("test get futureCountryDtos and return it")
+    @DisplayName("test get futureCountryDtos")
     void whenGetFutureCountryDtos_thenFutureReturned() throws ExecutionException, InterruptedException, TimeoutException {
 
         Future<TaskResult> future = futureService.getFutureCountryDtos(2, new TaskResult());
@@ -48,7 +48,7 @@ public class CallableFutureServiceITest extends AbstractBaseITest {
     @Test
     @DataSet(value = "datasets/movie/dataset_movies.yml", cleanAfter = true,
             cleanBefore = true, skipCleaningFor = "flyway_schema_history")
-    @DisplayName("test get futureGenreDtos and return it")
+    @DisplayName("test get futureGenreDtos")
     void whenGetFutureGenreDtos_thenFutureReturned() throws ExecutionException, InterruptedException, TimeoutException {
 
         Future<TaskResult> future = futureService.getFutureGenreDtos(2, new TaskResult());
@@ -65,7 +65,7 @@ public class CallableFutureServiceITest extends AbstractBaseITest {
     @Test
     @DataSet(value = "datasets/movie/dataset_movies.yml", cleanAfter = true,
             cleanBefore = true, skipCleaningFor = "flyway_schema_history")
-    @DisplayName("test get futureReviewDtos and return it")
+    @DisplayName("test get futureReviewDtos")
     void whenGetFutureReviewDtos_thenFutureReturned() throws ExecutionException, InterruptedException, TimeoutException {
 
         Future<TaskResult> future = futureService.getFutureReviewDtos(2, new TaskResult());
