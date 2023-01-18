@@ -13,6 +13,8 @@ import com.bondarenko.movieland.service.dto.request.MovieRequestDto;
 import com.bondarenko.movieland.service.entity.common.CurrencyType;
 import com.bondarenko.movieland.service.entity.request.MovieRequest;
 import lombok.AllArgsConstructor;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -46,6 +48,7 @@ public class DefaultMovieService implements MovieService {
     }
 
     @Override
+    @Cacheable(value = "movies", key = "#id")
     @Transactional(readOnly = true)
     public MovieDetailsDto findById(int id, CurrencyType currencyType) {
         Movie movie = movieRepository.findById(id).orElseThrow(() -> new MovieNotFoundException(id));
@@ -77,6 +80,7 @@ public class DefaultMovieService implements MovieService {
     }
 
     @Override
+    @CachePut(value = "movies", key = "#movieId")
     @Transactional
     public MovieDto update(MovieRequestDto movieRequestDto, int movieId) {
         Movie movie = movieRepository.findById(movieId).orElseThrow(() -> new MovieNotFoundException(movieId));

@@ -6,10 +6,10 @@ import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
 import static java.util.Arrays.asList;
 
 @Cache
-public class CurrencyCache implements CacheManagerCustomizer<ConcurrentMapCacheManager> {
+public class CacheCustomizer implements CacheManagerCustomizer<ConcurrentMapCacheManager> {
 
     @Override
     public void customize(ConcurrentMapCacheManager cacheManager) {
-        cacheManager.setCacheNames(asList("currency"));
+        cacheManager.setCacheNames(asList("currency","movies"));
     }
 }
