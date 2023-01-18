@@ -33,7 +33,7 @@ public class ControllerSecurityITest extends AbstractWebITest {
     @DataSet(value = "datasets/movie/dataset_movies.yml", cleanAfter = true,
             cleanBefore = true, skipCleaningFor = "flyway_schema_history")
     @ExpectedDataSet("datasets/movie/dataset_update_movie.yml")
-    @DisplayName("when Update Movie then Updated Movie and Ok Status Returned")
+    @DisplayName("test update movie by admin")
     void whenUpdateMovie_thenUpdatedMovie_andOkStatusReturned() throws Exception {
         MovieRequestDto movieRequestDto = MovieRequestDto.builder()
                 .nameRussian("Побег")
@@ -67,8 +67,8 @@ public class ControllerSecurityITest extends AbstractWebITest {
     @DataSet(value = "datasets/movie/dataset_add_movie.yml", cleanAfter = true,
             cleanBefore = true, skipCleaningFor = "flyway_schema_history")
     @ExpectedDataSet("datasets/movie/dataset_expected_add_movie.yml")
-    @DisplayName("when Add Movie then Added Car and Ok Status Returned")
-    void whenAddMovie_thenAddedCar_andOkStatusReturned() throws Exception {
+    @DisplayName("test add movie by admin")
+    void whenAddMovie_thenAddedMovie_andOkStatusReturned() throws Exception {
         MovieRequestDto movieRequestDto = MovieRequestDto.builder()
                 .nameRussian("Побег")
                 .nameNative("The Shawshank Redemption")
@@ -104,7 +104,7 @@ public class ControllerSecurityITest extends AbstractWebITest {
     @WithMockUser(roles = "USER")
     @DataSet("datasets/review/dataset_reviews.yml")
     @ExpectedDataSet("datasets/review/dataset_add_review.yml")
-    @DisplayName("when Add Review then Review Added and Ok Status Returned")
+    @DisplayName("test add review by user")
     void whenAddReview_thenReviewAdded_andOkStatusReturned() throws Exception {
         ReviewRequestDto reviewDto = ReviewRequestDto.builder()
                 .movieId(1)
@@ -130,7 +130,7 @@ public class ControllerSecurityITest extends AbstractWebITest {
     @WithMockUser("hasAnyRole('USER','ADMIN')")
     @DataSet("datasets/country/dataset_countries.yml")
     @ExpectedDataSet("datasets/country/dataset_countries.yml")
-    @DisplayName("when Get All Countries with Correct Url then Ok Status Returned")
+    @DisplayName("test get all  countries by user or admin")
     void whenGetAllCountries_withCorrectUrl_thenOkStatusReturned() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/country")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -159,7 +159,7 @@ public class ControllerSecurityITest extends AbstractWebITest {
 
     @Test
     @WithMockUser("hasAnyRole('USER','ADMIN')")
-    @DisplayName("when Get All Genres with Correct Url then Ok Status Returned")
+    @DisplayName("test get genres by user or admin")
     void whenGetGenres_withCorrectUrl_thenOkStatusReturned() throws Exception {
         Genre genreFirst = new Genre(1, "драма");
         Genre genreSecond = new Genre(2, "криминал");
@@ -192,7 +192,7 @@ public class ControllerSecurityITest extends AbstractWebITest {
     @WithMockUser("hasAnyRole('USER','ADMIN')")
     @DataSet("datasets/movie/dataset_movies.yml")
     @ExpectedDataSet("datasets/movie/dataset_movies.yml")
-    @DisplayName("when Get All Movies with Correct Url then Ok Status Returned")
+    @DisplayName("test get all  movies by user or admin")
     void whenGetAllMovies_withCorrectUrl_thenOkStatusReturned() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/movie")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -228,7 +228,7 @@ public class ControllerSecurityITest extends AbstractWebITest {
     @Test
     @WithMockUser("hasAnyRole('USER','ADMIN')")
     @DataSet("datasets/movie/dataset_movies.yml")
-    @DisplayName("when Get Movie By Id then Ok Status Returned")
+    @DisplayName("test get movie by id by user or admin")
     void whenGetMovieById_thenOkStatusReturned() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/movie/2")
                         .contentType(MediaType.APPLICATION_JSON))

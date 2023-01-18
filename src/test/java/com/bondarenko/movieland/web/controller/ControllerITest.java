@@ -32,7 +32,7 @@ public class ControllerITest extends AbstractWebITest {
     @Test
     @DataSet("datasets/movie/dataset_movies.yml")
     @ExpectedDataSet("datasets/movie/dataset_movies.yml")
-    @DisplayName("when Get All Movies with Correct Url then Ok Status Returned")
+    @DisplayName("test get all movies")
     void whenGetAllMovies_withCorrectUrl_thenOkStatusReturned() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/movie")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -67,7 +67,7 @@ public class ControllerITest extends AbstractWebITest {
 
     @Test
     @DataSet("datasets/movie/dataset_movies.yml")
-    @DisplayName("when Get Movie By Id then Ok Status Returned")
+    @DisplayName("test get movie by id and return it")
     void whenGetMovieById_thenOkStatusReturned() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/movie/2")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -119,7 +119,7 @@ public class ControllerITest extends AbstractWebITest {
     @DataSet(value = "datasets/movie/dataset_movies.yml", cleanAfter = true,
             cleanBefore = true, skipCleaningFor = "flyway_schema_history")
     @ExpectedDataSet("datasets/movie/dataset_update_movie.yml")
-    @DisplayName("when Update Movie then Updated Movie and Ok Status Returned")
+    @DisplayName("test update movie and updated movie return")
     void whenUpdateMovie_thenUpdatedMovie_andOkStatusReturned() throws Exception {
         MovieRequestDto movieRequestDto = MovieRequestDto.builder()
                 .nameRussian("Побег")
@@ -152,8 +152,8 @@ public class ControllerITest extends AbstractWebITest {
     @DataSet(value = "datasets/movie/dataset_add_movie.yml", cleanAfter = true,
             cleanBefore = true, skipCleaningFor = "flyway_schema_history")
     @ExpectedDataSet("datasets/movie/dataset_expected_add_movie.yml")
-    @DisplayName("when Add Movie then Added Car and Ok Status Returned")
-    void whenAddMovie_thenAddedCar_andOkStatusReturned() throws Exception {
+    @DisplayName("test add movie and return added movie")
+    void whenAddMovie_thenAddedMovie_andOkStatusReturned() throws Exception {
         MovieRequestDto movieRequestDto = MovieRequestDto.builder()
                 .nameRussian("Побег")
                 .nameNative("The Shawshank Redemption")
@@ -188,7 +188,7 @@ public class ControllerITest extends AbstractWebITest {
     @Test
     @DataSet("datasets/country/dataset_countries.yml")
     @ExpectedDataSet("datasets/country/dataset_countries.yml")
-    @DisplayName("when Get All Countries with Correct Url then Ok Status Returned")
+    @DisplayName("test get all countries and return them")
     void whenGetAllCountries_withCorrectUrl_thenOkStatusReturned() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/country")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -269,7 +269,7 @@ public class ControllerITest extends AbstractWebITest {
     }
 
     @Test
-    @DisplayName("when Get Genres with Incorrect Url then Not Found Returned")
+    @DisplayName("return not found request when get genres")
     void whenGetGenres_withIncorrectUrl_thenNotFoundReturned() throws Exception {
         when(genreRepository.findAll()).thenReturn(List.of(new Genre(1, "криминал")));
         mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/genres")
@@ -278,7 +278,7 @@ public class ControllerITest extends AbstractWebITest {
     }
 
     @Test
-    @DisplayName("when Get All Movies with Incorrect Url then Not Found Returned")
+    @DisplayName("return not found request when get all movies")
     void whenGetAllMovies_withIncorrectUrl_thenNotFoundReturned() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/movies")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -286,7 +286,7 @@ public class ControllerITest extends AbstractWebITest {
     }
 
     @Test
-    @DisplayName("when Get Movie By Genre with Incorrect Url then Bad Request Return")
+    @DisplayName("return bad request when get movies for invalid genre")
     void whenGetMovieByGenre_withIncorrectUrl_thenBadRequestReturn() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/movie/genre/dd")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -294,7 +294,7 @@ public class ControllerITest extends AbstractWebITest {
     }
 
     @Test
-    @DisplayName("when Get Random Movies with Incorrect Url then Not Found Return")
+    @DisplayName("return bad request when get random movies")
     void whenGetRandomMovies_withIncorrectUrl_thenNotFoundReturn() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/movie/randoms")
                         .contentType(MediaType.APPLICATION_JSON))
