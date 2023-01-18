@@ -18,7 +18,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @DBRider
 @AutoConfigureMockMvc(addFilters = false)
 public class DefaultCountryServiceITest extends AbstractBaseITest {
-
     @Autowired
     private DefaultCountryService countryService;
 
