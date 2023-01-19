@@ -35,7 +35,7 @@ public class DefaultMovieServiceITest extends AbstractBaseITest {
     @Autowired
     DefaultMovieService movieService;
 
-    private Optional<MovieDetailsDto> getMovieByID(int id) {
+    private Optional<MovieDetailsDto> getMovieByIdFromCache(int id) {
         return ofNullable(cacheManager.getCache("movies")).map(c -> c.get(id, MovieDetailsDto.class));
     }
 
@@ -196,7 +196,7 @@ public class DefaultMovieServiceITest extends AbstractBaseITest {
     @DisplayName("test find movie by id from cache")
     void givenCachedMovieDetailsDtos_whenFindById_thenCachedMovieDetailsDtoReturn() {
         MovieDetailsDto movieDetailsDto = movieService.findById(1, null);
-        MovieDetailsDto cachedMovieDetailsDto = getMovieByID(1).get();
+        MovieDetailsDto cachedMovieDetailsDto = getMovieByIdFromCache(1).get();
 
         Assertions.assertEquals(movieDetailsDto, cachedMovieDetailsDto);
 
