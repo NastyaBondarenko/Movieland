@@ -1,14 +1,10 @@
-package com.bondarenko.movieland.service.query;
+package com.bondarenko.movieland.service.impl;
 
 import com.bondarenko.movieland.AbstractBaseITest;
 import com.bondarenko.movieland.configuration.TestConfigurationToCountAllQueries;
 import com.bondarenko.movieland.service.dto.request.MovieRequestDto;
 import com.bondarenko.movieland.service.entity.common.SortDirection;
 import com.bondarenko.movieland.service.entity.request.MovieRequest;
-import com.bondarenko.movieland.service.impl.DefaultCountryService;
-import com.bondarenko.movieland.service.impl.DefaultGenreService;
-import com.bondarenko.movieland.service.impl.DefaultMovieService;
-import com.bondarenko.movieland.service.impl.DefaultReviewService;
 import com.github.database.rider.core.api.dataset.DataSet;
 import com.vladmihalcea.sql.SQLStatementCountValidator;
 import org.junit.jupiter.api.DisplayName;
@@ -93,8 +89,8 @@ public class ServiceQueryTest extends AbstractBaseITest {
     }
 
     @Test
-    @DataSet(value = "datasets/movie/dataset_movies.yml", cleanAfter = true,
-            cleanBefore = true, skipCleaningFor = "flyway_schema_history")
+    @DataSet(value = "datasets/movie/dataset_movies.yml", disableConstraints = true,
+            cleanAfter = true, cleanBefore = true, skipCleaningFor = "flyway_schema_history")
     @DisplayName("validate Queries After Update Movie")
     void validateQueriesAfterUpdateMovie() {
         MovieRequestDto movieRequestDto = MovieRequestDto.builder()
