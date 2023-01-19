@@ -43,7 +43,7 @@ public class ParallelEnrichmentService implements EnrichmentService {
         return movieDetailsDto;
     }
 
-    void enrichWithTaskResult(MovieDetailsDto movieDetailsDto, TaskResult taskResult) {
+    private void enrichWithTaskResult(MovieDetailsDto movieDetailsDto, TaskResult taskResult) {
         movieDetailsDto.setReviews(taskResult.getReviewDtos());
         movieDetailsDto.setGenres(taskResult.getGenreDtos());
         movieDetailsDto.setCountries(taskResult.getCountryDtos());
