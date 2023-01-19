@@ -15,6 +15,10 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.OptimisticLockType;
+import org.hibernate.annotations.OptimisticLocking;
+import org.hibernate.annotations.SelectBeforeUpdate;
 
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -26,6 +30,9 @@ import java.util.Set;
 @AllArgsConstructor
 @Builder
 @Entity
+@SelectBeforeUpdate
+@DynamicUpdate
+@OptimisticLocking(type = OptimisticLockType.DIRTY)
 @Table(name = "movie")
 public class Movie {
     @Id
