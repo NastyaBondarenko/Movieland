@@ -244,11 +244,6 @@ public class ControllerSecurityITest extends AbstractWebITest {
                                    "price":134.67,
                                    "picturePath":"https://images.jpg",
                                    "votes":100,
-                                   "genres":[{
-                                         "id":2,
-                                         "name":"криминал"
-                                      }
-                                   ],
                                    "countries":[{
                                          "id":1,
                                          "name":"USA"
