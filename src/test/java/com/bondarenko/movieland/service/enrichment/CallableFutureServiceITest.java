@@ -4,7 +4,7 @@ import com.bondarenko.movieland.AbstractBaseITest;
 import com.bondarenko.movieland.dto.CountryDto;
 import com.bondarenko.movieland.dto.GenreDto;
 import com.bondarenko.movieland.dto.ReviewDto;
-import com.bondarenko.movieland.service.entity.common.TaskResult;
+import com.bondarenko.movieland.service.entity.common.EnrichmentTaskResult;
 import com.github.database.rider.core.api.dataset.DataSet;
 import com.github.database.rider.spring.api.DBRider;
 import org.junit.jupiter.api.Assertions;
@@ -25,7 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @AutoConfigureMockMvc(addFilters = false)
 public class CallableFutureServiceITest extends AbstractBaseITest {
     @Autowired
-    private CallableFutureService futureService;
+    private EnrichmentFutureService futureService;
 
     @Test
     @DataSet(value = "datasets/movie/dataset_movies.yml", cleanAfter = true,
@@ -33,7 +33,7 @@ public class CallableFutureServiceITest extends AbstractBaseITest {
     @DisplayName("test get futureCountryDtos")
     void whenGetFutureCountryDtos_thenFutureReturned() throws ExecutionException, InterruptedException, TimeoutException {
 
-        Future<TaskResult> future = futureService.getFutureCountryDtos(2, new TaskResult());
+        Future<EnrichmentTaskResult> future = futureService.getFutureCountryDtos(2, new EnrichmentTaskResult());
         Set<CountryDto> actualCountryDtos = future.get(5, TimeUnit.SECONDS).getCountryDtos();
 
         String countryDtoName = actualCountryDtos.stream().findFirst().get().getName();
@@ -51,7 +51,7 @@ public class CallableFutureServiceITest extends AbstractBaseITest {
     @DisplayName("test get futureGenreDtos")
     void whenGetFutureGenreDtos_thenFutureReturned() throws ExecutionException, InterruptedException, TimeoutException {
 
-        Future<TaskResult> future = futureService.getFutureGenreDtos(2, new TaskResult());
+        Future<EnrichmentTaskResult> future = futureService.getFutureGenreDtos(2, new EnrichmentTaskResult());
         Set<GenreDto> actualGenreDtos = future.get(5, TimeUnit.SECONDS).getGenreDtos();
         String genreDtoName = actualGenreDtos.stream().findFirst().get().getName();
         int genreDtoNaId = actualGenreDtos.stream().findFirst().get().getId();
@@ -68,7 +68,7 @@ public class CallableFutureServiceITest extends AbstractBaseITest {
     @DisplayName("test get futureReviewDtos")
     void whenGetFutureReviewDtos_thenFutureReturned() throws ExecutionException, InterruptedException, TimeoutException {
 
-        Future<TaskResult> future = futureService.getFutureReviewDtos(2, new TaskResult());
+        Future<EnrichmentTaskResult> future = futureService.getFutureReviewDtos(2, new EnrichmentTaskResult());
         Set<ReviewDto> actualReviewDtos = future.get(5, TimeUnit.SECONDS).getReviewDtos();
 
         Assertions.assertTrue(future.isDone());
@@ -82,7 +82,7 @@ public class CallableFutureServiceITest extends AbstractBaseITest {
     void whenGetFutureReviewDtos_afterTimeoutExecution_thenTimeoutExceptionTrows() {
         Assertions.assertThrows(TimeoutException.class, () -> {
 
-            Future<TaskResult> future = futureService.getFutureReviewDtos(2, new TaskResult());
+            Future<EnrichmentTaskResult> future = futureService.getFutureReviewDtos(2, new EnrichmentTaskResult());
             Set<ReviewDto> actualReviewDtos = future.get(0, TimeUnit.SECONDS).getReviewDtos();
 
             Assertions.assertTrue(future.isCancelled());

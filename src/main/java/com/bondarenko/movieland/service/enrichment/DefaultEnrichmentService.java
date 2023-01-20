@@ -21,7 +21,8 @@ public class DefaultEnrichmentService implements EnrichmentService {
     private final ReviewService reviewService;
 
     @Override
-    public MovieDetailsDto enrichMovieDetailsDto(MovieDetailsDto movieDetailsDto, int movieId) {
+    public MovieDetailsDto enrichMovieDetailsDto(MovieDetailsDto movieDetailsDto) {
+        int movieId = movieDetailsDto.getId();
         Set<CountryDto> countryDtos = countryService.findByMovieId(movieId);
         Set<GenreDto> genreDtos = genreService.findByMovieId(movieId);
         Set<ReviewDto> reviewDtos = reviewService.findByMovieId(movieId);

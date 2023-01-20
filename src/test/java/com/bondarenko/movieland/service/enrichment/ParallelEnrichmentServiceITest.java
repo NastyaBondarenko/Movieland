@@ -29,7 +29,7 @@ public class ParallelEnrichmentServiceITest extends AbstractBaseITest {
     void whenEnrichMovieDetailsDto_thenMovieDetailsDtoEnrichedByAppropriateDtos() {
 
         MovieDetailsDto movieDetailsDto = MovieDetailsDto.builder()
-                .id(1)
+                .id(2)
                 .nameNative("The Shawshank Redemption")
                 .nameRussian("Побег из Шоушенка")
                 .price(100)
@@ -38,7 +38,7 @@ public class ParallelEnrichmentServiceITest extends AbstractBaseITest {
                 .reviews(null)
                 .countries(null)
                 .build();
-        enrichmentService.enrichMovieDetailsDto(movieDetailsDto, 2);
+        enrichmentService.enrichMovieDetailsDto(movieDetailsDto);
 
         Set<GenreDto> actualGenreDtos = movieDetailsDto.getGenres();
         Set<ReviewDto> actualReviewDtos = movieDetailsDto.getReviews();
@@ -47,7 +47,7 @@ public class ParallelEnrichmentServiceITest extends AbstractBaseITest {
         Assertions.assertEquals(2, actualReviewDtos.size());
         Assertions.assertEquals(1, actualGenreDtos.size());
         Assertions.assertEquals(1, actualCountryDtos.size());
-        Assertions.assertEquals(1, movieDetailsDto.getId());
+        Assertions.assertEquals(2, movieDetailsDto.getId());
         Assertions.assertEquals("The Shawshank Redemption", movieDetailsDto.getNameNative());
         Assertions.assertEquals("Побег из Шоушенка", movieDetailsDto.getNameRussian());
         Assertions.assertEquals("От лица главного героя Форреста Гампа", movieDetailsDto.getDescription());

@@ -10,7 +10,7 @@ import java.util.Set;
 
 @Getter
 @Setter
-public class TaskResult {
+public class EnrichmentTaskResult {
     private Set<CountryDto> countryDtos;
     private Set<ReviewDto> reviewDtos;
     private Set<GenreDto> genreDtos;

@@ -50,7 +50,7 @@ public class DefaultMovieService implements MovieService {
     public MovieDetailsDto findById(int id, CurrencyType currencyType) {
         Movie movie = movieRepository.findById(id).orElseThrow(() -> new MovieNotFoundException(id));
         MovieDetailsDto movieDetailsDto = movieMapper.toMovieDetailsDto(movie);
-        enrichmentService.enrichMovieDetailsDto(movieDetailsDto, id);
+        enrichmentService.enrichMovieDetailsDto(movieDetailsDto);
         if (currencyType != null) {
             double convertedPrice = currencyService.convertPrice(movieDetailsDto.getPrice(), currencyType);
             movieDetailsDto.setPrice(convertedPrice);
