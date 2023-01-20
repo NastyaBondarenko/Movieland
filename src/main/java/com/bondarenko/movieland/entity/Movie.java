@@ -30,7 +30,6 @@ import java.util.Set;
 @AllArgsConstructor
 @Builder
 @Entity
-@SelectBeforeUpdate
 @DynamicUpdate
 @OptimisticLocking(type = OptimisticLockType.DIRTY)
 @Table(name = "movie")
