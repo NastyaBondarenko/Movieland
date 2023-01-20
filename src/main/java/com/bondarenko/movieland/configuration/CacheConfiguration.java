@@ -17,18 +17,12 @@ import java.util.concurrent.TimeUnit;
 public class CacheConfiguration {
     @Bean
     public CacheManager cacheManager() {
-        return new ConcurrentMapCacheManager("currency", "movies");
+        return new ConcurrentMapCacheManager("currency");
     }
 
     @CacheEvict(value = {"currency"}, allEntries = true)
     @Scheduled(cron = "${scheduled.caching.currency}", timeUnit = TimeUnit.HOURS)
     public void clearCurrencyCache() {
         log.info("Cache 'currency' cleared");
-    }
-
-    @CacheEvict(value = {"movies"}, allEntries = true)
-    @Scheduled(cron = "${scheduled.caching.currency}", timeUnit = TimeUnit.HOURS)
-    public void clearMovieCache() {
-        log.info("Cache 'movies' cleared");
     }
 }

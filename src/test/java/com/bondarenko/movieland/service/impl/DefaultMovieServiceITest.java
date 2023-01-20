@@ -11,33 +11,22 @@ import com.bondarenko.movieland.service.entity.request.MovieRequest;
 import com.github.database.rider.core.api.dataset.DataSet;
 import com.github.database.rider.core.api.dataset.ExpectedDataSet;
 import com.github.database.rider.spring.api.DBRider;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.cache.CacheManager;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
-import static java.util.Optional.ofNullable;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @DBRider
 @AutoConfigureMockMvc(addFilters = false)
 public class DefaultMovieServiceITest extends AbstractBaseITest {
-
-    @Autowired
-    CacheManager cacheManager;
     @Autowired
     DefaultMovieService movieService;
-
-    private Optional<MovieDetailsDto> getMovieByIdFromCache(int id) {
-        return ofNullable(cacheManager.getCache("movies")).map(c -> c.get(id, MovieDetailsDto.class));
-    }
 
     @Test
     @DataSet(value = "datasets/movie/dataset_movies.yml", cleanAfter = true,
@@ -188,40 +177,5 @@ public class DefaultMovieServiceITest extends AbstractBaseITest {
         assertEquals(1994, updatedMovieDto.getYearOfRelease());
         assertEquals(123.45, updatedMovieDto.getPrice());
         assertEquals(100, updatedMovieDto.getVotes());
-    }
-
-    @Test
-    @DataSet(value = "datasets/movie/dataset_movies.yml", cleanAfter = true,
-            cleanBefore = true, skipCleaningFor = "flyway_schema_history", disableConstraints = true)
-    @DisplayName("test find movie by id from cache")
-    void givenCachedMovieDetailsDtos_whenFindById_thenCachedMovieDetailsDtoReturn() {
-        MovieDetailsDto movieDetailsDto = movieService.findById(1, null);
-        MovieDetailsDto cachedMovieDetailsDto = getMovieByIdFromCache(1).get();
-
-        Assertions.assertEquals(movieDetailsDto, cachedMovieDetailsDto);
-
-        Assertions.assertEquals(1, cachedMovieDetailsDto.getId());
-        Assertions.assertEquals(1, movieDetailsDto.getId());
-
-        Assertions.assertEquals("Успешный банкир Энди Дюфрейн обвинен в убийстве", movieDetailsDto.getDescription());
-        Assertions.assertEquals("Успешный банкир Энди Дюфрейн обвинен в убийстве", cachedMovieDetailsDto.getDescription());
-
-        Assertions.assertEquals("https://images.jpg", movieDetailsDto.getPicturePath());
-        Assertions.assertEquals("https://images.jpg", cachedMovieDetailsDto.getPicturePath());
-
-        Assertions.assertEquals("Побег из Шоушенка", movieDetailsDto.getNameRussian());
-        Assertions.assertEquals("Побег из Шоушенка", cachedMovieDetailsDto.getNameRussian());
-
-        Assertions.assertEquals("The Shawshank Redemption", movieDetailsDto.getNameNative());
-        Assertions.assertEquals("The Shawshank Redemption", cachedMovieDetailsDto.getNameNative());
-
-        Assertions.assertEquals(8.9, movieDetailsDto.getRating());
-        Assertions.assertEquals(8.9, cachedMovieDetailsDto.getRating());
-
-        Assertions.assertEquals(123.45, movieDetailsDto.getPrice());
-        Assertions.assertEquals(123.45, cachedMovieDetailsDto.getPrice());
-
-        Assertions.assertEquals(100, movieDetailsDto.getVotes());
-        Assertions.assertEquals(100, cachedMovieDetailsDto.getVotes());
     }
 }
