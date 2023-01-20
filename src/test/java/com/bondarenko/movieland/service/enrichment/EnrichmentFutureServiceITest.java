@@ -23,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DBRider
 @AutoConfigureMockMvc(addFilters = false)
-public class CallableFutureServiceITest extends AbstractBaseITest {
+public class EnrichmentFutureServiceITest extends AbstractBaseITest {
     @Autowired
     private EnrichmentFutureService futureService;
 
