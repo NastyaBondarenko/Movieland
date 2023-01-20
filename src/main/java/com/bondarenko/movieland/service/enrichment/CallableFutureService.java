@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 @Slf4j
@@ -26,7 +27,7 @@ public class CallableFutureService implements FutureService {
     private final CountryService countryService;
     private final GenreService genreService;
     private final ReviewService reviewService;
-    private ExecutorService executorService;
+    private final ExecutorService executorService = Executors.newCachedThreadPool();
 
     @Override
     public List<Future<TaskResult>> getFuturesList(int id, TaskResult taskResult) {
