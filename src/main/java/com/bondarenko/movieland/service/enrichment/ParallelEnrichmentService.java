@@ -65,11 +65,7 @@ public class ParallelEnrichmentService implements EnrichmentService {
         return taskResults.stream().map(future -> {
             try {
                 return future.get(taskTimeout, TimeUnit.SECONDS);
-            } catch (InterruptedException | ExecutionException e) {
-                throw new RuntimeException(e);
-            } catch (TimeoutException e) {
-                future.cancel(true);
-                log.info("Task is cancelled {}", future.isCancelled());
+            } catch (InterruptedException | ExecutionException | TimeoutException e) {
                 throw new RuntimeException(e);
             }
         }).toList();
