@@ -69,7 +69,6 @@ public class ParallelEnrichmentService implements EnrichmentService {
                 throw new RuntimeException(e);
             }
         }).toList();
-
     }
 
     private void enrichByTaskResults(List<EnrichmentResult> enrichmentResults, MovieDetailsDto movieDetailsDto) {
