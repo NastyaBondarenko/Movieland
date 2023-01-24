@@ -57,7 +57,6 @@ public class ParallelEnrichmentService implements EnrichmentService {
         }
         List<EnrichmentResult> enrichmentResults = getEnrichmentResults(taskResults);
         enrichByTaskResults(enrichmentResults, movieDetailsDto);
-        executorService.shutdown();
         return movieDetailsDto;
     }
 
