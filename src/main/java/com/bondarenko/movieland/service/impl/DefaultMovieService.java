@@ -78,11 +78,11 @@ public class DefaultMovieService implements MovieService {
 
     @Override
     @Transactional
-    public MovieDto update(MovieRequestDto movieRequestDto, int movieId) {
+    public MovieDetailsDto update(MovieRequestDto movieRequestDto, int movieId) {
         Movie movie = movieRepository.findById(movieId).orElseThrow(() -> new MovieNotFoundException(movieId));
         enrichMovie(movie, movieRequestDto);
         movieMapper.update(movie, movieRequestDto);
-        return movieMapper.toMovieDto(movieRepository.save(movie));
+        return movieMapper.toMovieDetailDto(movieRepository.save(movie));
     }
 
     private void enrichMovie(Movie movie, MovieRequestDto movieDto) {

@@ -20,5 +20,5 @@ public interface MovieService {
 
     MovieDto add(MovieRequestDto movieDetailsDto);
 
-    MovieDto update(MovieRequestDto movieRequestDto, int movieId);
+    MovieDetailsDto update(MovieRequestDto movieRequestDto, int movieId);
 }

@@ -19,6 +19,7 @@ public interface MovieMapper {
 
     @Mapping(target = "yearOfRelease", expression = "java(movie.getYearOfRelease().getYear())")
     MovieDto toMovieDto(Movie movie);
+
     @Mapping(target = "countries", ignore = true)
     @Mapping(target = "genres", ignore = true)
     @Mapping(target = "reviews", ignore = true)
@@ -38,6 +39,9 @@ public interface MovieMapper {
     @Mapping(target = "genres", ignore = true)
     @Mapping(target = "countries", ignore = true)
     Movie update(@MappingTarget Movie movie, MovieRequestDto movieRequestDto);
+
+    @Mapping(target = "reviews", ignore = true)
+    MovieDetailsDto toMovieDetailDto(Movie movie);
 
     @Named("year")
     default LocalDate mapYearToLocalDate(int yearOfRelease) {
