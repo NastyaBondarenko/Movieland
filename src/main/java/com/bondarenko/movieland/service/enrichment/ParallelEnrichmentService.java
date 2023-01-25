@@ -73,15 +73,15 @@ public class ParallelEnrichmentService implements EnrichmentService {
     private void enrichByTaskResults(List<EnrichmentResult> enrichmentResults, MovieDetailsDto movieDetailsDto) {
         Set<ReviewDto> reviewDtos = enrichmentResults.stream()
                 .map(EnrichmentResult::getReviewDtos)
-                .filter(Objects::nonNull).findFirst().get();
+                .filter(Objects::nonNull).findFirst().orElse(null);
 
         Set<GenreDto> genreDtos = enrichmentResults.stream()
                 .map(EnrichmentResult::getGenreDtos)
-                .filter(Objects::nonNull).findFirst().get();
+                .filter(Objects::nonNull).findFirst().orElse(null);
 
         Set<CountryDto> countryDtos = enrichmentResults.stream()
                 .map(EnrichmentResult::getCountryDtos)
-                .filter(Objects::nonNull).findFirst().get();
+                .filter(Objects::nonNull).findFirst().orElse(null);
 
         movieDetailsDto.setCountries(countryDtos);
         movieDetailsDto.setGenres(genreDtos);
