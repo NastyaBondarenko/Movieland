@@ -51,10 +51,7 @@ public class DefaultMovieService implements MovieService {
         Movie movie = movieRepository.findById(id).orElseThrow(() -> new MovieNotFoundException(id));
         MovieDetailsDto movieDetailsDto = movieMapper.toMovieDetailsDto(movie);
         enrichmentService.enrichMovieDetailsDto(movieDetailsDto);
-        if (currencyType != null) {
-            double convertedPrice = currencyService.convertPrice(movieDetailsDto.getPrice(), currencyType);
-            movieDetailsDto.setPrice(convertedPrice);
-        }
+        convertPrice(currencyType, movieDetailsDto);
         return movieDetailsDto;
     }
 
@@ -95,5 +92,12 @@ public class DefaultMovieService implements MovieService {
     private List<Movie> findMoviesByGenre(int genreId) {
         Genre genre = genreService.findGenreById(genreId);
         return movieRepository.findMoviesByGenresIn(Set.of(genre));
+    }
+
+    private void convertPrice(CurrencyType currencyType, MovieDetailsDto movieDetailsDto) {
+        if (currencyType != null) {
+            double convertedPrice = currencyService.convertPrice(movieDetailsDto.getPrice(), currencyType);
+            movieDetailsDto.setPrice(convertedPrice);
+        }
     }
 }
