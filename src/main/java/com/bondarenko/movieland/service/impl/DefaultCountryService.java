@@ -33,7 +33,7 @@ public class DefaultCountryService implements CountryService {
     }
 
     @Override
-    public Set<CountryDto> findByMovieId(int movieId) {
-        return countryMapper.toCountryDtos(countryRepository.findByMovieId(movieId));
+    public Set<Country> findByMovieId(int movieId) {
+        return countryRepository.findByMovieId(movieId);
     }
 }

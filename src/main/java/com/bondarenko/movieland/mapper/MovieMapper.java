@@ -1,9 +1,9 @@
 package com.bondarenko.movieland.mapper;
 
-import com.bondarenko.movieland.service.dto.request.MovieDetailsDto;
 import com.bondarenko.movieland.dto.MovieDto;
-import com.bondarenko.movieland.service.dto.request.MovieRequestDto;
 import com.bondarenko.movieland.entity.Movie;
+import com.bondarenko.movieland.service.dto.request.MovieDetailsDto;
+import com.bondarenko.movieland.service.dto.request.MovieRequestDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
@@ -20,9 +20,6 @@ public interface MovieMapper {
     @Mapping(target = "yearOfRelease", expression = "java(movie.getYearOfRelease().getYear())")
     MovieDto toMovieDto(Movie movie);
 
-    @Mapping(target = "countries", ignore = true)
-    @Mapping(target = "genres", ignore = true)
-    @Mapping(target = "reviews", ignore = true)
     MovieDetailsDto toMovieDetailsDto(Movie movie);
 
     @Mapping(target = "yearOfRelease", source = "yearOfRelease", qualifiedByName = "year")
@@ -41,7 +38,6 @@ public interface MovieMapper {
     Movie update(@MappingTarget Movie movie, MovieRequestDto movieRequestDto);
 
     @Mapping(target = "reviews", ignore = true)
-    MovieDetailsDto toMovieDetailDto(Movie movie);
 
     @Named("year")
     default LocalDate mapYearToLocalDate(int yearOfRelease) {

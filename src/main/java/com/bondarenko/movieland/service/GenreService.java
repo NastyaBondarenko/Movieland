@@ -13,5 +13,5 @@ public interface GenreService {
 
     Set<Genre> findByIdIn(List<Integer> genreIds);
 
-    Set<GenreDto> findByMovieId(int movieId);
+    Set<Genre> findByMovieId(int movieId);
 }

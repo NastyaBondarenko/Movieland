@@ -1,13 +1,16 @@
 package com.bondarenko.movieland.service.enrichment;
 
-import com.bondarenko.movieland.dto.CountryDto;
-import com.bondarenko.movieland.dto.GenreDto;
-import com.bondarenko.movieland.dto.ReviewDto;
+import com.bondarenko.movieland.entity.Country;
+import com.bondarenko.movieland.entity.Genre;
+import com.bondarenko.movieland.entity.Movie;
+import com.bondarenko.movieland.entity.Review;
+import com.bondarenko.movieland.exceptions.CountryNotFoundException;
+import com.bondarenko.movieland.exceptions.GenreNotFoundException;
 import com.bondarenko.movieland.service.CountryService;
 import com.bondarenko.movieland.service.EnrichmentService;
 import com.bondarenko.movieland.service.GenreService;
 import com.bondarenko.movieland.service.ReviewService;
-import com.bondarenko.movieland.service.dto.request.MovieDetailsDto;
+import com.bondarenko.movieland.service.dto.request.MovieRequestDto;
 import com.bondarenko.movieland.service.entity.common.EnrichmentResult;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -39,15 +42,15 @@ public class ParallelEnrichmentService implements EnrichmentService {
     private int taskTimeout;
 
     @Override
-    public MovieDetailsDto enrichMovieDetailsDto(MovieDetailsDto movieDetailsDto) {
-        int movieId = movieDetailsDto.getId();
+    public Movie enrichMovie(Movie movie) {
+        int movieId = movie.getId();
         EnrichmentResult enrichmentResult = new EnrichmentResult();
 
-        EnrichByGenreCallable enrichByGenreCallable = new EnrichByGenreCallable(enrichmentResult, genreService, movieId);
-        EnrichByCountryCallable enrichByCountryCallable = new EnrichByCountryCallable(enrichmentResult, countryService, movieId);
-        EnrichByReviewCallable enrichByReviewCallable = new EnrichByReviewCallable(enrichmentResult, reviewService, movieId);
+        EnrichByGenresCallable enrichByGenresCallable = new EnrichByGenresCallable(enrichmentResult, genreService, movieId);
+        EnrichByCountriesCallable enrichByCountriesCallable = new EnrichByCountriesCallable(enrichmentResult, countryService, movieId);
+        EnrichByReviewsCallable enrichByReviewsCallable = new EnrichByReviewsCallable(enrichmentResult, reviewService, movieId);
 
-        List<Callable<EnrichmentResult>> tasks = List.of(enrichByGenreCallable, enrichByCountryCallable, enrichByReviewCallable);
+        List<Callable<EnrichmentResult>> tasks = List.of(enrichByGenresCallable, enrichByCountriesCallable, enrichByReviewsCallable);
 
         List<Future<EnrichmentResult>> taskResults;
         try {
@@ -56,8 +59,8 @@ public class ParallelEnrichmentService implements EnrichmentService {
             throw new RuntimeException(e);
         }
         List<EnrichmentResult> enrichmentResults = getEnrichmentResults(taskResults);
-        enrichByTaskResults(enrichmentResults, movieDetailsDto);
-        return movieDetailsDto;
+        enrichByTaskResults(enrichmentResults, movie);
+        return movie;
     }
 
     private List<EnrichmentResult> getEnrichmentResults(List<Future<EnrichmentResult>> taskResults) {
@@ -70,21 +73,30 @@ public class ParallelEnrichmentService implements EnrichmentService {
         }).toList();
     }
 
-    private void enrichByTaskResults(List<EnrichmentResult> enrichmentResults, MovieDetailsDto movieDetailsDto) {
-        Set<ReviewDto> reviewDtos = enrichmentResults.stream()
-                .map(EnrichmentResult::getReviewDtos)
+    private void enrichByTaskResults(List<EnrichmentResult> enrichmentResults, Movie movie) {
+        Set<Review> reviews = enrichmentResults.stream()
+                .map(EnrichmentResult::getReviews)
                 .filter(Objects::nonNull).findFirst().orElse(null);
 
-        Set<GenreDto> genreDtos = enrichmentResults.stream()
-                .map(EnrichmentResult::getGenreDtos)
-                .filter(Objects::nonNull).findFirst().orElse(null);
+        Set<Genre> genres = enrichmentResults.stream()
+                .map(EnrichmentResult::getGenres)
+                .filter(Objects::nonNull).findFirst().orElseThrow(GenreNotFoundException::new);
 
-        Set<CountryDto> countryDtos = enrichmentResults.stream()
-                .map(EnrichmentResult::getCountryDtos)
-                .filter(Objects::nonNull).findFirst().orElse(null);
+        Set<Country> countries = enrichmentResults.stream()
+                .map(EnrichmentResult::getCountries)
+                .filter(Objects::nonNull).findFirst().orElseThrow(CountryNotFoundException::new);
 
-        movieDetailsDto.setCountries(countryDtos);
-        movieDetailsDto.setGenres(genreDtos);
-        movieDetailsDto.setReviews(reviewDtos);
+        movie.setCountries(countries);
+        movie.setGenres(genres);
+        movie.setReviews(reviews);
+    }
+
+    @Override
+    public Movie enrichMovieWithGenresAndCountries(Movie movie, MovieRequestDto movieDto) {
+        Set<Genre> genres = genreService.findByIdIn(movieDto.getGenreIds());
+        Set<Country> countries = countryService.findByIdIn(movieDto.getCountryIds());
+        movie.setGenres(genres);
+        movie.setCountries(countries);
+        return movie;
     }
 }

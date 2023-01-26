@@ -1,7 +1,10 @@
 package com.bondarenko.movieland.service;
 
-import com.bondarenko.movieland.service.dto.request.MovieDetailsDto;
+import com.bondarenko.movieland.entity.Movie;
+import com.bondarenko.movieland.service.dto.request.MovieRequestDto;
 
 public interface EnrichmentService {
-    MovieDetailsDto enrichMovieDetailsDto(MovieDetailsDto movieDetailsDto);
+    Movie enrichMovie(Movie movie);
+
+    Movie enrichMovieWithGenresAndCountries(Movie movie, MovieRequestDto movieDto);
 }

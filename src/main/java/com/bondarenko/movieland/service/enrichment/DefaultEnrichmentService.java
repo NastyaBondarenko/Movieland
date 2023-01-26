@@ -1,13 +1,14 @@
 package com.bondarenko.movieland.service.enrichment;
 
-import com.bondarenko.movieland.dto.CountryDto;
-import com.bondarenko.movieland.dto.GenreDto;
-import com.bondarenko.movieland.dto.ReviewDto;
+import com.bondarenko.movieland.entity.Country;
+import com.bondarenko.movieland.entity.Genre;
+import com.bondarenko.movieland.entity.Movie;
+import com.bondarenko.movieland.entity.Review;
 import com.bondarenko.movieland.service.CountryService;
 import com.bondarenko.movieland.service.EnrichmentService;
 import com.bondarenko.movieland.service.GenreService;
 import com.bondarenko.movieland.service.ReviewService;
-import com.bondarenko.movieland.service.dto.request.MovieDetailsDto;
+import com.bondarenko.movieland.service.dto.request.MovieRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -21,15 +22,24 @@ public class DefaultEnrichmentService implements EnrichmentService {
     private final ReviewService reviewService;
 
     @Override
-    public MovieDetailsDto enrichMovieDetailsDto(MovieDetailsDto movieDetailsDto) {
-        int movieId = movieDetailsDto.getId();
-        Set<CountryDto> countryDtos = countryService.findByMovieId(movieId);
-        Set<GenreDto> genreDtos = genreService.findByMovieId(movieId);
-        Set<ReviewDto> reviewDtos = reviewService.findByMovieId(movieId);
+    public Movie enrichMovie(Movie movie) {
+        int movieId = movie.getId();
+        Set<Country> countries = countryService.findByMovieId(movieId);
+        Set<Genre> genres = genreService.findByMovieId(movieId);
+        Set<Review> reviews = reviewService.findByMovieId(movieId);
 
-        movieDetailsDto.setCountries(countryDtos);
-        movieDetailsDto.setGenres(genreDtos);
-        movieDetailsDto.setReviews(reviewDtos);
-        return movieDetailsDto;
+        movie.setCountries(countries);
+        movie.setGenres(genres);
+        movie.setReviews(reviews);
+        return movie;
+    }
+
+    @Override
+    public Movie enrichMovieWithGenresAndCountries(Movie movie, MovieRequestDto movieDto) {
+        Set<Genre> genres = genreService.findByIdIn(movieDto.getGenreIds());
+        Set<Country> countries = countryService.findByIdIn(movieDto.getCountryIds());
+        movie.setGenres(genres);
+        movie.setCountries(countries);
+        return movie;
     }
 }

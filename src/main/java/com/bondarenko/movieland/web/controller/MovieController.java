@@ -53,7 +53,7 @@ public class MovieController {
 
     @PutMapping("/{movieId}")
     @PreAuthorize("hasAnyRole('ADMIN')")
-    protected MovieDetailsDto update(@PathVariable("movieId") int movieId, @RequestBody MovieRequestDto movieDto) {
+    protected MovieDto update(@PathVariable("movieId") int movieId, @RequestBody MovieRequestDto movieDto) {
         return movieService.update(movieDto, movieId);
     }
 

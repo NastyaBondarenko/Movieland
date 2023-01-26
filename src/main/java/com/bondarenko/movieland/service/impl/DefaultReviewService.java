@@ -1,13 +1,13 @@
 package com.bondarenko.movieland.service.impl;
 
 import com.bondarenko.movieland.dto.ReviewDto;
-import com.bondarenko.movieland.exceptions.IllegalReviewForOperation;
-import com.bondarenko.movieland.service.dto.request.ReviewRequestDto;
 import com.bondarenko.movieland.entity.Movie;
 import com.bondarenko.movieland.entity.Review;
+import com.bondarenko.movieland.exceptions.IllegalReviewForOperation;
 import com.bondarenko.movieland.mapper.ReviewMapper;
 import com.bondarenko.movieland.repository.ReviewRepository;
 import com.bondarenko.movieland.service.ReviewService;
+import com.bondarenko.movieland.service.dto.request.ReviewRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,8 +33,8 @@ public class DefaultReviewService implements ReviewService {
 
     @Override
     @Transactional(readOnly = true)
-    public Set<ReviewDto> findByMovieId(int id) {
-        return reviewMapper.toReviewDtos(reviewRepository.findByMovieId(id));
+    public Set<Review> findByMovieId(int id) {
+        return reviewRepository.findByMovieId(id);
     }
 
     private boolean checkIfNew(Review newReview) {

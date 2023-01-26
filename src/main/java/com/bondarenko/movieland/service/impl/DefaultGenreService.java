@@ -37,7 +37,7 @@ public class DefaultGenreService implements GenreService {
     }
 
     @Override
-    public Set<GenreDto> findByMovieId(int movieId) {
-        return genreMapper.toGenreDtos(genreRepository.findByMovieId(movieId));
+    public Set<Genre> findByMovieId(int movieId) {
+        return genreRepository.findByMovieId(movieId);
     }
 }

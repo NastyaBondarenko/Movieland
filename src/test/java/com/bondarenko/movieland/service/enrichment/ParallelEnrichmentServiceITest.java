@@ -2,10 +2,10 @@
 package com.bondarenko.movieland.service.enrichment;
 
 import com.bondarenko.movieland.AbstractBaseITest;
-import com.bondarenko.movieland.dto.CountryDto;
-import com.bondarenko.movieland.dto.GenreDto;
-import com.bondarenko.movieland.dto.ReviewDto;
-import com.bondarenko.movieland.service.dto.request.MovieDetailsDto;
+import com.bondarenko.movieland.entity.Country;
+import com.bondarenko.movieland.entity.Genre;
+import com.bondarenko.movieland.entity.Movie;
+import com.bondarenko.movieland.entity.Review;
 import com.github.database.rider.core.api.dataset.DataSet;
 import com.github.database.rider.spring.api.DBRider;
 import org.junit.jupiter.api.Assertions;
@@ -28,7 +28,7 @@ public class ParallelEnrichmentServiceITest extends AbstractBaseITest {
     @DisplayName("test enrich MovieDetailsDto")
     void whenEnrichMovieDetailsDto_thenMovieDetailsDtoEnrichedByAppropriateDtos() {
 
-        MovieDetailsDto movieDetailsDto = MovieDetailsDto.builder()
+        Movie movie = Movie.builder()
                 .id(2)
                 .nameNative("The Shawshank Redemption")
                 .nameRussian("Побег из Шоушенка")
@@ -38,18 +38,18 @@ public class ParallelEnrichmentServiceITest extends AbstractBaseITest {
                 .reviews(null)
                 .countries(null)
                 .build();
-        enrichmentService.enrichMovieDetailsDto(movieDetailsDto);
+        enrichmentService.enrichMovie(movie);
 
-        Set<GenreDto> actualGenreDtos = movieDetailsDto.getGenres();
-        Set<ReviewDto> actualReviewDtos = movieDetailsDto.getReviews();
-        Set<CountryDto> actualCountryDtos = movieDetailsDto.getCountries();
+        Set<Genre> actualGenres = movie.getGenres();
+        Set<Review> actualReviews = movie.getReviews();
+        Set<Country> actualCountries = movie.getCountries();
 
-        Assertions.assertEquals(2, actualReviewDtos.size());
-        Assertions.assertEquals(1, actualGenreDtos.size());
-        Assertions.assertEquals(1, actualCountryDtos.size());
-        Assertions.assertEquals(2, movieDetailsDto.getId());
-        Assertions.assertEquals("The Shawshank Redemption", movieDetailsDto.getNameNative());
-        Assertions.assertEquals("Побег из Шоушенка", movieDetailsDto.getNameRussian());
-        Assertions.assertEquals("От лица главного героя Форреста Гампа", movieDetailsDto.getDescription());
+        Assertions.assertEquals(2, actualReviews.size());
+        Assertions.assertEquals(1, actualGenres.size());
+        Assertions.assertEquals(1, actualCountries.size());
+        Assertions.assertEquals(2, movie.getId());
+        Assertions.assertEquals("The Shawshank Redemption", movie.getNameNative());
+        Assertions.assertEquals("Побег из Шоушенка", movie.getNameRussian());
+        Assertions.assertEquals("От лица главного героя Форреста Гампа", movie.getDescription());
     }
 }
