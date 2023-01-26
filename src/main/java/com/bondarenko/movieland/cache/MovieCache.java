@@ -47,22 +47,6 @@ public class MovieCache implements MovieRepository {
         return movieSoftReference.get();
     }
 
-    private Movie enrichMovieByGenresAndCountries(int movieId, MovieRequestDto movieRequestDto) {
-        Movie movie = findById(movieId);
-        enrichmentService.enrichMovieWithGenresAndCountries(movie, movieRequestDto);
-        return movie;
-    }
-
-    private Movie enrichMovie(int movieId) {
-        Movie movie = findById(movieId);
-        enrichmentService.enrichMovie(movie);
-        return movie;
-    }
-
-    private Movie findById(int movieId) {
-        return movieRepository.findById(movieId).orElseThrow(() -> new MovieNotFoundException(movieId));
-    }
-
     @Override
     public List<Movie> findAll(MovieRequest movieRequest) {
         return movieRepository.findAll(movieRequest);
@@ -232,5 +216,21 @@ public class MovieCache implements MovieRepository {
     @Override
     public Page<Movie> findAll(Pageable pageable) {
         return movieRepository.findAll(pageable);
+    }
+
+    private Movie enrichMovieByGenresAndCountries(int movieId, MovieRequestDto movieRequestDto) {
+        Movie movie = findById(movieId);
+        enrichmentService.enrichMovieWithGenresAndCountries(movie, movieRequestDto);
+        return movie;
+    }
+
+    private Movie enrichMovie(int movieId) {
+        Movie movie = findById(movieId);
+        enrichmentService.enrichMovie(movie);
+        return movie;
+    }
+
+    private Movie findById(int movieId) {
+        return movieRepository.findById(movieId).orElseThrow(() -> new MovieNotFoundException(movieId));
     }
 }
