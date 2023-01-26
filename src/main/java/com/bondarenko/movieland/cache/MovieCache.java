@@ -9,7 +9,6 @@ import com.bondarenko.movieland.service.dto.request.MovieRequestDto;
 import com.bondarenko.movieland.service.entity.request.MovieRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.Primary;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -26,7 +25,6 @@ import java.util.function.Function;
 
 @Slf4j
 @Cache
-@Primary
 @RequiredArgsConstructor
 public class MovieCache implements MovieRepository {
     private final EnrichmentService enrichmentService;
