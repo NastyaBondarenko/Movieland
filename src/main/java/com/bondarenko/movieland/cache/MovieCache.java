@@ -9,6 +9,7 @@ import com.bondarenko.movieland.service.dto.request.MovieRequestDto;
 import com.bondarenko.movieland.service.entity.request.MovieRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Primary;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -25,15 +26,16 @@ import java.util.function.Function;
 
 @Slf4j
 @Cache
+@Primary
 @RequiredArgsConstructor
 public class MovieCache implements MovieRepository {
     private final EnrichmentService enrichmentService;
     private final MovieRepository movieRepository;
-    private final Map<Integer, SoftReference<Movie>> cachedMovieDetailsDtoMap = new ConcurrentHashMap<>();
+    private final Map<Integer, SoftReference<Movie>> cachedMovieMap = new ConcurrentHashMap<>();
 
     @Override
     public Movie getEnrichedMovieById(int movieId) {
-        SoftReference<Movie> movieSoftReference = cachedMovieDetailsDtoMap
+        SoftReference<Movie> movieSoftReference = cachedMovieMap
                 .computeIfAbsent(movieId, k -> new SoftReference<>(enrichMovie(movieId)));
         log.info("Get enriched movie with genres, countries, reviews by id={} ", movieId);
         return movieSoftReference.get();
@@ -41,7 +43,7 @@ public class MovieCache implements MovieRepository {
 
     @Override
     public Movie getEnrichedMovieByCountriesAndGenres(int movieId, MovieRequestDto movieRequestDto) {
-        SoftReference<Movie> movieSoftReference = cachedMovieDetailsDtoMap
+        SoftReference<Movie> movieSoftReference = cachedMovieMap
                 .computeIfAbsent(movieId, k -> new SoftReference<>(enrichMovieByGenresAndCountries(movieId, movieRequestDto)));
         log.info("Get enriched movie with genres and countries by id={} ", movieId);
         return movieSoftReference.get();

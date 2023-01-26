@@ -5,6 +5,7 @@ import com.bondarenko.movieland.repository.GenreRepository;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Primary;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,6 +22,7 @@ import java.util.function.Function;
 
 @Slf4j
 @Cache
+@Primary
 @RequiredArgsConstructor
 public class GenreCache implements GenreRepository {
     private volatile List<Genre> genres;
