@@ -63,6 +63,15 @@ public class ParallelEnrichmentService implements EnrichmentService {
         return movie;
     }
 
+    @Override
+    public Movie enrichMovieWithGenresAndCountries(Movie movie, MovieRequestDto movieDto) {
+        Set<Genre> genres = genreService.findByIdIn(movieDto.getGenreIds());
+        Set<Country> countries = countryService.findByIdIn(movieDto.getCountryIds());
+        movie.setGenres(genres);
+        movie.setCountries(countries);
+        return movie;
+    }
+
     private List<EnrichmentResult> getEnrichmentResults(List<Future<EnrichmentResult>> taskResults) {
         return taskResults.stream().map(future -> {
             try {
@@ -89,14 +98,5 @@ public class ParallelEnrichmentService implements EnrichmentService {
         movie.setCountries(countries);
         movie.setGenres(genres);
         movie.setReviews(reviews);
-    }
-
-    @Override
-    public Movie enrichMovieWithGenresAndCountries(Movie movie, MovieRequestDto movieDto) {
-        Set<Genre> genres = genreService.findByIdIn(movieDto.getGenreIds());
-        Set<Country> countries = countryService.findByIdIn(movieDto.getCountryIds());
-        movie.setGenres(genres);
-        movie.setCountries(countries);
-        return movie;
     }
 }
