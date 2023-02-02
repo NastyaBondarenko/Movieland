@@ -35,6 +35,9 @@ public interface MovieMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "genres", ignore = true)
     @Mapping(target = "countries", ignore = true)
+    @Mapping(target = "nameRussian", source = "nameRussian")
+    @Mapping(target = "nameNative", source = "nameNative")
+    @Mapping(target = "picturePath", source = "picturePath")
     Movie update(@MappingTarget Movie movie, MovieRequestDto movieRequestDto);
 
     @Named("year")
