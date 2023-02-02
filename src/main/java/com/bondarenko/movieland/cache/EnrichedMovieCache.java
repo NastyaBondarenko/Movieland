@@ -28,13 +28,13 @@ import java.util.function.Function;
 @Cache
 @Primary
 @RequiredArgsConstructor
-public class MovieCache implements MovieRepository {
+public class EnrichedMovieCache implements MovieRepository {
     private final EnrichmentService enrichmentService;
     private final MovieRepository movieRepository;
     private final Map<Integer, SoftReference<Movie>> cachedMovieMap = new ConcurrentHashMap<>();
 
     @Override
-    public Movie getEnrichedMovieById(int movieId) {
+    public Movie findEnrichedMovieById(int movieId) {
         SoftReference<Movie> movieSoftReference = cachedMovieMap.computeIfAbsent(movieId,
                 k -> new SoftReference<>(enrichMovie(movieId)));
         log.info("Get enriched movie with genres, countries, reviews by id={} ", movieId);
@@ -42,9 +42,9 @@ public class MovieCache implements MovieRepository {
     }
 
     @Override
-    public Movie getEnrichedMovieByCountriesAndGenres(int movieId, MovieRequestDto movieRequestDto) {
-        SoftReference<Movie> movieSoftReference = cachedMovieMap.computeIfAbsent(movieId,
-                k -> new SoftReference<>(enrichMovieByGenresAndCountries(movieId, movieRequestDto)));
+    public Movie findEnrichedMovieByCountriesAndGenres(int movieId, MovieRequestDto movieRequestDto) {
+        SoftReference<Movie> movieSoftReference = cachedMovieMap.computeIfPresent(movieId,
+                (key, val) -> new SoftReference<>(enrichMovieByGenresAndCountries(movieId, movieRequestDto)));
         log.info("Get enriched movie with genres and countries by id={} ", movieId);
         return movieSoftReference.get();
     }
@@ -106,7 +106,7 @@ public class MovieCache implements MovieRepository {
 
     @Override
     public Movie getById(Integer integer) {
-        return movieRepository.getById(integer);
+        return null;
     }
 
     @Override
@@ -192,7 +192,7 @@ public class MovieCache implements MovieRepository {
 
     @Override
     public void delete(Movie entity) {
-
+        movieRepository.delete(entity);
     }
 
     @Override
@@ -207,7 +207,7 @@ public class MovieCache implements MovieRepository {
 
     @Override
     public void deleteAll() {
-
+        movieRepository.deleteAll();
     }
 
     @Override

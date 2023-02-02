@@ -48,7 +48,7 @@ public class DefaultMovieService implements MovieService {
     @Override
     @Transactional(readOnly = true)
     public MovieDetailsDto findById(int id, CurrencyType currencyType) {
-        Movie enrichedMovie = movieRepository.getEnrichedMovieById(id);
+        Movie enrichedMovie = movieRepository.findEnrichedMovieById(id);
         MovieDetailsDto movieDetailsDto = movieMapper.toMovieDetailsDto(enrichedMovie);
         convertPrice(currencyType, movieDetailsDto);
         return movieDetailsDto;
@@ -75,7 +75,7 @@ public class DefaultMovieService implements MovieService {
     @Override
     @Transactional
     public MovieDto update(MovieRequestDto movieRequestDto, int movieId) {
-        Movie enrichedMovie = movieRepository.getEnrichedMovieByCountriesAndGenres(movieId, movieRequestDto);
+        Movie enrichedMovie = movieRepository.findEnrichedMovieByCountriesAndGenres(movieId, movieRequestDto);
         movieMapper.update(enrichedMovie, movieRequestDto);
         return movieMapper.toMovieDto(movieRepository.save(enrichedMovie));
     }
