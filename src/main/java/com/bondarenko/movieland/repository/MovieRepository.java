@@ -13,7 +13,7 @@ import java.util.Set;
 public interface MovieRepository extends JpaRepository<Movie, Integer>, CustomMovieRepository {
     Movie findEnrichedMovieById(int movieId);
 
-    Movie findEnrichedMovieByCountriesAndGenres(int movieId, MovieRequestDto movieRequestDto);
+    Movie findEnrichedMovieByCountriesAndGenres(Movie movie, MovieRequestDto movieRequestDto);
 
     List<Movie> findMoviesByGenresIn(Set<Genre> genre);
 }

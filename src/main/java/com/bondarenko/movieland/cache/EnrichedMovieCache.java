@@ -42,9 +42,10 @@ public class EnrichedMovieCache implements MovieRepository {
     }
 
     @Override
-    public Movie findEnrichedMovieByCountriesAndGenres(int movieId, MovieRequestDto movieRequestDto) {
-        SoftReference<Movie> movieSoftReference = cachedMovieMap.computeIfPresent(movieId,
-                (key, val) -> new SoftReference<>(enrichMovieByGenresAndCountries(movieId, movieRequestDto)));
+    public Movie findEnrichedMovieByCountriesAndGenres(Movie movie, MovieRequestDto movieRequestDto) {
+        int movieId = movie.getId();
+        SoftReference<Movie> movieSoftReference = cachedMovieMap.computeIfAbsent(movieId,
+                k -> new SoftReference<>(enrichMovieByGenresAndCountries(movie, movieRequestDto)));
         log.info("Get enriched movie with genres and countries by id={} ", movieId);
         return movieSoftReference.get();
     }
@@ -106,7 +107,7 @@ public class EnrichedMovieCache implements MovieRepository {
 
     @Override
     public Movie getById(Integer integer) {
-        return null;
+        return movieRepository.getById(integer);
     }
 
     @Override
@@ -192,7 +193,7 @@ public class EnrichedMovieCache implements MovieRepository {
 
     @Override
     public void delete(Movie entity) {
-        movieRepository.delete(entity);
+
     }
 
     @Override
@@ -207,7 +208,7 @@ public class EnrichedMovieCache implements MovieRepository {
 
     @Override
     public void deleteAll() {
-        movieRepository.deleteAll();
+
     }
 
     @Override
@@ -220,19 +221,12 @@ public class EnrichedMovieCache implements MovieRepository {
         return movieRepository.findAll(pageable);
     }
 
-    private Movie enrichMovieByGenresAndCountries(int movieId, MovieRequestDto movieRequestDto) {
-        Movie movie = findById(movieId);
-        enrichmentService.enrichMovieWithGenresAndCountries(movie, movieRequestDto);
-        return movie;
+    private Movie enrichMovieByGenresAndCountries(Movie movie, MovieRequestDto movieRequestDto) {
+        return enrichmentService.enrichMovieWithGenresAndCountries(movie, movieRequestDto);
     }
 
     private Movie enrichMovie(int movieId) {
-        Movie movie = findById(movieId);
-        enrichmentService.enrichMovie(movie);
-        return movie;
-    }
-
-    private Movie findById(int movieId) {
-        return movieRepository.findById(movieId).orElseThrow(() -> new MovieNotFoundException(movieId));
+        Movie movie = movieRepository.findById(movieId).orElseThrow(() -> new MovieNotFoundException(movieId));
+        return enrichmentService.enrichMovie(movie);
     }
 }

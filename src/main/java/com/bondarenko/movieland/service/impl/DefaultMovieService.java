@@ -3,6 +3,7 @@ package com.bondarenko.movieland.service.impl;
 import com.bondarenko.movieland.dto.MovieDto;
 import com.bondarenko.movieland.entity.Genre;
 import com.bondarenko.movieland.entity.Movie;
+import com.bondarenko.movieland.exceptions.MovieNotFoundException;
 import com.bondarenko.movieland.mapper.MovieMapper;
 import com.bondarenko.movieland.repository.MovieRepository;
 import com.bondarenko.movieland.service.CurrencyService;
@@ -75,8 +76,9 @@ public class DefaultMovieService implements MovieService {
     @Override
     @Transactional
     public MovieDto update(MovieRequestDto movieRequestDto, int movieId) {
-        Movie enrichedMovie = movieRepository.findEnrichedMovieByCountriesAndGenres(movieId, movieRequestDto);
-        movieMapper.update(enrichedMovie, movieRequestDto);
+        Movie movie = movieRepository.findById(movieId).orElseThrow(() -> new MovieNotFoundException(movieId));
+        Movie updatedMovie = movieMapper.update(movie, movieRequestDto);
+        Movie enrichedMovie = movieRepository.findEnrichedMovieByCountriesAndGenres(updatedMovie, movieRequestDto);
         return movieMapper.toMovieDto(movieRepository.save(enrichedMovie));
     }
 
