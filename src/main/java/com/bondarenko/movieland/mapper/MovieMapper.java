@@ -37,8 +37,6 @@ public interface MovieMapper {
     @Mapping(target = "countries", ignore = true)
     Movie update(@MappingTarget Movie movie, MovieRequestDto movieRequestDto);
 
-    @Mapping(target = "reviews", ignore = true)
-
     @Named("year")
     default LocalDate mapYearToLocalDate(int yearOfRelease) {
         return LocalDate.of(yearOfRelease, 1, 1);
