@@ -44,10 +44,11 @@ public class EnrichedMovieCache implements MovieRepository {
     @Override
     public Movie findEnrichedMovieByCountriesAndGenres(Movie movie, MovieRequestDto movieRequestDto) {
         int movieId = movie.getId();
+        Movie enrichedMovie = enrichMovieByGenresAndCountries(movie, movieRequestDto);
         SoftReference<Movie> movieSoftReference = cachedMovieMap.computeIfPresent(movieId,
-                (k, v) -> new SoftReference<>(enrichMovieByGenresAndCountries(movie, movieRequestDto)));
+                (k, v) -> new SoftReference<>(enrichedMovie));
         log.info("Get enriched movie with genres and countries by id={} ", movieId);
-        return movieSoftReference != null ? movieSoftReference.get() : enrichMovieByGenresAndCountries(movie, movieRequestDto);
+        return movieSoftReference != null ? movieSoftReference.get() : enrichedMovie;
     }
 
     @Override
