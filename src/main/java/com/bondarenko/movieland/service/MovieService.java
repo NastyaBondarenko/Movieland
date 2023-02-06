@@ -1,6 +1,7 @@
 package com.bondarenko.movieland.service;
 
 import com.bondarenko.movieland.dto.MovieDto;
+import com.bondarenko.movieland.entity.Movie;
 import com.bondarenko.movieland.service.dto.request.MovieDetailsDto;
 import com.bondarenko.movieland.service.dto.request.MovieRequestDto;
 import com.bondarenko.movieland.service.entity.common.CurrencyType;
@@ -17,6 +18,8 @@ public interface MovieService {
     List<MovieDto> findByGenre(MovieRequest movieRequest);
 
     MovieDetailsDto findById(int movieId, CurrencyType currency);
+
+    Movie findById(int movieId);
 
     MovieDto add(MovieRequestDto movieDetailsDto);
 

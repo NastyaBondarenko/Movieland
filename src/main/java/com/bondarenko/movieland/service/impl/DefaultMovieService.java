@@ -24,10 +24,10 @@ import java.util.Set;
 @Service
 @AllArgsConstructor
 public class DefaultMovieService implements MovieService {
+    private final EnrichmentService enrichmentService;
     private final CurrencyService currencyService;
     private final GenreService genreService;
     private final MovieRepository movieRepository;
-    private final EnrichmentService enrichmentService;
     private final MovieMapper movieMapper;
 
     @Override
@@ -49,10 +49,17 @@ public class DefaultMovieService implements MovieService {
     @Override
     @Transactional(readOnly = true)
     public MovieDetailsDto findById(int id, CurrencyType currencyType) {
-        Movie enrichedMovie = movieRepository.findEnrichedMovieById(id);
+        Movie movie = findById(id);
+        Movie enrichedMovie = enrichmentService.enrichMovie(movie);
         MovieDetailsDto movieDetailsDto = movieMapper.toMovieDetailsDto(enrichedMovie);
         convertPrice(currencyType, movieDetailsDto);
         return movieDetailsDto;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Movie findById(int movieId) {
+        return movieRepository.findById(movieId).orElseThrow(() -> new MovieNotFoundException(movieId));
     }
 
     @Override
@@ -78,7 +85,7 @@ public class DefaultMovieService implements MovieService {
     public MovieDto update(MovieRequestDto movieRequestDto, int movieId) {
         Movie movie = movieRepository.findById(movieId).orElseThrow(() -> new MovieNotFoundException(movieId));
         Movie updatedMovie = movieMapper.update(movie, movieRequestDto);
-        Movie enrichedMovie = movieRepository.findEnrichedMovieByCountriesAndGenres(updatedMovie, movieRequestDto);
+        Movie enrichedMovie = enrichmentService.enrichMovieWithGenresAndCountries(updatedMovie, movieRequestDto);
         return movieMapper.toMovieDto(movieRepository.save(enrichedMovie));
     }
 
