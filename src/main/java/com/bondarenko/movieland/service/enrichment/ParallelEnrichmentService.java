@@ -59,11 +59,11 @@ public class ParallelEnrichmentService implements EnrichmentService {
     }
 
     private Future<Set<Country>> findFutureCountries(Movie movie) {
-        Supplier<Set<Country>> reviewTask = () -> {
+        Supplier<Set<Country>> countryTask = () -> {
             log.info("Enrich movie with countries in {}", Thread.currentThread().getName());
             return countryService.findByMovieId(movie.getId());
         };
-        return CompletableFuture.supplyAsync(reviewTask, executor);
+        return CompletableFuture.supplyAsync(countryTask, executor);
     }
 
     private Future<Set<Review>> findFutureReviews(Movie movie) {
@@ -71,7 +71,7 @@ public class ParallelEnrichmentService implements EnrichmentService {
             log.info("Enrich movie with reviews in {}", Thread.currentThread().getName());
             return reviewService.findByMovieId(movie.getId());
         };
-        return CompletableFuture.supplyAsync(reviewTask);
+        return CompletableFuture.supplyAsync(reviewTask, executor);
     }
 
     private void enrichWithGenres(Movie movie, Future<Set<Genre>> futureGenres) {
