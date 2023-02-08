@@ -18,8 +18,7 @@ import org.springframework.stereotype.Service;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.Executor;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -30,10 +29,10 @@ import java.util.function.Supplier;
 @Primary
 @RequiredArgsConstructor
 public class ParallelEnrichmentService implements EnrichmentService {
-    private final ExecutorService executorService = Executors.newCachedThreadPool();
     private final CountryService countryService;
-    private final GenreService genreService;
     private final ReviewService reviewService;
+    private final GenreService genreService;
+    private final Executor executor;
     @Value("${task.timeout.seconds:5}")
     private int taskTimeout;
 
@@ -56,7 +55,7 @@ public class ParallelEnrichmentService implements EnrichmentService {
             log.info("Enrich movie with reviews in {}", Thread.currentThread().getName());
             return genreService.findByMovieId(movie.getId());
         };
-        return CompletableFuture.supplyAsync(genreTask, executorService);
+        return CompletableFuture.supplyAsync(genreTask, executor);
     }
 
     private Future<Set<Country>> findFutureCountries(Movie movie) {
@@ -64,7 +63,7 @@ public class ParallelEnrichmentService implements EnrichmentService {
             log.info("Enrich movie with countries in {}", Thread.currentThread().getName());
             return countryService.findByMovieId(movie.getId());
         };
-        return CompletableFuture.supplyAsync(reviewTask, executorService);
+        return CompletableFuture.supplyAsync(reviewTask, executor);
     }
 
     private Future<Set<Review>> findFutureReviews(Movie movie) {
@@ -72,7 +71,7 @@ public class ParallelEnrichmentService implements EnrichmentService {
             log.info("Enrich movie with reviews in {}", Thread.currentThread().getName());
             return reviewService.findByMovieId(movie.getId());
         };
-        return CompletableFuture.supplyAsync(reviewTask, executorService);
+        return CompletableFuture.supplyAsync(reviewTask);
     }
 
     private void enrichWithGenres(Movie movie, Future<Set<Genre>> futureGenres) {
@@ -91,7 +90,7 @@ public class ParallelEnrichmentService implements EnrichmentService {
             movie.setCountries(countries);
         } catch (InterruptedException | ExecutionException | TimeoutException e) {
             futureCountries.cancel(true);
-            log.info("Enrichment movie with genres is cancelled={}", futureCountries.isCancelled());
+            log.info("Enrichment movie with countries is cancelled={}", futureCountries.isCancelled());
         }
     }
 
