@@ -4,30 +4,26 @@ import com.bondarenko.movieland.entity.Country;
 import com.bondarenko.movieland.entity.Genre;
 import com.bondarenko.movieland.entity.Movie;
 import com.bondarenko.movieland.entity.Review;
-import com.bondarenko.movieland.exceptions.CountryNotFoundException;
-import com.bondarenko.movieland.exceptions.GenreNotFoundException;
 import com.bondarenko.movieland.service.CountryService;
 import com.bondarenko.movieland.service.EnrichmentService;
 import com.bondarenko.movieland.service.GenreService;
 import com.bondarenko.movieland.service.ReviewService;
 import com.bondarenko.movieland.service.dto.request.MovieRequestDto;
-import com.bondarenko.movieland.service.entity.common.EnrichmentResult;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Objects;
 import java.util.Set;
-import java.util.concurrent.Callable;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import java.util.function.Supplier;
 
 @Slf4j
 @Service
@@ -43,24 +39,70 @@ public class ParallelEnrichmentService implements EnrichmentService {
 
     @Override
     public Movie enrichMovie(Movie movie) {
-        int movieId = movie.getId();
-        EnrichmentResult enrichmentResult = new EnrichmentResult();
 
-        EnrichByGenresCallable enrichByGenresCallable = new EnrichByGenresCallable(enrichmentResult, genreService, movieId);
-        EnrichByCountriesCallable enrichByCountriesCallable = new EnrichByCountriesCallable(enrichmentResult, countryService, movieId);
-        EnrichByReviewsCallable enrichByReviewsCallable = new EnrichByReviewsCallable(enrichmentResult, reviewService, movieId);
+        Future<Set<Country>> futureCountries = findFutureCountries(movie);
+        Future<Set<Review>> futureReviews = findFutureReviews(movie);
+        Future<Set<Genre>> futureGenres = findFutureGenres(movie);
 
-        List<Callable<EnrichmentResult>> tasks = List.of(enrichByGenresCallable, enrichByCountriesCallable, enrichByReviewsCallable);
+        enrichWithGenres(movie, futureGenres);
+        enrichWithCountries(movie, futureCountries);
+        enrichWithReviews(movie, futureReviews);
 
-        List<Future<EnrichmentResult>> taskResults;
-        try {
-            taskResults = executorService.invokeAll(tasks, taskTimeout, TimeUnit.SECONDS);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-        List<EnrichmentResult> enrichmentResults = getEnrichmentResults(taskResults);
-        enrichByTaskResults(enrichmentResults, movie);
         return movie;
+    }
+
+    private Future<Set<Genre>> findFutureGenres(Movie movie) {
+        Supplier<Set<Genre>> genreTask = () -> {
+            log.info("Enrich with reviews in {}", Thread.currentThread().getName());
+            return genreService.findByMovieId(movie.getId());
+        };
+        return CompletableFuture.supplyAsync(genreTask, executorService);
+    }
+
+    private Future<Set<Country>> findFutureCountries(Movie movie) {
+        Supplier<Set<Country>> reviewTask = () -> {
+            log.info("Enrich with countries in {}", Thread.currentThread().getName());
+            return countryService.findByMovieId(movie.getId());
+        };
+        return CompletableFuture.supplyAsync(reviewTask, executorService);
+    }
+
+    private Future<Set<Review>> findFutureReviews(Movie movie) {
+        Supplier<Set<Review>> reviewTask = () -> {
+            log.info("Enrich with reviews in {}", Thread.currentThread().getName());
+            return reviewService.findByMovieId(movie.getId());
+        };
+        return CompletableFuture.supplyAsync(reviewTask, executorService);
+    }
+
+    private void enrichWithGenres(Movie movie, Future<Set<Genre>> futureGenres) {
+        try {
+            Set<Genre> genres = futureGenres.get(taskTimeout, TimeUnit.SECONDS);
+            movie.setGenres(genres);
+        } catch (InterruptedException | ExecutionException | TimeoutException e) {
+            futureGenres.cancel(true);
+            log.info("Enrichment with genres is cancelled= {}", futureGenres.isCancelled());
+        }
+    }
+
+    private void enrichWithCountries(Movie movie, Future<Set<Country>> futureCountries) {
+        try {
+            Set<Country> countries = futureCountries.get(taskTimeout, TimeUnit.SECONDS);
+            movie.setCountries(countries);
+        } catch (InterruptedException | ExecutionException | TimeoutException e) {
+            futureCountries.cancel(true);
+            log.info("Enrichment with genres is cancelled={}", futureCountries.isCancelled());
+        }
+    }
+
+    private void enrichWithReviews(Movie movie, Future<Set<Review>> futureReviews) {
+        try {
+            Set<Review> reviews = futureReviews.get(taskTimeout, TimeUnit.SECONDS);
+            movie.setReviews(reviews);
+        } catch (InterruptedException | ExecutionException | TimeoutException e) {
+            futureReviews.cancel(true);
+            log.info("Enrichment with reviews is cancelled={}", futureReviews.isCancelled());
+        }
     }
 
     @Override
@@ -70,33 +112,5 @@ public class ParallelEnrichmentService implements EnrichmentService {
         movie.setGenres(genres);
         movie.setCountries(countries);
         return movie;
-    }
-
-    private List<EnrichmentResult> getEnrichmentResults(List<Future<EnrichmentResult>> taskResults) {
-        return taskResults.stream().map(future -> {
-            try {
-                return future.get(taskTimeout, TimeUnit.SECONDS);
-            } catch (InterruptedException | ExecutionException | TimeoutException e) {
-                throw new RuntimeException(e);
-            }
-        }).toList();
-    }
-
-    private void enrichByTaskResults(List<EnrichmentResult> enrichmentResults, Movie movie) {
-        Set<Review> reviews = enrichmentResults.stream()
-                .map(EnrichmentResult::getReviews)
-                .filter(Objects::nonNull).findFirst().orElse(null);
-
-        Set<Genre> genres = enrichmentResults.stream()
-                .map(EnrichmentResult::getGenres)
-                .filter(Objects::nonNull).findFirst().orElseThrow(GenreNotFoundException::new);
-
-        Set<Country> countries = enrichmentResults.stream()
-                .map(EnrichmentResult::getCountries)
-                .filter(Objects::nonNull).findFirst().orElseThrow(CountryNotFoundException::new);
-
-        movie.setCountries(countries);
-        movie.setGenres(genres);
-        movie.setReviews(reviews);
     }
 }
