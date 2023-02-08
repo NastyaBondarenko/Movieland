@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Primary;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
@@ -50,7 +51,8 @@ public class ParallelEnrichmentService implements EnrichmentService {
         return movie;
     }
 
-    private Future<Set<Genre>> findFutureGenres(Movie movie) {
+    @Async
+    Future<Set<Genre>> findFutureGenres(Movie movie) {
         Supplier<Set<Genre>> genreTask = () -> {
             log.info("Enrich movie with reviews in {}", Thread.currentThread().getName());
             return genreService.findByMovieId(movie.getId());
@@ -58,7 +60,8 @@ public class ParallelEnrichmentService implements EnrichmentService {
         return CompletableFuture.supplyAsync(genreTask, executor);
     }
 
-    private Future<Set<Country>> findFutureCountries(Movie movie) {
+    @Async
+    Future<Set<Country>> findFutureCountries(Movie movie) {
         Supplier<Set<Country>> countryTask = () -> {
             log.info("Enrich movie with countries in {}", Thread.currentThread().getName());
             return countryService.findByMovieId(movie.getId());
@@ -66,7 +69,8 @@ public class ParallelEnrichmentService implements EnrichmentService {
         return CompletableFuture.supplyAsync(countryTask, executor);
     }
 
-    private Future<Set<Review>> findFutureReviews(Movie movie) {
+    @Async
+    Future<Set<Review>> findFutureReviews(Movie movie) {
         Supplier<Set<Review>> reviewTask = () -> {
             log.info("Enrich movie with reviews in {}", Thread.currentThread().getName());
             return reviewService.findByMovieId(movie.getId());
