@@ -53,7 +53,7 @@ public class ParallelEnrichmentService implements EnrichmentService {
 
     private Future<Set<Genre>> findFutureGenres(Movie movie) {
         Supplier<Set<Genre>> genreTask = () -> {
-            log.info("Enrich with reviews in {}", Thread.currentThread().getName());
+            log.info("Enrich movie with reviews in {}", Thread.currentThread().getName());
             return genreService.findByMovieId(movie.getId());
         };
         return CompletableFuture.supplyAsync(genreTask, executorService);
@@ -61,7 +61,7 @@ public class ParallelEnrichmentService implements EnrichmentService {
 
     private Future<Set<Country>> findFutureCountries(Movie movie) {
         Supplier<Set<Country>> reviewTask = () -> {
-            log.info("Enrich with countries in {}", Thread.currentThread().getName());
+            log.info("Enrich movie with countries in {}", Thread.currentThread().getName());
             return countryService.findByMovieId(movie.getId());
         };
         return CompletableFuture.supplyAsync(reviewTask, executorService);
@@ -69,7 +69,7 @@ public class ParallelEnrichmentService implements EnrichmentService {
 
     private Future<Set<Review>> findFutureReviews(Movie movie) {
         Supplier<Set<Review>> reviewTask = () -> {
-            log.info("Enrich with reviews in {}", Thread.currentThread().getName());
+            log.info("Enrich movie with reviews in {}", Thread.currentThread().getName());
             return reviewService.findByMovieId(movie.getId());
         };
         return CompletableFuture.supplyAsync(reviewTask, executorService);
@@ -81,7 +81,7 @@ public class ParallelEnrichmentService implements EnrichmentService {
             movie.setGenres(genres);
         } catch (InterruptedException | ExecutionException | TimeoutException e) {
             futureGenres.cancel(true);
-            log.info("Enrichment with genres is cancelled= {}", futureGenres.isCancelled());
+            log.info("Enrichment movie with genres is cancelled= {}", futureGenres.isCancelled());
         }
     }
 
@@ -91,7 +91,7 @@ public class ParallelEnrichmentService implements EnrichmentService {
             movie.setCountries(countries);
         } catch (InterruptedException | ExecutionException | TimeoutException e) {
             futureCountries.cancel(true);
-            log.info("Enrichment with genres is cancelled={}", futureCountries.isCancelled());
+            log.info("Enrichment movie with genres is cancelled={}", futureCountries.isCancelled());
         }
     }
 
@@ -101,7 +101,7 @@ public class ParallelEnrichmentService implements EnrichmentService {
             movie.setReviews(reviews);
         } catch (InterruptedException | ExecutionException | TimeoutException e) {
             futureReviews.cancel(true);
-            log.info("Enrichment with reviews is cancelled={}", futureReviews.isCancelled());
+            log.info("Enrichment movie with reviews is cancelled={}", futureReviews.isCancelled());
         }
     }
 
