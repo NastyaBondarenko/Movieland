@@ -1,4 +1,0 @@
-CREATE TABLE "genre"(
-    "id" INTEGER PRIMARY KEY,
-    "name" VARCHAR(45) NOT NULL
-);

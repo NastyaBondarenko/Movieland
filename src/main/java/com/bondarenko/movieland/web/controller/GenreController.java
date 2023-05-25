@@ -1,6 +1,6 @@
 package com.bondarenko.movieland.web.controller;
 
-import com.bondarenko.movieland.entity.Genre;
+import com.bondarenko.movieland.dto.GenreDto;
 import com.bondarenko.movieland.service.GenreService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
@@ -17,7 +17,7 @@ public class GenreController {
     private final GenreService genreService;
 
     @GetMapping("/genre")
-    protected List<Genre> findAll() {
+    protected List<GenreDto> findAll() {
         return genreService.findAll();
     }
 }
