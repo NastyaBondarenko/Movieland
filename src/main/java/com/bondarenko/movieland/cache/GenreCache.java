@@ -18,6 +18,7 @@ public class GenreCache {
     private volatile List<Genre> genresList;
     private final GenreDao genreDao;
 
+
     @PostConstruct
     @Scheduled(fixedRate = 4, initialDelay = 4, timeUnit = TimeUnit.HOURS)
     public void enrichCache() {
