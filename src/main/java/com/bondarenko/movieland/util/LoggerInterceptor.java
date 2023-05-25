@@ -24,4 +24,5 @@ public class LoggerInterceptor implements HandlerInterceptor {
         MDC.put("user", user);
         return true;
     }
+
 }
